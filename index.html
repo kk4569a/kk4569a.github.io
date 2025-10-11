@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html class="no-scroll">
+    <head>
+        <meta charset = "UTF-8">
+        <title>自己紹介サイト</title>
+        <link rel="stylesheet" href="css/style.css">
+        <link rel="icon" href="favicon.ico">
+        <link rel="apple-touch-icon" href="favicon.ico" sizes="32">
+        <meta name="viewport" content="initial-scale=1, width=device-width, height=device-height"/>
+    </head>
+    <body>
+        <div class="loading-window">
+            <p>HELLO</p>
+        </div>
+        <div class="cover-window"></div>
+
+        <header>
+            <div class="hearder-wrapper loaded-anime loading">
+                <nav class="menu">
+                    <ul class="header-menu">
+                        <li class="mouse-hover-item nav-button" section-name="about"><a data-text="About">About</a></li>
+                        <li class="mouse-hover-item nav-button" section-name="hobby"><a data-text="Hobby">Hobby</a></li>
+                        <li class="mouse-hover-item nav-button" section-name="quiz"><a data-text="Quiz">Quiz</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </header>
+
+        <div class="side-menu loaded-anime loading">
+            <div class="circle-text-wrapper" id="circle"></div>
+            <nav class="menu humburger-menu">
+                <ul>
+                    <li class="mouse-hover-item nav-button" section-name="top"><a data-text="Top">Top</a></li>
+                    <li class="mouse-hover-item nav-button" section-name="about"><a data-text="About">About</a></li>
+                    <li class="mouse-hover-item nav-button" section-name="hobby"><a data-text="Hobby">Hobby</a></li>
+                    <li class="mouse-hover-item nav-button" section-name="quiz"><a data-text="Quiz">Quiz</a></li>
+                </ul>
+            </nav>
+            <div class="humburger-menu-icon side-button-icon mouse-hover-item">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <div class="page-top-arrow side-button-icon mouse-hover-item">
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+
+        <main>
+            <section class="main-wrapper main-top loaded-anime loading">
+                <h1>Wellcome to my site</h1>
+                <p>Kazuma Karasawa</p>
+                <div class="scrolldown">scroll</div>
+            </section>
+
+            <section class="main-wrapper main-about" id="about">
+                <hr>
+                <h2 data-text="自己紹介">About</h2>
+                <div class="card-button-wrapper">
+                    <div class="card-button about-card-button mouse-hover-item" style="--i:0">
+                        <div class="card-button-face-wrapper" style="--i:0">
+                            <div class="card-button-outer card-button-face">
+                                <ion-icon name="person"></ion-icon>
+                                <h3 data-text="Profile" data-text2="プロフィール">Profile</h3>
+                            </div>
+                            <div class="card-button-inner card-button-face">
+                                <div class="about-card-left">
+                                    <div class="name">
+                                        <p class="name-title about-card-item-title">名前</p>
+                                        <div class="name-item about-card-item">
+                                            <p data-text="からさわ かずま">唐澤 一馬</p>
+                                        </div>
+                                    </div>
+                                    <div class="hometown">
+                                        <p class="hometown-title about-card-item-title">出身地</p>
+                                        <div class="hometown-item about-card-item">
+                                            <p class="hometown-name" data-text="Osaka">大阪</p>
+                                            <div class="hometown-duration" style="--i:14" data-text="14年"></div>
+                                        </div>
+                                        <div class="hometown-item about-card-item">
+                                            <p class="hometown-name" data-text="Shiga">滋賀</p>
+                                            <div class="hometown-duration" style="--i:7" data-text="7年"></div>
+                                        </div>
+                                        <div class="hometown-item about-card-item">
+                                            <p class="hometown-name" data-text="Nagasaki">長崎</p>
+                                            <div class="hometown-duration" style="--i:1" data-text="1年"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="about-card-right">
+                                    <div class="club-activity">
+                                        <p class="club-activity-title about-card-item-title">部活</p>
+                                        <div class="club-item-wrapper">
+                                            <div class="club-item about-card-item">
+                                                <p class="club-name" data-text="Orchestra">オーケストラ</p>
+                                                <p class="club-text"></p>
+                                                <div class="club-photo">
+                                                    <img src="img/orchestra.jpg" alt="">
+                                                </div>
+                                            </div>
+                                            <div class="club-item about-card-item">
+                                                <p class="club-name" data-text="Cycling">サイクリング</p>
+                                                <div class="club-photo">
+                                                    <img src="img/cycling.jpg" alt="">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="main-wrapper main-hobby" id="hobby">
+                <hr>
+                <h2 data-text="趣味">Hobby</h2>
+                <div class="card-button-wrapper">
+                    <div class="card-button hobby-card-button  mouse-hover-item" style="--i:2">
+                        <div class="card-button-face-wrapper" style="--i:2">
+                            <div class="card-button-outer card-button-face">
+                                <ion-icon name="book"></ion-icon>
+                                <h3 data-text="Reading" data-text2="読書">Reading</h3>
+                            </div>
+                            <div class="card-button-inner card-button-face">
+                                <div class="hobby-card-top">
+                                    <img src="img/book.jpeg" alt="">
+                                </div>
+                                <div class="hobby-card-bottom">
+                                    <p>小学生の頃に江戸川乱歩の作品に出会ったことがきっかけで、推理小説の世界に魅了されました。ホラーテイストな作品を好んで読んでいます。好きな作家は、京極夏彦と綾辻行人です。</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="card-button hobby-card-button mouse-hover-item" style="--i:1">
+                        <div class="card-button-face-wrapper" style="--i:1">
+                            <div class="card-button-outer card-button-face">
+                                <ion-icon name="game-controller"></ion-icon>
+                                <h3 data-text="Game" data-text2="ゲーム">Game</h3>
+                            </div>
+                            <div class="card-button-inner card-button-face">
+                                <div class="hobby-card-top">
+                                    <img src="img/game.jpg" alt="">
+                                </div>
+                                <div class="hobby-card-bottom">
+                                    <p>1つのゲームをとことんやり込むタイプです。中でも『DEATH STRANDING』が最も好きな作品で、展示会に足を運ぶほど熱中しました。好きなシリーズは、ゼルダの伝説シリーズです。</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-button hobby-card-button mouse-hover-item" style="--i:0">
+                        <div class="card-button-face-wrapper" style="--i:0">
+                            <div class="card-button-outer card-button-face" style="--i:0">
+                                <ion-icon name="musical-notes"></ion-icon>
+                                <h3 data-text="Music" data-text2="音楽">Music</h3>
+                            </div>
+                            <div class="card-button-inner card-button-face" style="--i:0">
+                                <div class="hobby-card-top">
+                                    <img src="img/music.jpeg" alt="">
+                                </div>
+                                <div class="hobby-card-bottom">
+                                    <p>演奏するのはもちろんですが、聴くのも大好きで、時々コンサートにも足を運びます。クラシックだけでなく、J-popやボーカロイド、アニソンなど、ジャンルを問わず幅広く楽しんでいます。好きな作曲家は、シベリウスとマーラーです。</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card-button-wrapper">
+                    <div class="card-button hobby-card-button mouse-hover-item" style="--i:1">
+                        <div class="card-button-face-wrapper" style="--i:1">
+                            <div class="card-button-outer card-button-face">
+                                <ion-icon name="film"></ion-icon>
+                                <h3 data-text="Movie" data-text2="映画鑑賞">Movie</h3>
+                            </div>
+                            <div class="card-button-inner card-button-face">
+                                <div class="hobby-card-top">
+                                    <img src="img/movie.jpg" alt="">
+                                </div>
+                                <div class="hobby-card-bottom">
+                                    <p>大学生になってから映画をよく観るようになりました。実写作品はもちろん、アニメも好きです。『ミッドサマー』を観たことがきっかけで、最近はA24の作品を中心に鑑賞しています。おすすめの作品があれば是非教えてください！</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-button hobby-card-button mouse-hover-item" style="--i:0">
+                        <div class="card-button-face-wrapper" style="--i:0">
+                            <div class="card-button-outer card-button-face">
+                                <ion-icon name="car-sport"></ion-icon>
+                                <h3 data-text="F1" data-text2="F1観戦">F1</h3>
+                            </div>
+                            <div class="card-button-inner card-button-face">
+                                <div class="hobby-card-top">
+                                    <img src="img/formula-one.jpg" alt="">
+                                </div>
+                                <div class="hobby-card-bottom">
+                                    <p>マシンやハンドルの格好良さに惹かれて、F1を観るようになりました。ドライバーやマシンだけでなく、チーム戦略や、天候などの偶然性に大きく左右される点も見どころだと思っています。応援しているチームは、スクーデリア・フェラーリです。</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>  
+
+            <section class="main-wrapper main-quiz" id="quiz">
+                <hr>
+                <h2 data-text="クイズ">Quiz</h2>
+                <div class="card-button-wrapper quiz-card-button-wrapper">
+                    <div class="card-button quiz-card-button" style="--i:1">
+                        <div class="card-button-face-wrapper quiz-card-button-face-wrapper" style="--i:1">
+                            <div class="card-button-outer card-button-face quiz-card-button-outer mouse-hover-item">
+                                <ion-icon name="help-outline"></ion-icon>
+                                <h3 data-text="Quiz"  data-text2="関西の難読駅名">Quiz</h3>
+                            </div>
+                            <div class="quiz-card-item-wrapper">
+                                <div class="quiz-card-item">
+                                    <div class="quiz-card-item-close-button mouse-hover-item">
+                                        <span style="--i:1"></span>
+                                        <span style="--i:-1"></span>
+                                    </div>
+                                    <div class="quiz-card-item-title"><p>次の駅名の読み方を入力してください</p></div>
+                                    <div class="quiz-card-item-text"><p id="station-quiz-text"></p></div>                                    
+                                    <div class="quiz-card-item-judgement">
+                                        <div class="quiz-card-item-true quiz-card-item-judgement-icon"></div>
+                                        <div class="quiz-card-item-false quiz-card-item-judgement-icon"><span style="--i:1"></span><span style="--i:-1"></span></div>
+                                    </div>
+                                    <div class="quiz-card-item-answer"><form><input type="text" id="station-quiz-textbox"></form></div>
+                                    <div class="quiz-card-item-previous-button quiz-card-item-change-button mouse-hover-item" change-direction="-1" quiz-genre="station-name"><ion-icon name="caret-back-outline"></ion-icon></div>
+                                    <div class="quiz-card-item-next-button quiz-card-item-change-button mouse-hover-item" change-direction="1" quiz-genre="station-name"><ion-icon name="caret-forward-outline"></ion-icon></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+        
+                    <div class="card-button quiz-card-button" style="--i:0">
+                        <div class="card-button-face-wrapper quiz-card-button-face-wrapper" style="--i:0">
+                            <div class="card-button-outer card-button-face quiz-card-button-outer mouse-hover-item">
+                                <ion-icon name="help-outline"></ion-icon>
+                                <h3 data-text="Quiz"  data-text2="オーケストラ">Quiz</h3>
+                            </div>
+                            <div class="quiz-card-item-wrapper">
+                                <div class="quiz-card-item">
+                                    <div class="quiz-card-item-close-button mouse-hover-item">
+                                        <span style="--i:1"></span>
+                                        <span style="--i:-1"></span>
+                                    </div>
+                                    <div class="quiz-card-item-title"><p>正しい選択肢をクリックしてください</p></div>
+                                    <div class="quiz-card-item-text"><p id="orchestra-quiz-text"></p></div>                                    
+                                    <div class="quiz-card-item-judgement">
+                                        <div class="quiz-card-item-true quiz-card-item-judgement-icon"></div>
+                                        <div class="quiz-card-item-false quiz-card-item-judgement-icon"><span style="--i:1"></span><span style="--i:-1"></span></div>
+                                    </div>
+                                    <div class="quiz-card-item-answer">
+                                        <div class="quiz-card-item-answer-button mouse-hover-item"><p></p></div>
+                                        <div class="quiz-card-item-answer-button mouse-hover-item"><p></p></div>
+                                        <div class="quiz-card-item-answer-button mouse-hover-item"><p></p></div>
+                                        <div class="quiz-card-item-answer-button mouse-hover-item"><p></p></div>
+                                    </div>
+                                    <div class="quiz-card-item-previous-button quiz-card-item-change-button mouse-hover-item" change-direction="-1" quiz-genre="orchestra"><ion-icon name="caret-back-outline"></ion-icon></div>
+                                    <div class="quiz-card-item-next-button quiz-card-item-change-button mouse-hover-item" change-direction="1" quiz-genre="orchestra"><ion-icon name="caret-forward-outline"></ion-icon></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        
+        <footer>
+            <hr>
+            <p class="copyright">&copy; 2025 Kazuma Karasawa</p>
+            <nav class="menu">
+                <ul>
+                    <li class="mouse-hover-item nav-button" section-name="about"><a data-text="About">About</a></li>
+                    <li class="mouse-hover-item nav-button" section-name="hobby"><a data-text="Hobby">Hobby</a></li>
+                    <li class="mouse-hover-item nav-button" section-name="quiz"><a data-text="Quiz">Quiz</a></li>
+                </ul>
+            </nav>
+        </footer>
+        
+        <script src="js/script.js"></script>
+        <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+        <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    </body>
+</html>
