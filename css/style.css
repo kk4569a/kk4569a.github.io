@@ -1,0 +1,1146 @@
+html {
+    font-size: 62.5%;
+}
+
+:root {
+    --minfontratio: 16/18;
+    --basewindowsize: calc(1920*1);
+    --vwratio: calc(100vw/var(--basewindowsize));
+
+    --backgroundcolor: antiquewhite;
+    --fontcolor: #051428;
+
+    --ftitle: 8vw;
+
+    --ftext: clamp(calc(1.8rem*var(--minfontratio)), calc(18*(var(--vwratio))), calc(18*(var(--vwratio))));
+    --fbig: calc(var(--ftext)*10/1.8);
+    --fmiddle: calc(var(--ftext)*7/1.8);
+    --fsmall: calc(var(--ftext)*3/1.8);
+
+    --borderweight: .3rem;
+    --textborderweight: .15rem;
+
+
+    --sidebuttonsize: calc(var(--ftext)*5/1.8);
+    --cardwidth: calc(var(--ftext)*38/1.8);
+    --cardshadowsize: calc(var(--cardwidth)*6/100);
+    --footersize: 20vh;
+
+    --sectionmarginsize: calc(var(--ftext)*12/1.8);
+    --cardpaddingsize: calc(var(--ftext)*1);
+    --cardmarginsize: calc(var(--ftext)*3/1.8);
+
+    --transitiontime: .4s;
+    --colorchangetime: .5s;
+    --openinganimetime: .6s;
+}
+
+:root[theme = "default"] {
+    --backgroundcolor: antiquewhite;
+    --fontcolor: #051428;
+}
+
+:root[theme = "hobby"] {
+    --backgroundcolor: #051428;
+    --fontcolor: antiquewhite;
+} 
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select:none;
+}
+
+.no-scroll {
+    overflow: hidden;
+}
+
+body {
+    font-family: sans-serif;
+    background-color: var(--backgroundcolor);
+    color: var(--fontcolor);
+    transition-timing-function: ease;
+    transition: background-color var(--colorchangetime) ease, color var(--colorchangetime) ease;
+}
+body.active {
+    background-color: var(--fontcolor);
+    color: var(--backgroundcolor);
+}
+
+.mouse-hover-item {
+    cursor: pointer;
+}
+
+a{
+    text-decoration: none;
+}
+
+
+
+/* ナビゲーションリンクリンク */
+header {
+    position: relative;
+    right: 0;
+    z-index: 5;
+}
+
+header ul, footer ul {
+    position: absolute;
+    right: 10%;
+    height: fit-content;
+    display: flex;
+}
+header ul {
+    transform: translateY(-50%);
+    top: calc(var(--footersize)/2);
+}
+footer ul {
+    transform: translateY(50%);
+    bottom: 50%;
+}
+
+li {
+    list-style-type: none;
+}
+
+header li, footer li {
+    margin-left: 1vw;
+    padding: 0.25rem 0.5rem;
+    border: var(--borderweight) solid var(--fontcolor);
+    transition: border var(--colorchangetime) ease;
+}
+
+a {
+    position: relative;
+    font-weight: bold;
+    transition: color var(--colorchangetime) ease;
+}
+header a, footer a { 
+    font-size: var(--fsmall);
+    color: var(--fontcolor);
+}
+
+
+.humburger-menu a::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: var(--backgroundcolor);
+    clip-path: inset(0 0 0 0);
+    transition: clip-path var(--transitiontime) ease, color var(--colorchangetime) ease;
+    will-change: clip-path;
+}
+li:hover a::after {
+    clip-path: inset(0 0 0 100%);
+}
+
+
+
+/* オープニング */
+.loading-window {
+    position: fixed;
+    z-index: 100;
+    height: 100vh;
+    width: 100vw;
+    top: 0;
+    left: 0;
+    background-color: var(--fontcolor);
+    color: var(--backgroundcolor);
+    font-size: var(--fbig);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: left var(--openinganimetime) ease calc(var(--openinganimetime)*2);
+
+    p {
+        opacity: 0;
+    }
+}
+.loading-window.loaded {
+    left: -100%;
+    
+    & p {
+        animation: openingAnime calc(var(--openinganimetime)*2/3) forwards ease, openingAnime calc(var(--openinganimetime)*2/3) calc(var(--openinganimetime)*4/3) ease forwards reverse;
+    }
+}
+@keyframes openingAnime {
+    0%{opacity: 0;}
+    100%{opacity: 1;}
+}
+
+.loading {
+    opacity: 0;
+}
+.loaded-anime {
+    transition: opacity var(--transitiontime) ease;
+}
+
+.cover-window {
+    position: fixed;
+    z-index: 4;
+    height: 100vh;
+    width: 100vw;
+    top: 0%;
+    left: 150%;
+    background-color: #fff;
+    mix-blend-mode: difference;
+    transform: translateX(-50%);
+    clip-path: polygon(0% 0%, 100% 0%, 88% 100%, 0% 100%);
+    will-change: left;
+}
+.cover-window.active {
+    left: 4.25%;
+    transition: left var(--openinganimetime) calc(var(--openinganimetime)*2) ease;
+}
+.cover-window.loaded {
+    left: 4.25%;
+    transition: left 0;
+}
+.cover-window.nav-open {
+    transition: left var(--transitiontime) ease;
+}
+
+
+/* サークルテキスト */
+.circle-text-wrapper {
+    position: fixed;
+    z-index: 3;
+    width: calc(var(--sidebuttonsize)*2);
+    height: calc(var(--sidebuttonsize)*2);
+    top: calc(var(--footersize)/2);
+    left: 5%;
+    transform: translate(-50%, -50%);
+    color: var(--fontcolor);
+    font-size: var(--ftext);
+    transform-origin: 0 0;
+    transition: color var(--colorchangetime) ease;
+    animation: circleAnime 10s infinite linear;
+}
+.circle-text-wrapper.active {
+    animation: none;
+}
+@keyframes circleAnime {
+    0%{transform: rotateZ(0deg) translate(-50%, -50%);}
+    100%{transform: rotateZ(-360deg) translate(-50%, -50%);}
+}
+.circle-text {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* ハンバーガーメニュー */
+.side-menu nav {
+    position: fixed;
+    z-index: 10;
+    top: 0;
+    right: -100%;
+    height: 100vh;
+    width: 100vw;
+    background-color: var(--backgroundcolor);
+    clip-path: polygon(12% 0%, 100% 0%, 100% 100%, 0% 100%);
+    padding: 0 44vw 0 calc(100vw*12/100);
+    transition: right var(--transitiontime) ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.side-menu.active nav {
+    right: -44%;
+}
+.side-menu nav::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background-color: var(--fontcolor);
+    clip-path: polygon(calc(12% + var(--borderweight)) 0%, 100% 0%, 100% 100%, var(--borderweight) 100%);
+}
+
+.side-button-icon {
+    position: fixed;
+    z-index: 15;
+    top: calc(-1*var(--sidebuttonsize));
+    right: 5%;
+    height: var(--sidebuttonsize);
+    aspect-ratio: 1;
+    opacity: 0;
+    transform: translate(50%, -80%);
+    transition: opacity calc(var(--transitiontime)/2) ease, transform calc(var(--transitiontime)/2) ease, top 0s calc(var(--transitiontime)/2);
+}
+.side-button-icon.fade-in {
+    opacity: 1;
+    transition: opacity calc(var(--transitiontime)/2) ease, transform calc(var(--transitiontime)/2) ease, top 0s 0s;
+}
+
+.humburger-menu-icon.fade-in {
+    top: calc(var(--footersize)/2);
+    transform: translate(50%, -50%);
+}
+
+.side-button-icon span {
+    position: absolute;
+    display: block;
+    height: var(--borderweight);
+    width: 100%;
+    background-color: var(--fontcolor);
+    border-radius: var(--borderweight);
+}
+
+.humburger-menu-icon span {
+    left: 50%;
+    transform: rotateZ(0deg) translate(-50%, -50%);
+    transform-origin: 0 0;
+    transition: top calc(var(--transitiontime)/2) calc(var(--transitiontime)/2), transform calc(var(--transitiontime)/2) 0s, background-color var(--colorchangetime) ease;
+    will-change: top, transform, width;
+}
+.humburger-menu-icon span:nth-child(1) {
+    top: 20%;
+}
+.humburger-menu-icon span:nth-child(2) {
+    top: 50%;
+    transition: width 0s calc(var(--transitiontime)/2), background-color var(--colorchangetime) ease;
+}
+.humburger-menu-icon span:nth-child(3) {
+    top: 80%;
+}
+.side-menu.active .humburger-menu-icon span{
+    top: 50%;
+    transition: top calc(var(--transitiontime)/2) 0s, transform calc(var(--transitiontime)/2) calc(var(--transitiontime)/2), background-color var(--colorchangetime) ease, width 0s calc(var(--transitiontime)/2);
+    background-color: var(--backgroundcolor);
+}
+.side-menu.active .humburger-menu-icon span:nth-child(1) {
+    transform: rotateZ(45deg) translate(-50%, -50%);
+}
+.side-menu.active .humburger-menu-icon span:nth-child(2) {
+    width: 0;
+}
+.side-menu.active .humburger-menu-icon span:nth-child(3) {
+    transform: rotateZ(-45deg) translate(-50%, -50%);
+}
+
+.humburger-menu ul {
+    position: relative;
+    z-index: 11;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.humburger-menu li {
+    margin: 1rem;
+}
+
+.humburger-menu a {
+    font-size: var(--fmiddle);
+    color: var(--backgroundcolor);
+    -webkit-text-stroke: var(--textborderweight) var(--backgroundcolor);
+}
+.humburger-menu a::after {
+    color: var(--fontcolor);
+}
+
+/* ページトップボタン */
+.page-top-arrow.fade-in {
+    top: calc(100% - var(--footersize)/2);
+    transform: translate(50%, -50%);
+}
+.page-top-arrow span {
+    bottom: 0;
+    transition: background-color var(--colorchangetime) ease;
+}
+
+.side-menu.active .page-top-arrow {
+    top: -100%;
+    transition: top 0s var(--transitiontime);
+}
+
+.page-top-arrow span:nth-child(1) {
+    transform: rotate(-60deg);
+    transform-origin: left;
+}
+.page-top-arrow span:nth-child(2) {
+    transform: rotate(60deg);
+    transform-origin: right;
+}
+
+
+
+/* メインコンテンツ */
+section {
+    position: relative;
+    width: 100vw;
+    padding: var(--sectionmarginsize) 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+section h1 {
+    font-size: var(--ftitle);
+}
+
+section h2 {
+    position: relative;
+    font-size: var(--fbig);
+}
+section h2::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 90%;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: var(--fsmall);
+    font-weight: normal;
+    white-space: nowrap;
+}
+
+section h3 {
+    position: relative;
+    font-size: var(--fmiddle);
+    font-weight: bold;
+    -webkit-text-stroke: var(--textborderweight) var(--fontcolor);
+    transition: -webkit-text-stroke var(--colorchangetime) ease;
+}
+section h3::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    color: var(--backgroundcolor);
+    clip-path: inset(0 0 0 0);
+    transition: clip-path var(--transitiontime) ease, color var(--colorchangetime) ease;
+}
+.card-button-outer:hover h3::after {
+    clip-path: inset(0 0 0 100%);
+}
+section h3::before {
+    content: attr(data-text2);
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: var(--ftext);
+    font-weight: normal;
+    white-space: nowrap;
+    -webkit-text-stroke: 0;
+}
+
+section hr, footer hr {
+    position: absolute;
+    top: calc(-1*var(--borderweight));
+    height: var(--borderweight);
+    width: 0vw;
+    background-color: var(--fontcolor);
+    border: none;
+    border-radius: var(--borderweight);
+    transition: background-color var(--colorchangetime) ease,  width 0s;
+}
+section hr.active, footer hr.active {
+    width: 80vw;
+    transition: background-color var(--colorchangetime) ease, width var(--transitiontime) ease;
+}
+
+.main-top {
+    height: 100vh;
+    margin-bottom: calc(var(--sectionmarginsize)/2);
+}
+
+.main-top p {
+    font-size: var(--fmiddle);
+    font-family: serif;
+    font-weight: 900;
+    font-size: var(--ftitle);
+    color: var(--backgroundcolor);
+    -webkit-text-stroke: var(--textborderweight) var(--fontcolor);
+    transition: color var(--colorchangetime) ease, -webkit-text-stroke var(--colorchangetime) ease;
+}
+
+.scrolldown{
+	position:absolute;
+	left:50%;
+	bottom:10%;
+    transform: translate(-50%, -50%);
+    width: fit-content;
+    height: fit-content;
+    font-size: var(--ftext);
+}
+.scrolldown::after{
+	content: "";
+	position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+	width: var(--borderweight);
+	background-color: var(--fontcolor);
+    border-radius: var(--borderweight);
+	animation: pathmove 1.4s ease infinite;
+}
+@keyframes pathmove{
+	0%{
+		height:0;
+		top:100%;
+		opacity: 0;
+	}
+	50%{
+		height: 5rem;
+		opacity: 1;
+        top: calc(100% + 2rem);
+	}
+	100%{
+		height:0;
+		opacity: 0;
+        top: calc(100% + 7rem);
+	}
+}
+
+
+/* カード共通スタイル */
+.card-button-wrapper {
+    width: 100%;
+    height: fit-content;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: var(--sectionmarginsize);
+}
+
+.card-button {
+    position: relative;
+    width: var(--cardwidth);
+    height: calc(var(--cardwidth)/.7);
+    margin: 0 var(--cardmarginsize);
+    transform: translateX(calc(-1*var(--cardwidth)/2)) scale(.85);
+    transition: transform 0s 0s ease;
+    transform-style: preserve-3d;
+    perspective: 100vw;
+    display: flex;
+
+}
+.card-button.fade-in {
+    transform: translateX(0) scale(1);
+    transition: transform var(--transitiontime) calc(var(--i)*.1s);
+}
+
+.card-button-face-wrapper {
+    height: 100%;
+    width: 100%;
+    opacity: 0;
+    transition: opacity 0s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform-style: preserve-3d;
+    perspective: 100vmax;
+}
+.card-button.fade-in .card-button-face-wrapper {
+    opacity: 1;
+    transition: opacity var(--transitiontime) calc(var(--i)*.1s) ease;
+}
+
+.card-button-face {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    border: var(--borderweight) solid var(--fontcolor);
+    background-color: var(--backgroundcolor);
+    color: var(--fontcolor);
+    transition: transform .3s, box-shadow var(--transitiontime) ease;
+    backface-visibility: hidden;
+}
+.card-button.fade-in .card-button-face {
+    transition: transform .3s, box-shadow var(--transitiontime) ease, color var(--colorchangetime) ease, background-color var(--colorchangetime) ease, border var(--colorchangetime) ease;
+}
+
+.card-button-face ion-icon {
+    background-color: var(--fontcolor);
+    color: var(--backgroundcolor);
+    font-size: var(--fbig);
+    margin-bottom: 10%;
+    padding: 15%;
+    border-radius: 50%;
+    transition: background-color var(--colorchangetime) ease, color var(--colorchangetime) ease;
+}
+
+.card-button-outer {
+    transform: rotateY(0deg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    box-shadow: var(--cardshadowsize) var(--cardshadowsize) var(--fontcolor);
+}
+.card-button.fade-in .card-button-outer:hover {
+    box-shadow: 0 0 var(--fontcolor);
+}
+.about-card-button.active .card-button-outer, 
+.hobby-card-button.active .card-button-outer {
+    box-shadow: 0 0 var(--fontcolor);
+    transform: rotateY(180deg);
+}
+
+.card-button-inner {
+    font-family: serif;
+    transform: rotateY(180deg);
+    font-size: var(--ftext);
+    overflow: hidden;
+}
+.about-card-button.active .card-button-inner, 
+.hobby-card-button.active .card-button-inner {
+    transform: rotateY(360deg);
+}
+.about-card-button .card-button-inner::after,
+.hobby-card-button .card-button-inner::after {
+    content: "";
+    position: absolute;
+    height: 101%;
+    width: 101%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: var(--fontcolor);
+    clip-path: inset(0);
+    will-change: clip-path;
+}
+.about-card-button.active .card-button-inner::after,
+.hobby-card-button.active .card-button-inner::after {
+    clip-path: inset(0 0 0 100%);
+}
+
+
+
+/* 自己紹介 */
+.about-card-button.fade-in .card-button-face {
+    transition: transform .3s calc(var(--transitiontime)*2), opacity var(--transitiontime) calc(var(--i)*.1s), box-shadow var(--transitiontime) ease, width var(--transitiontime) var(--transitiontime) ease, color var(--colorchangetime) ease, background-color var(--colorchangetime) ease, border var(--colorchangetime) ease;
+}
+.about-card-button.active .card-button-face {
+    width: 230%;
+    transition: transform .3s 0s, opacity var(--transitiontime) calc(var(--i)*.1s), box-shadow var(--transitiontime) ease, width var(--transitiontime) .3s ease, color var(--colorchangetime) ease, background-color var(--colorchangetime) ease, border var(--colorchangetime) ease;
+}
+.about-card-button .card-button-inner {
+    display: flex;
+    white-space: nowrap;
+}
+.about-card-button .card-button-inner::after {
+    transition: clip-path var(--transitiontime) ease, background-color var(--colorchangetime) ease;
+}
+.about-card-button.active .card-button-inner::after {
+    transition: clip-path var(--transitiontime) calc(.3s + var(--transitiontime)) ease, background-color var(--colorchangetime) ease;
+}
+.about-card-right, .about-card-left {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    padding: var(--cardpaddingsize);
+}
+.about-card-left {
+    background-color: var(--fontcolor);
+    color: var(--backgroundcolor);
+    transition: background-color var(--colorchangetime) ease, color var(--colorchangetime) ease;
+
+    .about-card-item-title {
+        border-color: var(--backgroundcolor);
+        transition: border var(--colorchangetime) ease;
+    }
+}
+.about-card-item {
+    margin-top: calc(var(--cardpaddingsize)*2/3);
+}
+.about-card-item-title {
+    border-bottom: var(--borderweight) solid var(--fontcolor);
+    transition: border var(--colorchangetime) ease;
+}
+.hometown {
+    margin-top: var(--cardpaddingsize);
+}
+.about-card-item p {
+    position: relative;
+    font-size: var(--ftext);
+}
+
+.name-item p {
+    position: relative;
+    font-size: var(--fmiddle);
+    font-weight: bold;
+    margin-bottom: var(--cardmarginsize);
+}
+.name-item p::after {
+    content: attr(data-text);
+    position: absolute;
+    bottom: 0%;
+    left: 0;
+    font-size: var(--ftext);
+    font-weight: normal;
+    transform: translateY(50%);
+}
+
+.hometown {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    height: 50%;
+    margin: auto 0;
+}
+.hometown-item {
+    display: flex;
+    align-items: center;
+    height: fit-content;
+    margin: auto 0;
+}
+.hometown-name {
+    margin-right: calc(var(--cardpaddingsize)*3);
+}
+.hometown-name::after {
+    content: attr(data-text);
+    position: absolute;
+    font-size: var(--ftext);
+    top: 100%;
+    left: 0;
+}
+.hometown-duration {
+    position: relative;
+    height: var(--borderweight);
+    width: 100%;
+    background-color: var(--backgroundcolor);
+    border-radius: var(--borderweight);
+    transition: background-color var(--colorchangetime) ease;
+}
+.hometown-duration::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    height: 300%;
+    width: 0;
+    background-color: var(--backgroundcolor);
+    transform: translateY(-50%);
+    border-radius: calc(var(--borderweight)*3);
+    transition: width 0s var(--transitiontime), background-color var(--colorchangetime) ease;    
+}
+.card-button.active .hometown-duration::after {
+    width: calc(100%*var(--i)/14);
+    transition: width var(--transitiontime) calc(.3s + var(--transitiontime)*2), background-color var(--colorchangetime) ease;
+}
+.hometown-duration::before {
+    content: attr(data-text);
+    position: absolute;
+    right: 100%;
+    top: 400%;
+    font-size: var(--ftext);
+    transition: right 0s var(--transitiontime), background-color var(--colorchangetime) ease;
+}
+.card-button.active .hometown-duration::before {
+    right: calc(100% - 100%*var(--i)/14);
+    transition: right var(--transitiontime) calc(.3s + var(--transitiontime)*2), background-color var(--colorchangetime) ease;
+}
+
+.club-activity {
+    height: 100%;
+}
+.club-item-wrapper {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+.club-item {
+    display: flex;
+    height: calc(50% - var(--cardpaddingsize)*2/3*2);
+}
+.club-name {
+    height: fit-content;
+}
+.club-name::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 100%;
+    left: 0;
+    font-size: var(--ftext);
+}
+.club-photo {
+    position: relative;
+    height: 100%;
+    aspect-ratio: 1;
+    border: var(--borderweight) solid var(--fontcolor);
+    transition: border var(--colorchangetime) ease;
+    margin-left: auto;
+}
+.club-photo img {
+    height: 100%;
+    width: 100%;
+}
+
+
+
+/* 趣味 */
+.hobby-card-button.fade-in .card-button-face {
+    transition: transform .3s var(--transitiontime), opacity var(--transitiontime) calc(var(--i)*.1s), box-shadow var(--transitiontime) ease, color var(--colorchangetime) ease, background-color var(--colorchangetime) ease, border var(--colorchangetime) ease;
+}
+.hobby-card-button.active .card-button-face {
+    transition: transform .3s 0s, opacity 0s 0s, box-shadow var(--transitiontime) ease, color var(--colorchangetime) ease, background-color var(--colorchangetime) ease, border var(--colorchangetime) ease;
+}
+.hobby-card-button.active.fade-in .card-button-face {
+    transition: transform .3s 0s, opacity var(--transitiontime) calc(var(--i)*.1s), box-shadow var(--transitiontime) ease, color var(--colorchangetime) ease, background-color var(--colorchangetime) ease, border var(--colorchangetime) ease;
+}
+.hobby-card-button .card-button-inner {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.8;
+}
+.hobby-card-button .card-button-inner::after {
+    transition: clip-path var(--transitiontime) ease, background-color var(--colorchangetime) ease;
+}
+.hobby-card-button.active .card-button-inner::after {
+    transition: clip-path var(--transitiontime) .3s ease, background-color var(--colorchangetime) ease;
+}
+.hobby-card-button .card-button-inner {
+    padding: var(--cardpaddingsize);
+}
+.hobby-card-top {
+    height: fit-content;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.hobby-card-top img {
+    width: 100%;
+    border: var(--borderweight) solid var(--fontcolor);
+    transition: border var(--colorchangetime) ease;
+}
+.hobby-card-bottom {
+    height: fit-content;
+    margin-top: var(--cardpaddingsize);
+    font-size: var(--ftext);
+}
+
+
+
+/* クイズ */
+.quiz-card-button.fade-in {
+    transition: width var(--transitiontime) var(--transitiontime) ease, transform var(--transitiontime) calc(var(--i)*.1s);
+}
+.quiz-card-button.active {
+    width: calc(var(--cardwidth)*2);
+    transition: width var(--transitiontime) var(--transitiontime) ease, transform var(--transitiontime) calc(var(--i)*.1s);
+}
+.quiz-card-button h3::before {
+    font-size: var(--fsmall);
+}
+.card-button.fade-in .quiz-card-button-face-wrapper {
+    position: relative;
+    border: var(--borderweight) solid var(--fontcolor);
+    transition: opacity var(--transitiontime) calc(var(--i)*.1s) ease, border var(--colorchangetime) ease;
+}
+.quiz-card-button-face-wrapper::after {
+    content: "";
+    position: absolute;
+    z-index: 2;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 0%;
+    background-color: var(--fontcolor);
+}
+.quiz-card-button.card-transition .quiz-card-button-face-wrapper::after {
+    animation: quizCardWrapperAnime var(--transitiontime) 0s forwards ease, quizCardWrapperAnime var(--transitiontime) calc(var(--transitiontime)*2) reverse forwards ease;
+}
+@keyframes quizCardWrapperAnime {
+    from{width: 0%;}
+    to{width: 100%;}
+}
+.quiz-card-button-outer {
+    border: none;
+    overflow: hidden;
+}
+.quiz-card-button.fade-in.card-transition .card-button-outer {
+    transition: box-shadow var(--transitiontime) calc(var(--transitiontime)*2);
+}
+.quiz-card-button.active.card-transition .card-button-outer { 
+    transition: opacity 0s var(--transitiontime);
+}
+.quiz-card-button.active .card-button-outer {
+    opacity: 0;
+    box-shadow: 0 0 var(--fontcolor);
+}
+
+.quiz-card-item-wrapper {
+    position: absolute;
+    height: 100%;
+    width: 0%;
+    top: 0;
+    left: 0;
+    background-color: var(--backgroundcolor);
+    color: var(--fontcolor);
+    font-size: var(--fsmall);
+    display: flex;
+    overflow: hidden;
+    transition: width var(--transitiontime) calc(var(--transitiontime)*2) ease, opacity var(--transitiontime), background-color var(--colorchangetime), color var(--colorchangetime);
+}
+.quiz-card-button.active .quiz-card-item-wrapper {
+    width: 100%;
+    transition: width var(--transitiontime) 0s ease, opacity var(--transitiontime), background-color var(--colorchangetime), color var(--colorchangetime);
+}
+.quiz-card-item {
+    font-family: serif;
+    height: 100%;
+    width: 100%;
+    padding: var(--cardpaddingsize);
+    padding-top: calc(var(--cardpaddingsize)*2 + var(--sidebuttonsize));
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    opacity: 0;
+    transition: opacity 0s var(--transitiontime);
+}
+.quiz-card-button.active .quiz-card-item{
+    opacity: 1;
+}
+.quiz-card-button {
+    /* 共通スタイル */
+    .quiz-card-item-title {
+        position: absolute;
+        top: calc(var(--cardpaddingsize) + var(--sidebuttonsize)/2);
+        height: calc(var(--cardpaddingsize)*2 + var(--sidebuttonsize));
+        width: 100%;
+        transform: translateY(-50%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: var(--fontcolor);
+        font-size: var(--ftext);
+        color: var(--backgroundcolor);
+        transition: background-color var(--colorchangetime) ease, color var(--colorchangetime) ease;
+    }
+
+    .quiz-card-item-text {
+        margin: auto 0 var(--cardmarginsize);
+    }
+
+    .quiz-card-item-judgement {
+        position: relative;
+        height: 0%;
+        aspect-ratio: 1;
+        transition: height calc(var(--transitiontime)/2) ease;
+        
+        .quiz-card-item-true, .quiz-card-item-false {
+            position: absolute;
+            height: 100%;
+            width: 100%;
+            opacity: 0;
+            transition: opacity calc(var(--transitiontime)/2) 0s ease, border var(--colorchangetime) ease;
+
+            &.active {
+                opacity: 1;
+                transition: opacity calc(var(--transitiontime)/2) calc(var(--transitiontime)/2) ease, border var(--colorchangetime) ease;
+            }
+        }
+        .quiz-card-item-true {
+            border: calc(var(--borderweight)*2) solid var(--fontcolor);
+            border-radius: 50%;
+        }
+        .quiz-card-item-false {
+            & span {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                background-color: var(--fontcolor);
+                height: calc(var(--borderweight)*2);
+                width: 100%;
+                transform: rotateZ(calc(var(--i)*45deg)) translate(-50%, -50%);
+                transform-origin: 0 0;
+                border-radius: var(--borderweight);
+                transition: background-color var(--colorchangetime) ease;
+            }
+        }
+    }
+
+    .quiz-card-item-judgement.active {
+        height: 30%;
+    }
+
+    .quiz-card-item-answer {
+        margin: var(--cardmarginsize) 0 auto;
+    }
+
+    .quiz-card-item-change-button {
+        position: absolute;
+        bottom: var(--cardpaddingsize);
+        font-size: var(--fmiddle);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        
+        ion-icon {
+            transform: scale(1);
+            transition: transform calc(var(--transitiontime)/2) ease;
+        }
+
+        &:hover ion-icon {
+            transform: scale(.85);
+        }
+    }
+    .quiz-card-item-previous-button {left: var(--cardpaddingsize);}
+    .quiz-card-item-next-button {right: var(--cardpaddingsize);}
+
+    /* 駅名クイズ */
+    &:nth-child(1) .quiz-card-item {
+        .quiz-card-item-text {
+            font-size: var(--fmiddle);
+            color: var(--fontcolor);
+            transition: color var(--colorchangetime) ease;
+        }
+        input {
+            width: 100%;
+            bottom: calc(var(--cardpaddingsize) + var(--sidebuttonsize));
+            padding: calc(var(--cardpaddingsize)/2);
+            background-color: var(--backgroundcolor);
+            border: var(--borderweight) solid var(--fontcolor);
+            text-align: center;
+            font-size: var(--ftext);
+            transition: background-color calc(var(--transitiontime)/2) ease, color calc(var(--transitiontime)/2) ease, border var(--colorchangetime) ease;
+            
+            &:focus {
+                background-color: var(--fontcolor);
+                color: var(--backgroundcolor);
+                outline: none;
+            }
+        }
+        .quiz-card-item-answer {
+            height: fit-content;
+            width: 30%;
+        }
+    }
+
+    /* オーケストラクイズ */
+    &:nth-child(2) .quiz-card-item {
+        .quiz-card-item-text {
+            font-size: var(--ftext);
+            width: 60%;
+        }
+        .quiz-card-item-answer {
+            width: 60%;
+            height: fit-content;
+            display: grid;
+            grid-template-rows: 1fr 1fr;
+            grid-template-columns: 1fr 1fr;
+            row-gap: var(--cardpaddingsize);
+            column-gap: var(--cardpaddingsize);
+        }
+
+        .quiz-card-item-answer-button {
+            width: 100%;
+            height: fit-content;
+            white-space: nowrap;
+            font-size: var(--ftext);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: var(--borderweight) solid var(--fontcolor);
+            padding: calc(var(--cardpaddingsize)/2);
+            transition: background-color calc(var(--transitiontime)/2) ease, color calc(var(--transitiontime)/2) ease, border var(--colorchangetime) ease;
+
+            &:nth-child(1) {grid-column: 1; grid-row: 1;}
+            &:nth-child(2) {grid-column: 2; grid-row: 1;}
+            &:nth-child(3) {grid-column: 1; grid-row: 2;}
+            &:nth-child(4) {grid-column: 2; grid-row: 2;}
+
+            &:hover {
+                background-color: var(--fontcolor);
+                color: var(--backgroundcolor);
+            }
+        }
+        .quiz-card-item-answer-button.active {
+            background-color: var(--fontcolor);
+            color: var(--backgroundcolor);
+            animation: quizAnswerAnime calc(var(--transitiontime)/2);
+        }
+
+    }
+}
+
+@keyframes quizAnswerAnime {
+    0%{transform:scale(1);}
+    50%{transform:scale(.85);}
+    100%{transform:scale(1);}
+}
+
+.quiz-card-item-close-button {
+    position: absolute;
+    z-index: 1;
+    top: var(--cardpaddingsize);
+    right: var(--cardpaddingsize);
+    width: var(--sidebuttonsize);
+    aspect-ratio: 1;
+    margin-left: auto;
+
+    & span {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        height: var(--borderweight);
+        width: 100%;
+        transform: rotateZ(calc(0deg)) translate(-50%, -50%);
+        background-color: var(--backgroundcolor);
+        transform-origin: 0 0;
+        border-radius: var(--borderweight);
+        transition: background-color var(--colorchangetime), transform calc(var(--transitiontime) - .1s);
+    }
+}
+.quiz-card-button.active span{
+    transform: rotateZ(calc(var(--i)*45deg)) translate(-50%, -50%);
+}
+
+
+
+
+/* フッター */
+footer {
+    position: relative;
+    height: var(--footersize);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.copyright {
+    font-size: var(--ftext);
+}
+
+
+
+@media screen and (max-width: 768px) {
+    ul {
+        flex-direction: column;
+    }
+
+    .main-top {
+        padding: var(--sectionmarginsize) 4vmax;
+    }
+
+    .card-button-wrapper {
+        flex-direction: column;
+    }
+
+    .card-button {
+        margin: 1.5vmax 0;
+    }
+
+    .card-button.fade-in {
+        transition: transform var(--transitiontime) 0s;
+    }
+
+    .card-button.fade-in .card-button-face {
+        opacity: 1;
+        transition: transform .3s, opacity var(--transitiontime) 0s, color var(--colorchangetime) ease, background-color var(--colorchangetime) ease, border var(--colorchangetime) ease;
+    }
+}
+
