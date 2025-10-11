@@ -813,6 +813,7 @@ section hr.active, footer hr.active {
 }
 .hobby-card-top img {
     width: 100%;
+	aspect-ratio: 4/3;
     border: var(--borderweight) solid var(--fontcolor);
     transition: border var(--colorchangetime) ease;
 }
