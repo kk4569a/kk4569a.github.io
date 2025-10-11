@@ -805,15 +805,11 @@ section hr.active, footer hr.active {
     padding: var(--cardpaddingsize);
 }
 .hobby-card-top {
-    height: fit-content;
+    aspect-ratio: 4/3;
     width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
-}
-.hobby-card-top img {
-    width: 100%;
-	aspect-ratio: 4/3;
     border: var(--borderweight) solid var(--fontcolor);
     transition: border var(--colorchangetime) ease;
 }
