@@ -1,21 +1,23 @@
 <!DOCTYPE html>
-<html class="no-scroll">
+<html onwheel="event.stopPropagation()">
     <head>
         <meta charset = "UTF-8">
         <title>Kazuma Karasawa Portfolio</title>
         <link rel="stylesheet" href="css/style.css">
         <link rel="icon" href="favicon.ico">
-        <link rel="apple-touch-icon" href="favicon.ico">
+        <link rel="stylesheet" href="https://unpkg.com/lenis@1.3.3/dist/lenis.css">
+        <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js" defer></script>
+        <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js" defer></script>
+        <script src="https://unpkg.com/lenis@1.3.3/dist/lenis.min.js" defer></script> 
+        <script src="js/script.js" defer></script>
         <meta name="viewport" content="initial-scale=1, width=device-width, height=device-height"/>
     </head>
     <body>
-        <div class="loading-window">
-            <p>HELLO</p>
-        </div>
         <div class="cover-window"></div>
+        <div class="loading-window"><p>HELLO</p></div>
 
-        <header>
-            <div class="hearder-wrapper loaded-anime loading">
+        <header class="loaded-anime loading">
+            <div class="hearder-wrapper">
                 <nav class="menu">
                     <ul class="header-menu">
                         <li class="nav-button mouse-hover-item" section-name="works" style="--i:0;">
@@ -93,10 +95,12 @@
             </div>
         </div>
 
-        <main>
-            <section class="main-wrapper main-top loaded-anime loading">
-                <h1 class="text-animation text-animation-top" style="--i:0;">Wellcome to my site</h1>
-                <p class="text-animation text-animation-top" style="--i:1;">Kazuma Karasawa</p>
+        <main class="loaded-anime loading">
+            <section class="main-wrapper main-top">
+                <div class="main-top-text">
+                    <h1 class="text-animation text-animation-top" style="--i:0;">Wellcome to my site</h1>
+                    <p class="text-animation text-animation-top" style="--i:1;">Kazuma Karasawa</p>
+                </div>
                 <div class="scrolldown">scroll</div>
             </section>
 
@@ -337,9 +341,5 @@
                 </ul>
             </nav>
         </footer>
-        
-        <script src="js/script.js"></script>
-        <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
-        <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
     </body>
 </html>
