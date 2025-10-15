@@ -1,15 +1,15 @@
 // 読み込み時の処理
 window.addEventListener('load', function () {
-    checkWindow(mediaQuery);
     document.getElementsByTagName('html')[0].classList.add('no-scroll')
     document.getElementsByClassName('loading-window')[0].classList.add('active')
     const coverWindow = document.getElementsByClassName('cover-window')
     coverWindow[0].classList.add('active')
-
-
+    
+    
     setTimeout(() => {
         window.scrollTo(0, 0);
         scrollEvent();
+        checkWindow(mediaQuery);
     }, 1);
 
     setTimeout(() => {
@@ -41,12 +41,12 @@ const lenis = new Lenis({
 // ブレイクポイントを設定
 const mediaQuery = window.matchMedia('(min-width: 768px)');
 
-// 関数を定義
 function checkWindow(windowSize) {
     if (windowSize.matches) {  //pcの処理
         cardHover();
-    } else {
-        
+        scrollEventPcOnly()
+    } else {  //spの処理
+        sideButtonFlag = true;
     }
 }
 
@@ -206,7 +206,7 @@ function fadeInAnime(fadeInItem, fadeInLocation) {
 }
 
 // スクロールイベント
-let sideButtonFlag = false;
+let sideButtonFlag;
 function scrollEvent() {
     window.addEventListener('scroll', function () {
         // 更新
@@ -220,21 +220,6 @@ function scrollEvent() {
         if (coverWindowLeft < -100) { coverWindowLeft = -100; }
         if(!humburgerMenuFlag) {  //ハンバーガーメニューを開いた瞬間処理を終了（慣性スクロールの効果を無視）
             document.getElementsByClassName('cover-window')[0].style.left = coverWindowLeft + '%'
-        }
-    
-        
-        // サイドボタンがアクティブに
-        const header = document.getElementsByClassName('header-menu')
-        if (header[0].getBoundingClientRect().bottom <= 0) {
-            for (let i = 0; i < document.getElementsByClassName('side-button-icon').length; i++) {
-                document.getElementsByClassName('side-button-icon')[i].classList.add('fade-in', 'mouse-hover-item')
-                sideButtonFlag = true;
-            }
-        } else {
-            for (let i = 0; i < document.getElementsByClassName('side-button-icon').length; i++) {
-                document.getElementsByClassName('side-button-icon')[i].classList.remove('fade-in', 'mouse-hover-item')
-                sideButtonFlag = false;
-            }
         }
     
         // contactエリアでカラーチェンジ
@@ -270,6 +255,25 @@ function scrollEvent() {
         fadeInAnime(sectionLine, viewportHeight/10)
     })
 }    
+// PCの場合の処理
+function scrollEventPcOnly() {
+    sideButtonFlag = false;
+    window.addEventListener('scroll', function () {
+        // サイドボタンがアクティブに
+        const header = document.getElementsByClassName('header-menu')
+        if (header[0].getBoundingClientRect().bottom <= 0) {
+            for (let i = 0; i < document.getElementsByClassName('side-button-icon').length; i++) {
+                document.getElementsByClassName('side-button-icon')[i].classList.add('fade-in', 'mouse-hover-item')
+                sideButtonFlag = true;
+            }
+        } else {
+            for (let i = 0; i < document.getElementsByClassName('side-button-icon').length; i++) {
+                document.getElementsByClassName('side-button-icon')[i].classList.remove('fade-in', 'mouse-hover-item')
+                sideButtonFlag = false;
+            }
+        }
+    })
+}
 
 
 // カードの処理
