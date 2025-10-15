@@ -18,7 +18,7 @@ window.addEventListener('load', function () {
         for(let i = 0; i < document.getElementsByClassName('loaded-anime').length; i++) {
             document.getElementsByClassName('loaded-anime')[i].classList.remove('loaded')
         }
-    }, openingAnimeTime*3 + transitionAnimeTime);
+    }, openingAnimeTime*4 + transitionAnimeTime + transitionGapTime);
 
 })
 
@@ -26,49 +26,23 @@ window.addEventListener('load', function () {
 const turnAnimeTime = 300;
 const transitionAnimeTime = 400;
 const openingAnimeTime = 600;
-
-// サークルテキスト
-let circleText = 'welcome welcome welcome ';
-const createCircle = function() {
-    const circle = document.getElementById('circle');
-    // リサイズ時にリセット
-    document.getElementById('circle').innerHTML = ''
-
-    for(let i = 0; i < circleText.length; i++) {
-        const element = document.createElement('div');
-        element.className = 'circle-text'
-        element.textContent = circleText[i] 
-        circle.appendChild(element);
-        const angle = 360*i/circleText.length
-        const size = 10;
-        element.style.width = size + 'px';
-        element.style.height = size + 'px';
-    
-        const radius = circle.clientWidth/2;
-        const centerX = circle.clientWidth/2 - size/2;
-        const centerY = circle.clientHeight/2 - size/2;
-        const x = Math.cos(((angle-90)*Math.PI)/180)*radius + centerX; // 中心を起点としたX座標
-        const y = Math.sin(((angle-90)*Math.PI)/180)*radius + centerY; // 中心を起点としたY座標
-        element.style.left = x + 'px';
-        element.style.top = y + 'px';
-        
-        element.style.transform = 'rotateZ('+angle+'deg)'
-    }
-}
-createCircle()
-
-window.addEventListener('resize', function() {
-    createCircle()
-})    
+const transitionGapTime = 100; 
 
 // テキスト複製
 function textCopy() {
     const textCopyItem = document.getElementsByClassName('text-copy')
     for (let i = 0; i < textCopyItem.length; i++) {
-        textCopyItem[i].innerHTML = textCopyItem[i].previousElementSibling.textContent
+        textCopyItem[i].innerHTML = textCopyItem[i].previousElementSibling.textContent;
     }
 }
-// テキストアニメーション　
+// 要素複製
+function elementCopy() {
+    const elementCopyItem = document.getElementsByClassName('element-copy')
+    for (let i = 0; i < elementCopyItem.length; i++) {
+        elementCopyItem[i].innerHTML = elementCopyItem[i].previousElementSibling.innerHTML;
+    }
+}
+// テキスト分割（アニメーションのため）
 function textSplit() {
     const textSplitItem = document.getElementsByClassName('text-animation')
     for (let i = 0; i < textSplitItem.length; i++) {
@@ -90,8 +64,12 @@ function textSplit() {
         }
     }
 }
+// テキスト、要素を作成
 textCopy();
+elementCopy()
 textSplit();
+
+
 
 // ナビゲーションの処理
 const navButton = document.getElementsByClassName("nav-button")
@@ -122,6 +100,16 @@ for (let i = 0; i < navButton.length; i++) {
     })
 }
 
+// サイトトップボタンの処理
+const siteTopButton = document.getElementsByClassName('site-top-button-detection')
+siteTopButton[0].addEventListener('mouseover', function() {
+    document.getElementsByClassName('site-top-button')[0].classList.add('hover')
+}) 
+siteTopButton[0].addEventListener('mouseleave', function() {
+    document.getElementsByClassName('site-top-button')[0].classList.remove('hover')
+}) 
+
+
 // ハンバーガーメニューボタンの処理
 let humburgerMenuFlag = false;
 const humburgerMenuButton = document.getElementsByClassName('humburger-menu-icon');
@@ -151,7 +139,7 @@ function humburgerMenu() {
 }
 let humburgerMenuButonFlag = true;
 humburgerMenuButton[0].addEventListener('click', function () {
-    if (humburgerMenuButonFlag) {
+    if (humburgerMenuButonFlag && sideButtonFlag) {
         humburgerMenuButonFlag = false;
         humburgerMenu();
         setTimeout(() => {
@@ -162,58 +150,54 @@ humburgerMenuButton[0].addEventListener('click', function () {
 
 // ページトップボタンの処理
 document.getElementsByClassName('page-top-arrow')[0].addEventListener('click', function () {
-    window.scroll({
-        top: 0,
-        behavior: "smooth"
-    });
+    if(sideButtonFlag) {
+        window.scroll({
+            top: 0,
+            behavior: "smooth"
+        });
+    }
 })
 
-
+// フェードインアニメ
 let windowScroll = window.scrollY;
 let viewportHeight = window.innerHeight;
 let htmlHeight = document.documentElement.scrollHeight
-// フェードインアニメ
 function fadeInAnime(fadeInItem, fadeInLocation) {
     for (let i = 0; i < fadeInItem.length; i++) {
-        const targetTop = fadeInItem[i].getBoundingClientRect().top + windowScroll;
-        
-        if (windowScroll > targetTop - viewportHeight + fadeInItem[i].offsetHeight/4 + fadeInLocation) {
+        if (fadeInItem[i].getBoundingClientRect().top <= viewportHeight - fadeInLocation) {
             fadeInItem[i].classList.add('fade-in')
-        } else if (windowScroll <= targetTop - viewportHeight) {
+        } else if (fadeInItem[i].getBoundingClientRect().top > viewportHeight) {
             fadeInItem[i].classList.remove('fade-in')
         }
     }
 }
+
 // スクロールイベント
+let sideButtonFlag = false;
 window.addEventListener('scroll', function () {
     // 更新
     windowScroll = window.scrollY;
     viewportHeight = window.innerHeight
     htmlHeight = document.documentElement.scrollHeight
     
-    // 回転テキスト
-    document.getElementById('circle').style.transform = 'rotateZ(' + -360*3*windowScroll/(htmlHeight-viewportHeight) + 'deg) translate(-50%, -50%)'
-    if(windowScroll > 0 && windowScroll != (htmlHeight-viewportHeight)) {
-        document.getElementById('circle').classList.add('active')
-    } else {
-        document.getElementById('circle').classList.remove('active')
-    }
-    
     // カバーウィンドウがフェードアウト
     const section = document.getElementsByClassName('main-wrapper');
     let coverWindowLeft = String(4.25 - 54.25 * windowScroll / section[1].offsetTop)
     if (coverWindowLeft < -50) { coverWindowLeft = -50; }
     document.getElementsByClassName('cover-window')[0].style.left = coverWindowLeft + '%'
+
     
-    // ハンバーガーメニューアイコンが出現
+    // サイドボタンがアクティブに
     const header = document.getElementsByClassName('header-menu')
     if (header[0].getBoundingClientRect().bottom <= 0) {
         for (let i = 0; i < document.getElementsByClassName('side-button-icon').length; i++) {
-            document.getElementsByClassName('side-button-icon')[i].classList.add('fade-in')
+            document.getElementsByClassName('side-button-icon')[i].classList.add('fade-in', 'mouse-hover-item')
+            sideButtonFlag = true;
         }
     } else {
         for (let i = 0; i < document.getElementsByClassName('side-button-icon').length; i++) {
-            document.getElementsByClassName('side-button-icon')[i].classList.remove('fade-in')
+            document.getElementsByClassName('side-button-icon')[i].classList.remove('fade-in', 'mouse-hover-item')
+            sideButtonFlag = false;
         }
     }
 
@@ -225,13 +209,25 @@ window.addEventListener('scroll', function () {
         document.getElementsByTagName('html')[0].setAttribute('theme', 'default')
     }
 
+    // トップに戻るとフェードイン
+    const topText = document.getElementsByClassName('text-animation-top')
+    for (let i = 0; i < topText.length; i++) {
+        if(topText[i].getBoundingClientRect().bottom < 0) {
+            topText[i].classList.add('fade-out')
+        } else if (topText[i].getBoundingClientRect().bottom - topText[i].clientHeight/2 >= 0) {
+            topText[i].classList.remove('fade-out')
+        }
+    }
+
     // 文字が出現
-    const text = document.getElementsByClassName('text-animation')
-    fadeInAnime(text, viewportHeight/10)
+    const textMain = document.getElementsByClassName('text-animation-main')
+    fadeInAnime(textMain, viewportHeight/10)
+    const textFooter = this.document.getElementsByClassName('text-animation-footer')
+    fadeInAnime(textFooter, 0)
     
     // 要素が出現
     const item = document.getElementsByClassName('card-button');
-    fadeInAnime(item, 0)
+    fadeInAnime(item, viewportHeight/10)
     
     // 線が出現
     const sectionLine = document.getElementsByClassName('section-line')
@@ -240,9 +236,8 @@ window.addEventListener('scroll', function () {
 
 
 
-let buttonFlag = true;
-let aboutCardOpenFlag = false;
 // カードの処理
+let buttonFlag = true;
 const cardButton = document.getElementsByClassName('card-button')
 let hoverInteractionItem;
 for (let i = 0; i < cardButton.length; i++) {
