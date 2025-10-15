@@ -12,7 +12,7 @@ html {
 
     --ftitle: 8vw;
 
-    --ftext: clamp(calc(1.8rem*var(--minfontratio)), calc(18*(var(--vwratio))), calc(18*(var(--vwratio))));
+    --ftext: clamp(calc(1.8rem*var(--minfontratio)), calc(18*var(--vwratio)), calc(18*var(--vwratio)));
     --fbig: calc(var(--ftext)*10/1.8);
     --fmiddle: calc(var(--ftext)*7/1.8);
     --fsmall: calc(var(--ftext)*3/1.8);
@@ -82,6 +82,7 @@ body.active {
 
 a{
     text-decoration: none;
+    color: var(--fontcolor);
 }
 
 span {
@@ -169,18 +170,27 @@ header {
             }
         }
 
-        &.loading {
-            .text-animation {
-                & span {
-                    transform: translateY(100%);
+    }
+
+    &.loading {
+        .hearder-wrapper {
+            & ul {
+                .text-animation {
+                    & span {
+                        transform: translateY(100%);
+                    }
                 }
             }
         }
+    }
 
-        &.loaded {
-            .text-animation {
-                & span {
-                    transition: transform var(--transitiontime) calc(var(--transitiontime)*3/4 + var(--letteranimetime)/var(--letterlength) * var(--j) + var(--transitiongaptime)*var(--i)) ease;
+    &.loaded {
+        .hearder-wrapper {
+            & ul {
+                .text-animation {
+                    & span {
+                        transition: transform var(--transitiontime) calc(var(--transitiontime)*3/4 + var(--letteranimetime)/var(--letterlength) * var(--j) + var(--transitiongaptime)*var(--i)) ease;
+                    }
                 }
             }
         }
@@ -192,39 +202,7 @@ footer ul {
 }
 
 
-/* オープニング */
-.loading-window {
-    position: fixed;
-    z-index: 100;
-    height: 100vh;
-    width: 100vw;
-    top: 0;
-    left: 0;
-    background-color: var(--fontcolor);
-    color: var(--backgroundcolor);
-    font-size: var(--fbig);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    transition: left var(--openinganimetime) ease calc(var(--openinganimetime)*2);
-
-    p {
-        opacity: 0;
-    }
-
-    &.loaded {
-        left: -100%;
-        
-        & p {
-            animation: openingAnime calc(var(--openinganimetime)*2/3) forwards ease, openingAnime calc(var(--openinganimetime)*2/3) calc(var(--openinganimetime)*4/3) ease forwards reverse;
-        }
-    }
-}
-@keyframes openingAnime {
-    0%{opacity: 0;}
-    100%{opacity: 1;}
-}
-
+/* ローディング */
 .loading {
     opacity: 0;
 }
@@ -236,21 +214,21 @@ footer ul {
     position: fixed;
     z-index: 4;
     height: 100vh;
-    width: 100vw;
+    width: 200vw;
     top: 0%;
-    left: 150%;
+    left: 100%;
     background-color: #fff;
     mix-blend-mode: difference;
     transform: translateX(-50%);
-    clip-path: polygon(0% 0%, 100% 0%, 88% 100%, 0% 100%);
+    clip-path: polygon(0% 0%, 100% 0%, 94% 100%, 0% 100%);
 
     &.active {
-        left: 4.25%;
+        left: -45.8%;
         transition: left var(--openinganimetime) calc(var(--openinganimetime)*2) ease;
     }
 
     &.loaded {
-        left: 4.25%;
+        left: -45.8%;
         transition: left 0;
     }
 
@@ -259,6 +237,38 @@ footer ul {
     }
 }
 
+.loading-window {
+    position: fixed;
+    z-index: 5;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--backgroundcolor);
+    font-size: var(--fbig);
+    transition: left var(--openinganimetime) calc(var(--openinganimetime)*2) ease;
+
+    & p {
+        opacity: 0;
+    }
+
+    &.active {
+        left: -100%;
+
+        & p {
+            animation: loadedAnime calc(var(--openinganimetime)*2) forwards;
+        }
+    }
+}
+@keyframes loadedAnime {
+    0% {opacity: 0;}
+    25% {opacity: 1;}
+    75% {opacity: 1;}
+    100% {opacity: 0;}
+}
 
 
 .side-menu {
@@ -508,6 +518,70 @@ footer ul {
 
 
 /* メインコンテンツ */
+main {
+    .main-top {
+        height: 100vh;
+        margin-bottom: calc(var(--sectionmarginsize)/2);
+
+        .main-top-text {
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            align-items: center;
+
+            .text-animation {
+                overflow: hidden;
+                display: flex;
+    
+                & span {
+                    transform: translateY(0);
+                    transition: transform var(--transitiontime) calc(var(--letteranimetime) - var(--letteranimetime)/var(--letterlength) * var(--j)) ease;
+                }
+    
+                &.fade-out{
+                    & span {
+                        transform: translateY(-100%);
+                        transition: transform 0s 0s;
+                    }
+                }
+            }
+    
+            & h1 {
+                font-size: var(--ftitle);
+            }
+    
+            & p {
+                font-family: serif;
+                font-weight: 900;
+                font-size: var(--ftitle);
+                color: var(--backgroundcolor);
+                -webkit-text-stroke: var(--textborderweight) var(--fontcolor);
+                transition: color var(--colorchangetime) ease, -webkit-text-stroke var(--colorchangetime) ease;
+            }
+        }
+    }
+
+    &.loading {
+        .main-top {
+            .text-animation {
+                & span {
+                    transform: translateY(100%);
+                }
+            }
+        }
+    }
+
+    &.loaded {
+        .main-top {
+            .text-animation {
+                & span {
+                    transition: transform var(--transitiontime) calc(var(--transitiontime)*3/4 + var(--openinganimetime)/var(--letterlength) * var(--j) + var(--transitiongaptime)*var(--i)) ease;
+                }
+            }
+        }
+    }
+}
+
 section {
     position: relative;
     width: 100vw;
@@ -516,10 +590,6 @@ section {
     justify-content: center;
     align-items: center;
     flex-direction: column;
-
-    & h1 {
-        font-size: var(--ftitle);
-    }
 
     .main-wrapper-title {
         display: flex;
@@ -555,6 +625,7 @@ section {
     }
 }
 
+/* セクションライン */
 .section-line {
     position: absolute;
     top: calc(-1*var(--borderweight));
@@ -571,53 +642,9 @@ section {
     }
 }
 
-.main-top {
-    height: 100vh;
-    margin-bottom: calc(var(--sectionmarginsize)/2);
-    
-    &.loading {
-        .text-animation {
-            & span {
-                transform: translateY(100%);
-            }
-        }
-    }
 
-    &.loaded {
-        .text-animation {
-            & span {
-                transition: transform var(--transitiontime) calc(var(--transitiontime)*3/4 + var(--openinganimetime)/var(--letterlength) * var(--j) + var(--transitiongaptime)*var(--i)) ease;
-            }
-        }
-    }
-    .text-animation {
-        overflow: hidden;
-        display: flex;
 
-        & span {
-            transform: translateY(0);
-            transition: transform var(--transitiontime) calc(var(--letteranimetime) - var(--letteranimetime)/var(--letterlength) * var(--j)) ease;
-        }
-
-        &.fade-out{
-            & span {
-                transform: translateY(-100%);
-                transition: transform 0s 0s;
-            }
-        }
-    }
-
-    & p {
-        font-size: var(--fmiddle);
-        font-family: serif;
-        font-weight: 900;
-        font-size: var(--ftitle);
-        color: var(--backgroundcolor);
-        -webkit-text-stroke: var(--textborderweight) var(--fontcolor);
-        transition: color var(--colorchangetime) ease, -webkit-text-stroke var(--colorchangetime) ease;
-    }
-}
-
+/* スクロールアイコン */
 .scrolldown{
 	position:absolute;
 	left:50%;
@@ -851,7 +878,6 @@ section {
 
 /* 自己紹介 */
 .about-card-button {
-
     .card-button-outer {
         width: 230%;
         font-size: var(--ftext);
@@ -1118,6 +1144,114 @@ footer {
 
 
 @media screen and (max-width: 768px) {
-    
+    :root {
+        --ftext: 1.5rem;
+    }
+    .cover-window {
+        display: none;
+    }
+
+    header {
+        display: none;
+    }
+
+    main{
+        .main-top {
+            .main-top-text {
+                transform: rotateZ(90deg);
+
+                & h1, p {
+                    font-size: calc(var(--fmiddle)*1.3);
+                }
+            }
+            
+            .scrolldown {
+                left: 15%;
+                bottom: 5%;
+            }
+        }
+    }
+    @keyframes pathmove{
+        0%{
+            height:0;
+            top:100%;
+            opacity: 0;
+        }
+        50%{
+            height: 3rem;
+            opacity: 1;
+            top: calc(100% + 1rem);
+        }
+        100%{
+            height:0;
+            opacity: 0;
+            top: calc(100% + 4rem);
+        }
+    }
+
+    section {
+        padding: calc(var(--sectionmarginsize)/2) 0;
+
+        .main-wrapper-title {
+            margin-bottom: var(--cardmarginsize);
+        }
+    }
+
+    .card-button-wrapper {
+        flex-direction: column;
+        margin-top: 0;
+
+        .card-button {
+            margin-bottom: var(--cardmarginsize);
+
+            &.fade-in {
+                transition: transform var(--transitiontime) 0s ease;
+                
+                .card-button-face-wrapper {
+                    transition: opacity var(--transitiontime) 0s ease;
+                }
+            }
+        }
+    }
+
+    .about-card-button {
+        aspect-ratio: 1/2.9;
+        
+        .card-button-outer {
+            width: 100%;
+            flex-direction: column;
+
+            .about-card-right, .about-card-left {
+                width: var(--cardwidth);
+                height: 50%;
+            }
+        }
+    }
+
+    .contact-card-button {
+        .card-button-outer {
+            width: 100%;
+        }
+    }
+
+    footer {
+        height: calc(var(--footersize)*1.8);
+        flex-direction: column;
+        justify-content: center;
+
+        .copyright {
+            margin-bottom: var(--cardpaddingsize);
+        }
+
+        & ul{
+            position: relative;
+            flex-direction: column;
+            right: 0;
+
+            & li {
+                margin: 0;
+            }
+        }
+    }
 }
 
