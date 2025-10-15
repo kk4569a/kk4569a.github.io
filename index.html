@@ -18,22 +18,22 @@
             <div class="hearder-wrapper loaded-anime loading">
                 <nav class="menu">
                     <ul class="header-menu">
-                        <li class="nav-button mouse-hover-item" section-name="works">
-                            <div class="nv-button-item">
-                                <div class="nv-button-front nv-button-face">Works</div>
-                                <div class="nv-button-bottom nv-button-face text-copy"></div>
+                        <li class="nav-button mouse-hover-item" section-name="works" style="--i:0;">
+                            <div class="nv-button-wrapper">
+                                <div class="nv-button-front nv-button-face text-animation text-animation-top">Works</div>
+                                <div class="nv-button-bottom nv-button-face text-copy text-animation text-animation-top"></div>
                             </div>
                         </li>
-                        <li class="nav-button mouse-hover-item" section-name="about">
-                            <div class="nv-button-item">
-                                <div class="nv-button-front nv-button-face">About</div>
-                                <div class="nv-button-bottom nv-button-face text-copy"></div>
+                        <li class="nav-button mouse-hover-item" section-name="about" style="--i:1;">
+                            <div class="nv-button-wrapper">
+                                <div class="nv-button-front nv-button-face text-animation text-animation-top">About</div>
+                                <div class="nv-button-bottom nv-button-face text-copy text-animation text-animation-top"></div>
                             </div>
                         </li>
-                        <li class="nav-button mouse-hover-item" section-name="contact">
-                            <div class="nv-button-item">
-                                <div class="nv-button-front nv-button-face">Contact</div>
-                                <div class="nv-button-bottom nv-button-face text-copy"></div>
+                        <li class="nav-button mouse-hover-item" section-name="contact" style="--i:2;">
+                            <div class="nv-button-wrapper">
+                                <div class="nv-button-front nv-button-face text-animation text-animation-top">Contact</div>
+                                <div class="nv-button-bottom nv-button-face text-copy text-animation text-animation-top"></div>
                             </div>
                         </li>
                     </ul>
@@ -42,50 +42,69 @@
         </header>
 
         <div class="side-menu loaded-anime loading">
-            <div class="circle-text-wrapper" id="circle"></div>
+            <div class="site-top-button-detection mouse-hover-item"></div>
+            <div class="site-top-button side-button-icon">
+                <div class="side-button-icon-wrapper site-top-button-icon-wrapper">
+                    <div class="side-button-icon-front side-button-icon-face">
+                        <p>K</p>
+                    </div>
+                    <div class="side-button-icon-bottom side-button-icon-face element-copy"></div>
+                </div>
+            </div>
             <nav class="menu humburger-menu">
                 <ul>
                     <li class="mouse-hover-item nav-button" section-name="top" style="--i:0;">
                         <p class="text-animation">Top</p>
-                        <p class="text-animation cover-text text-copy"></p>
+                        <p class="cover-text text-animation text-copy"></p>
                     </li>
                     <li class="mouse-hover-item nav-button" section-name="works" style="--i:1;">
                         <p class="text-animation">Works</p>
-                        <p class="text-animation cover-text text-copy"></p>
+                        <p class="cover-text text-animation text-copy"></p>
                     </li>
                     <li class="mouse-hover-item nav-button" section-name="about" style="--i:2;">
                         <p class="text-animation">About</p>
-                        <p class="text-animation cover-text text-copy"></p>
+                        <p class="cover-text text-animation text-copy"></p>
                     </li>
                     <li class="mouse-hover-item nav-button" section-name="contact" style="--i:3;">
                         <p class="text-animation">Contact</p>
-                        <p class="text-animation cover-text text-copy"></p>
+                        <p class="cover-text text-animation text-copy"></p>
                     </li>
                 </ul>
             </nav>
-            <div class="humburger-menu-icon side-button-icon mouse-hover-item">
-                <span></span>
-                <span></span>
-                <span></span>
+            <div class="humburger-menu-icon side-button-icon">
+                <div class="side-button-icon-wrapper">
+                    <div class="side-button-icon-top side-button-icon-face"></div>
+                    <div class="side-button-icon-front side-button-icon-face">
+                        <span></span>
+                        <span></span>
+                    </div>
+                    <div class="side-button-icon-bottom side-button-icon-face element-copy"></div>
+                </div>
             </div>
-            <div class="page-top-arrow side-button-icon mouse-hover-item">
-                <span></span>
-                <span></span>
+            <div class="page-top-arrow side-button-icon">
+                <div class="side-button-icon-wrapper">
+                    <div class="side-button-icon-top side-button-icon-face"></div>
+                    <div class="side-button-icon-front side-button-icon-face">
+                        <span></span>
+                        <span></span>
+                    </div>
+                    <div class="side-button-icon-bottom side-button-icon-face element-copy"></div>
+                </div>
             </div>
         </div>
 
         <main>
             <section class="main-wrapper main-top loaded-anime loading">
-                <h1>Wellcome to my site</h1>
-                <p>Kazuma Karasawa</p>
+                <h1 class="text-animation text-animation-top" style="--i:0;">Wellcome to my site</h1>
+                <p class="text-animation text-animation-top" style="--i:1;">Kazuma Karasawa</p>
                 <div class="scrolldown">scroll</div>
             </section>
 
             <section class="main-wrapper main-works" id="works">
                 <hr class="section-line">
                 <div class="main-wrapper-title">
-                    <h2 class="text-animation">Works</h2>
-                    <p class="text-animation">制作したもの</p>
+                    <h2 class="text-animation text-animation-main">Works</h2>
+                    <p class="text-animation text-animation-main">制作したもの</p>
                 </div>
                 <div class="card-button-wrapper">
                     <div class="card-button works-card-button  mouse-hover-item" style="--i:0">
@@ -202,8 +221,8 @@
             <section class="main-wrapper main-about" id="about">
                 <hr class="section-line">
                 <div class="main-wrapper-title">
-                    <h2 class="text-animation">About</h2>
-                    <p class="text-animation">私について</p>
+                    <h2 class="text-animation text-animation-main">About</h2>
+                    <p class="text-animation text-animation-main">私について</p>
                 </div>
                 <div class="card-button-wrapper">
                     <div class="card-button about-card-button" style="--i:0">
@@ -269,7 +288,6 @@
                                     </div>
                                 </div>
                             </div>
-
                         </div>
                     </div>
                 </div>
@@ -278,8 +296,8 @@
             <section class="main-wrapper main-contact" id="contact">
                 <hr class="section-line">
                 <div class="main-wrapper-title">
-                    <h2 class="text-animation">Contact</h2>
-                    <p class="text-animation">お問い合わせ</p>
+                    <h2 class="text-animation text-animation-main">Contact</h2>
+                    <p class="text-animation text-animation-main">お問い合わせ</p>
                 </div>
                 <div class="card-button-wrapper contact-card-button-wrapper">
                     <div class="card-button contact-card-button" style="--i:0">
@@ -295,24 +313,24 @@
         
         <footer>
             <hr class="section-line">
-            <p class="copyright">&copy; 2025 Kazuma Karasawa</p>
+            <p class="copyright text-animation text-animation-footer">&copy; 2025 Kazuma Karasawa</p>
             <nav class="menu">
                 <ul>
                     <li class="nav-button mouse-hover-item" section-name="works">
-                        <div class="nv-button-item">
-                            <div class="nv-button-front nv-button-face">Works</div>
+                        <div class="nv-button-wrapper">
+                            <div class="nv-button-front nv-button-face text-animation text-animation-footer">Works</div>
                             <div class="nv-button-bottom nv-button-face text-copy"></div>
                         </div>
                     </li>
                     <li class="nav-button mouse-hover-item" section-name="about">
-                        <div class="nv-button-item">
-                            <div class="nv-button-front nv-button-face">About</div>
+                        <div class="nv-button-wrapper">
+                            <div class="nv-button-front nv-button-face text-animation text-animation-footer">About</div>
                             <div class="nv-button-bottom nv-button-face text-copy"></div>
                         </div>
                     </li>
                     <li class="nav-button mouse-hover-item" section-name="contact">
-                        <div class="nv-button-item">
-                            <div class="nv-button-front nv-button-face">Contact</div>
+                        <div class="nv-button-wrapper">
+                            <div class="nv-button-front nv-button-face text-animation text-animation-footer">Contact</div>
                             <div class="nv-button-bottom nv-button-face text-copy"></div>
                         </div>
                     </li>
