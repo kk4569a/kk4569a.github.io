@@ -20,9 +20,9 @@ html {
     --borderweight: .3rem;
     --textborderweight: .15rem;
 
-    --sidebuttonsize: calc(var(--ftext)*5/1.8);
+    --sidebuttonsize: calc(var(--ftext)*6/1.8);
     --cardwidth: calc(var(--ftext)*38/1.8);
-    --buttonheight: 5rem;
+    --buttonheight: calc(var(--ftext)*5/1.8);
     --cardshadowsize: calc(var(--cardwidth)*6/100);
     --footersize: 20vh;
 
@@ -94,16 +94,6 @@ li {
 
 
 /* ナビゲーションリンクリンク */
-
-header ul {
-    transform: translateY(-50%);
-    top: calc(var(--footersize)/2);
-}
-footer ul {
-    transform: translateY(50%);
-    bottom: calc(var(--footersize)/2);
-}
-
 header, footer{
     & ul {
         position: absolute;
@@ -116,12 +106,12 @@ header, footer{
             margin-left: 2vw;
             padding: 1vh 0;
             display: flex;
-            perspective: 100rem;
+            perspective: calc(var(--buttonheight)*10);
 
-            .nv-button-item {
+            .nv-button-wrapper {
                 position: relative;
                 height: var(--buttonheight);
-                aspect-ratio: 2.7/1;
+                aspect-ratio: 3/1;
                 transform-style: preserve-3d;
                 font-size: var(--fsmall);
                 font-weight: bold;
@@ -131,10 +121,13 @@ header, footer{
                     position: absolute;
                     height: 100%;
                     width: 100%;
+                    backface-visibility: hidden;
                     border: var(--borderweight) solid var(--fontcolor);
                     display: flex;
                     justify-content: center;
                     align-items: center;
+                    transition: border var(--colorchangetime) ease;
+
                 }
                 .nv-button-front {
                     transform: translateZ(calc(var(--buttonheight)/2));
@@ -145,7 +138,7 @@ header, footer{
             }
 
             &:hover {
-                .nv-button-item {
+                .nv-button-wrapper {
                     transform: rotateX(90deg);
                 }
             }
@@ -153,6 +146,50 @@ header, footer{
     }
 } 
 
+header {
+    .hearder-wrapper {
+        & ul {
+            transform: translateY(-50%);
+            top: calc(var(--footersize)/2);
+    
+            .text-animation {
+                overflow: hidden;
+                
+                & span {
+                    transform: translateY(0);
+                    transition: transform var(--transitiontime) calc(var(--letteranimetime) - var(--letteranimetime)/var(--letterlength) * var(--j)) ease;
+                }
+
+                &.fade-out{
+                    & span {
+                        transform: translateY(-100%);
+                        transition: transform 0s 0s;
+                    }
+                }
+            }
+        }
+
+        &.loading {
+            .text-animation {
+                & span {
+                    transform: translateY(100%);
+                }
+            }
+        }
+
+        &.loaded {
+            .text-animation {
+                & span {
+                    transition: transform var(--transitiontime) calc(var(--transitiontime)*3/4 + var(--letteranimetime)/var(--letterlength) * var(--j) + var(--transitiongaptime)*var(--i)) ease;
+                }
+            }
+        }
+    }
+}
+footer ul {
+    transform: translateY(50%);
+    bottom: calc(var(--footersize)/2);
+}
 
 
 /* オープニング */
@@ -224,39 +261,8 @@ header, footer{
 
 
 
-/* サークルテキスト */
-.circle-text-wrapper {
-    position: fixed;
-    z-index: 3;
-    width: calc(var(--sidebuttonsize)*2);
-    height: calc(var(--sidebuttonsize)*2);
-    top: calc(var(--footersize)/2);
-    left: 5%;
-    transform: translate(-50%, -50%);
-    color: var(--fontcolor);
-    font-size: var(--ftext);
-    transform-origin: 0 0;
-    transition: color var(--colorchangetime) ease;
-    animation: circleAnime 10s infinite linear;
-
-    &.active {
-        animation: none;
-    }
-
-    .circle-text {
-        position: absolute;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-}
-@keyframes circleAnime {
-    0%{transform: rotateZ(0deg) translate(-50%, -50%);}
-    100%{transform: rotateZ(-360deg) translate(-50%, -50%);}
-}
-
-/* ハンバーガーメニュー */
 .side-menu {
+    /* ハンバーガーメニュー */
     & nav {
         position: fixed;
         z-index: 10;
@@ -267,7 +273,7 @@ header, footer{
         background-color: var(--backgroundcolor);
         clip-path: polygon(12% 0%, 100% 0%, 100% 100%, 0% 100%);
         padding: 0 44vw 0 calc(100vw*12/100);
-        transition: right var(--transitiontime) ease;
+        transition: right var(--transitiontime) ease, background-color var(--colorchangetime) ease;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -281,6 +287,7 @@ header, footer{
             width: 100%;
             background-color: var(--fontcolor);
             clip-path: polygon(calc(12% + var(--borderweight)) 0%, 100% 0%, 100% 100%, var(--borderweight) 100%);
+            transition: background-color var(--colorchangetime) ease;
         }
 
         & ul {
@@ -302,6 +309,7 @@ header, footer{
                     color: var(--backgroundcolor);
                     -webkit-text-stroke: var(--textborderweight) var(--backgroundcolor);
                     overflow: hidden;
+                    transition: color var(--colorchangetime) ease, -webkit-text-stroke var(--colorchangetime) ease;
 
                     & span {
                         transform: translateY(100%);
@@ -312,7 +320,7 @@ header, footer{
                     position: absolute;
                     color: var(--fontcolor);
                     clip-path: inset(0);
-                    transition: clip-path var(--transitiontime) ease;
+                    transition: clip-path var(--transitiontime) ease, color var(--colorchangetime) ease, -webkit-text-stroke var(--colorchangetime) ease;
                 }
 
                 &:hover {
@@ -325,37 +333,109 @@ header, footer{
     
     }
 
+    /* サイドボタン共通 */
     .side-button-icon {
         position: fixed;
-        z-index: 15;
-        top: calc(-1*var(--sidebuttonsize));
-        right: 5%;
         height: var(--sidebuttonsize);
         aspect-ratio: 1;
-        opacity: 0;
-        transform: translate(50%, -80%);
-        transition: opacity calc(var(--transitiontime)/2) ease, transform calc(var(--transitiontime)/2) ease, top 0s calc(var(--transitiontime)/2);
-    
-        &.fade-in {
-            opacity: 1;
-            transition: opacity calc(var(--transitiontime)/2) ease, transform calc(var(--transitiontime)/2) ease, top 0s 0s;
+        perspective: calc(var(--sidebuttonsize)*10);
+        transition: opacity calc(var(--transitiontime)/2) ease, top 0s calc(var(--transitiontime)/2);
+        
+        .side-button-icon-wrapper {
+            position: relative;
+            height: 100%;
+            width: 100%;
+            transform-style: preserve-3d;
+            transform: rotateX(-90deg);
+            transition: transform var(--transitiontime) ease;
+
+            .side-button-icon-face {
+                position: absolute;
+                height: 100%;
+                width: 100%;
+                backface-visibility: hidden;
+                border: var(--borderweight) solid var(--fontcolor);
+                padding: 10%;
+                transition: border var(--colorchangetime) ease;
+            }
+
+            .side-button-icon-top {
+                background-color: var(--fontcolor);
+                transform: translateY(calc(-1*var(--sidebuttonsize)/2)) rotateX(90deg);
+                transition: background-color var(--colorchangetime) ease, border var(--colorchangetime);
+            }
+
+            .side-button-icon-front {
+                transform: translateZ(calc(var(--sidebuttonsize)/2));
+            }
+            .side-button-icon-bottom {
+                transform: translateY(calc(var(--sidebuttonsize)/2)) rotateX(-90deg);
+            }
         }
-    
+        
         & span {
             position: absolute;
             height: var(--borderweight);
-            width: 100%;
+            width: 80%;
             background-color: var(--fontcolor);
             border-radius: var(--borderweight);
         }
+
+        
+        &.fade-in {
+            .side-button-icon-wrapper:not(.site-top-button-icon-wrapper) {
+                transform: rotateX(0);
+            }
+
+            &:hover {
+                .side-button-icon-wrapper:not(.site-top-button-icon-wrapper) {
+                    transform: rotateX(90deg);
+                }
+            }
+        }
+    }
+
+    .site-top-button-detection {
+        position: fixed;
+        z-index: 15;
+        top: calc(var(--footersize)/2);
+        left: 5%;
+        transform: translate(-50%, -50%);
+        height: var(--sidebuttonsize);
+        aspect-ratio: 1;
+    }
+
+    .site-top-button {
+        z-index: 1;
+        top: calc(var(--footersize)/2);
+        left: 5%;
+        transform: translate(-50%, -50%);
+        
+        .side-button-icon-wrapper {
+            transform: rotateX(0);
+            
+            .side-button-icon-face {
+                font-size: calc(var(--fsmall)*1.5);
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+        }
+
+        &.hover {
+            .side-button-icon-wrapper {
+                transform: rotateX(90deg);
+            }
+        }
     }
     
+    /* ハンバーガーメニューボタン */
     .humburger-menu-icon {
-        &.fade-in {
-            top: calc(var(--footersize)/2);
-            transform: translate(50%, -50%);
-        }
-        
+        z-index: 15;
+        top: calc(var(--footersize)/2);
+        right: 5%;
+        transform: translate(50%, -50%);
+
         & span {
             left: 50%;
             transform: rotateZ(0deg) translate(-50%, -50%);
@@ -363,30 +443,22 @@ header, footer{
             transition: top calc(var(--transitiontime)/2) calc(var(--transitiontime)/2), transform calc(var(--transitiontime)/2) 0s, background-color var(--colorchangetime) ease;
             will-change: top, transform, width;
     
-            &:nth-child(1) {
-                top: 20%;
-            }
-            &:nth-child(2) {
-                top: 50%;
-                transition: width 0s calc(var(--transitiontime)/2), background-color var(--colorchangetime) ease;
-            }
-            &:nth-child(3) {
-                top: 80%;
-            }
+            &:nth-child(1) {top: 40%;}
+            &:nth-child(2) {top: 60%;}
         }
     }
     
     /* ページトップボタン */
     .page-top-arrow {
-        &.fade-in {
-            top: calc(100% - var(--footersize)/2);
-            transform: translate(50%, -50%);
-        }
-    
+        z-index: 15;
+        top: calc(100% - var(--footersize)/2);
+        right: 5%;
+        transform: translate(50%, -50%);
+
         & span {
-            bottom: 0;
+            bottom: 10%;
             transition: background-color var(--colorchangetime) ease;
-    
+            
             &:nth-child(1) {
                 transform: rotate(-60deg);
                 transform-origin: left;
@@ -410,21 +482,20 @@ header, footer{
             }
         } 
 
-        .humburger-menu-icon span {
-            top: 50%;
-            transition: top calc(var(--transitiontime)/2) 0s, transform calc(var(--transitiontime)/2) calc(var(--transitiontime)/2), background-color var(--colorchangetime) ease, width 0s calc(var(--transitiontime)/2);
-            background-color: var(--backgroundcolor);
+        .humburger-menu-icon {
+            .side-button-icon-face {
+                border: var(--borderweight) solid var(--backgroundcolor);
 
-            &:nth-child(1) {
-                transform: rotateZ(45deg) translate(-50%, -50%);
+                & span {
+                    top: 50%;
+                    transition: top calc(var(--transitiontime)/2) 0s, transform calc(var(--transitiontime)/2) calc(var(--transitiontime)/2), background-color var(--colorchangetime) ease, width 0s calc(var(--transitiontime)/2);
+                    background-color: var(--backgroundcolor);
+        
+                    &:nth-child(1) {transform: rotateZ(45deg) translate(-50%, -50%);}
+                    &:nth-child(2) {transform: rotateZ(-45deg) translate(-50%, -50%);}
+                }
             }
-            &:nth-child(2) {
-                width: 0;
-            }
-            &:nth-child(3) {
-                transform: rotateZ(-45deg) translate(-50%, -50%);
-            }
-        }
+        } 
 
         .page-top-arrow {
                 top: -100%;
@@ -503,6 +574,38 @@ section {
 .main-top {
     height: 100vh;
     margin-bottom: calc(var(--sectionmarginsize)/2);
+    
+    &.loading {
+        .text-animation {
+            & span {
+                transform: translateY(100%);
+            }
+        }
+    }
+
+    &.loaded {
+        .text-animation {
+            & span {
+                transition: transform var(--transitiontime) calc(var(--transitiontime)*3/4 + var(--openinganimetime)/var(--letterlength) * var(--j) + var(--transitiongaptime)*var(--i)) ease;
+            }
+        }
+    }
+    .text-animation {
+        overflow: hidden;
+        display: flex;
+
+        & span {
+            transform: translateY(0);
+            transition: transform var(--transitiontime) calc(var(--letteranimetime) - var(--letteranimetime)/var(--letterlength) * var(--j)) ease;
+        }
+
+        &.fade-out{
+            & span {
+                transform: translateY(-100%);
+                transition: transform 0s 0s;
+            }
+        }
+    }
 
     & p {
         font-size: var(--fmiddle);
@@ -636,7 +739,7 @@ section {
             margin-bottom: var(--cardpaddingsize);
             border: var(--borderweight) solid var(--fontcolor);
             box-shadow: inset calc(var(--cardshadowsize)/2) calc(var(--cardshadowsize)/2) var(--fontcolor);
-            transition: border var(--colorchangetime) ease;
+            transition: border var(--colorchangetime) ease, box-shadow var(--colorchangetime) ease;
             
             &::after {
                 content: "";
@@ -684,12 +787,13 @@ section {
                 font-weight: bold;
                 white-space: nowrap;
                 -webkit-text-stroke: var(--textborderweight) var(--fontcolor);
+                transition: -webkit-text-stroke var(--colorchangetime) ease;
             }
             .cover-text {
                 position: absolute;
                 color: var(--backgroundcolor);
                 clip-path: inset(0);
-                transition: clip-path var(--transitiontime) ease;
+                transition: clip-path var(--transitiontime) ease, -webkit-text-stroke var(--colorchangetime) ease, color var(--colorchangetime) ease;
             }
         }
 
@@ -992,34 +1096,28 @@ footer {
     .copyright {
         font-size: var(--ftext);
     }
+
+    .text-animation {
+        display: flex;
+        overflow: hidden;
+
+        & span {
+            transform: translateY(100%);
+            transition: transform 0s 0s;
+        }
+
+        &.fade-in {
+            & span {
+                transform: translateY(0);
+                transition: transform var(--transitiontime) calc(var(--letteranimetime)/var(--letterlength) * var(--j)) ease;
+            }
+        }
+    }
 }
 
 
 
 @media screen and (max-width: 768px) {
-    ul {
-        flex-direction: column;
-    }
-
-    .main-top {
-        padding: var(--sectionmarginsize) 4vmax;
-    }
-
-    .card-button-wrapper {
-        flex-direction: column;
-    }
-
-    .card-button {
-        margin: 1.5vmax 0;
-    }
-
-    .card-button.fade-in {
-        transition: transform var(--transitiontime) 0s;
-    }
-
-    .card-button.fade-in .card-button-face {
-        opacity: 1;
-        transition: transform var(--turntime), opacity var(--transitiontime) 0s, color var(--colorchangetime) ease, background-color var(--colorchangetime) ease, border var(--colorchangetime) ease;
-    }
+    
 }
 
