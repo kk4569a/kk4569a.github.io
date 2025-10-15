@@ -1164,6 +1164,7 @@ footer {
 
     .side-menu {
         & nav {
+            height: 100dvh;
             clip-path: none;
             background-color: var(--fontcolor);
             padding: 0;
