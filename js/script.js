@@ -1,8 +1,17 @@
 // 読み込み時の処理
 window.addEventListener('load', function () {
-    document.getElementsByClassName('loading-window')[0].classList.add('loaded')
+    checkWindow(mediaQuery);
+    document.getElementsByTagName('html')[0].classList.add('no-scroll')
+    document.getElementsByClassName('loading-window')[0].classList.add('active')
     const coverWindow = document.getElementsByClassName('cover-window')
     coverWindow[0].classList.add('active')
+
+
+    setTimeout(() => {
+        window.scrollTo(0, 0);
+        scrollEvent();
+    }, 1);
+
     setTimeout(() => {
         coverWindow[0].classList.remove('active')
         coverWindow[0].classList.add('loaded')
@@ -15,12 +24,34 @@ window.addEventListener('load', function () {
     
     setTimeout(() => {
         document.getElementsByTagName('html')[0].classList.remove('no-scroll')
+        document.getElementsByTagName('html')[0].removeAttribute('onwheel')  //慣性スクロールオン
         for(let i = 0; i < document.getElementsByClassName('loaded-anime').length; i++) {
             document.getElementsByClassName('loaded-anime')[i].classList.remove('loaded')
         }
     }, openingAnimeTime*4 + transitionAnimeTime + transitionGapTime);
-
 })
+
+// 慣性スクロール
+const lenis = new Lenis({
+    autoRaf: true,
+});
+
+
+
+// ブレイクポイントを設定
+const mediaQuery = window.matchMedia('(min-width: 768px)');
+
+// 関数を定義
+function checkWindow(windowSize) {
+    if (windowSize.matches) {  //pcの処理
+        cardHover();
+    } else {
+        
+    }
+}
+
+mediaQuery.addEventListener('change', checkWindow);
+
 
 // アニメデュレーション
 const turnAnimeTime = 300;
@@ -66,7 +97,7 @@ function textSplit() {
 }
 // テキスト、要素を作成
 textCopy();
-elementCopy()
+elementCopy();
 textSplit();
 
 
@@ -110,33 +141,35 @@ siteTopButton[0].addEventListener('mouseleave', function() {
 }) 
 
 
-// ハンバーガーメニューボタンの処理
+// ハンバーガーメニュー
 let humburgerMenuFlag = false;
 const humburgerMenuButton = document.getElementsByClassName('humburger-menu-icon');
-
 function humburgerMenu() {
     document.getElementsByClassName('side-menu')[0].classList.toggle('active');
-
+    
     if (!humburgerMenuFlag) {
+        humburgerMenuFlag = true;
+        document.getElementsByTagName('html')[0].setAttribute('onwheel', 'event.stopPropagation()')  //慣性スクロールオフ
         document.getElementsByTagName('html')[0].classList.add('no-scroll')
         document.getElementsByClassName('cover-window')[0].classList.add('nav-open')
-        document.getElementsByClassName('cover-window')[0].style.left = "6.1%"
-        humburgerMenuFlag = true;
+        document.getElementsByClassName('cover-window')[0].style.left = "-44%"
     }
     else {
         const windowScroll = window.scrollY;
         const section = document.getElementsByClassName('main-wrapper');
-        let coverWindowLeft = String(4.25 - 54.25 * windowScroll / section[1].offsetTop)
-        if (coverWindowLeft < -50) { coverWindowLeft = -50; }
+        let coverWindowLeft = String(-45.8 - 54.2 * windowScroll / section[1].offsetTop)
+        if (coverWindowLeft < -100) { coverWindowLeft = -100; }
         document.getElementsByClassName('cover-window')[0].style.left = coverWindowLeft + '%'
 
-        setTimeout(() => {
-            document.getElementsByTagName('html')[0].classList.remove('no-scroll')
-            document.getElementsByClassName('cover-window')[0].classList.remove('nav-open')
+        setTimeout(() => {    
             humburgerMenuFlag = false;
+            document.getElementsByTagName('html')[0].classList.remove('no-scroll')
+            document.getElementsByTagName('html')[0].removeAttribute('onwheel')  //慣性スクロールオン
+            document.getElementsByClassName('cover-window')[0].classList.remove('nav-open')
         }, 400);
     }
 }
+// ハンバーガーメニューボタンの処理
 let humburgerMenuButonFlag = true;
 humburgerMenuButton[0].addEventListener('click', function () {
     if (humburgerMenuButonFlag && sideButtonFlag) {
@@ -174,96 +207,100 @@ function fadeInAnime(fadeInItem, fadeInLocation) {
 
 // スクロールイベント
 let sideButtonFlag = false;
-window.addEventListener('scroll', function () {
-    // 更新
-    windowScroll = window.scrollY;
-    viewportHeight = window.innerHeight
-    htmlHeight = document.documentElement.scrollHeight
-    
-    // カバーウィンドウがフェードアウト
-    const section = document.getElementsByClassName('main-wrapper');
-    let coverWindowLeft = String(4.25 - 54.25 * windowScroll / section[1].offsetTop)
-    if (coverWindowLeft < -50) { coverWindowLeft = -50; }
-    document.getElementsByClassName('cover-window')[0].style.left = coverWindowLeft + '%'
-
-    
-    // サイドボタンがアクティブに
-    const header = document.getElementsByClassName('header-menu')
-    if (header[0].getBoundingClientRect().bottom <= 0) {
-        for (let i = 0; i < document.getElementsByClassName('side-button-icon').length; i++) {
-            document.getElementsByClassName('side-button-icon')[i].classList.add('fade-in', 'mouse-hover-item')
-            sideButtonFlag = true;
+function scrollEvent() {
+    window.addEventListener('scroll', function () {
+        // 更新
+        windowScroll = window.scrollY;
+        viewportHeight = window.innerHeight
+        htmlHeight = document.documentElement.scrollHeight
+        
+        // カバーウィンドウがフェードアウト
+        const section = document.getElementsByClassName('main-wrapper');
+        let coverWindowLeft = String(-45.8 - 54.2 * windowScroll / section[1].offsetTop)
+        if (coverWindowLeft < -100) { coverWindowLeft = -100; }
+        if(!humburgerMenuFlag) {  //ハンバーガーメニューを開いた瞬間処理を終了（慣性スクロールの効果を無視）
+            document.getElementsByClassName('cover-window')[0].style.left = coverWindowLeft + '%'
         }
-    } else {
-        for (let i = 0; i < document.getElementsByClassName('side-button-icon').length; i++) {
-            document.getElementsByClassName('side-button-icon')[i].classList.remove('fade-in', 'mouse-hover-item')
-            sideButtonFlag = false;
-        }
-    }
-
-    // contactエリアでカラーチェンジ
-    const contactSection = section[section.length - 1];
-    if (windowScroll > contactSection.offsetTop - viewportHeight / 2) {
-        document.getElementsByTagName('html')[0].setAttribute('theme', 'contact')
-    } else {
-        document.getElementsByTagName('html')[0].setAttribute('theme', 'default')
-    }
-
-    // トップに戻るとフェードイン
-    const topText = document.getElementsByClassName('text-animation-top')
-    for (let i = 0; i < topText.length; i++) {
-        if(topText[i].getBoundingClientRect().bottom < 0) {
-            topText[i].classList.add('fade-out')
-        } else if (topText[i].getBoundingClientRect().bottom - topText[i].clientHeight/2 >= 0) {
-            topText[i].classList.remove('fade-out')
-        }
-    }
-
-    // 文字が出現
-    const textMain = document.getElementsByClassName('text-animation-main')
-    fadeInAnime(textMain, viewportHeight/10)
-    const textFooter = this.document.getElementsByClassName('text-animation-footer')
-    fadeInAnime(textFooter, 0)
     
-    // 要素が出現
-    const item = document.getElementsByClassName('card-button');
-    fadeInAnime(item, viewportHeight/10)
+        
+        // サイドボタンがアクティブに
+        const header = document.getElementsByClassName('header-menu')
+        if (header[0].getBoundingClientRect().bottom <= 0) {
+            for (let i = 0; i < document.getElementsByClassName('side-button-icon').length; i++) {
+                document.getElementsByClassName('side-button-icon')[i].classList.add('fade-in', 'mouse-hover-item')
+                sideButtonFlag = true;
+            }
+        } else {
+            for (let i = 0; i < document.getElementsByClassName('side-button-icon').length; i++) {
+                document.getElementsByClassName('side-button-icon')[i].classList.remove('fade-in', 'mouse-hover-item')
+                sideButtonFlag = false;
+            }
+        }
     
-    // 線が出現
-    const sectionLine = document.getElementsByClassName('section-line')
-    fadeInAnime(sectionLine, viewportHeight/10)
-})
-
+        // contactエリアでカラーチェンジ
+        const contactSection = section[section.length - 1];
+        if (windowScroll > contactSection.offsetTop - viewportHeight / 2) {
+            document.getElementsByTagName('html')[0].setAttribute('theme', 'contact')
+        } else {
+            document.getElementsByTagName('html')[0].setAttribute('theme', 'default')
+        }
+    
+        // トップに戻るとフェードイン
+        const topText = document.getElementsByClassName('text-animation-top')
+        for (let i = 0; i < topText.length; i++) {
+            if(topText[i].getBoundingClientRect().bottom < 0) {
+                topText[i].classList.add('fade-out')
+            } else if (topText[i].getBoundingClientRect().bottom - topText[i].clientHeight/2 >= 0) {
+                topText[i].classList.remove('fade-out')
+            }
+        }
+    
+        // 文字が出現
+        const textMain = document.getElementsByClassName('text-animation-main')
+        fadeInAnime(textMain, viewportHeight/10)
+        const textFooter = this.document.getElementsByClassName('text-animation-footer')
+        fadeInAnime(textFooter, 0)
+        
+        // 要素が出現
+        const item = document.getElementsByClassName('card-button');
+        fadeInAnime(item, viewportHeight/10)
+        
+        // 線が出現
+        const sectionLine = document.getElementsByClassName('section-line')
+        fadeInAnime(sectionLine, viewportHeight/10)
+    })
+}    
 
 
 // カードの処理
 let buttonFlag = true;
-const cardButton = document.getElementsByClassName('card-button')
-let hoverInteractionItem;
-for (let i = 0; i < cardButton.length; i++) {
-    cardButton[i].addEventListener('mousemove', function(event) {
-        if(buttonFlag) {
-            if (this.closest('section').getAttribute('id') == 'works' || this.closest('section').getAttribute('id') == 'about') {
+function cardHover() {
+    const cardButton = document.getElementsByClassName('card-button')
+    let hoverInteractionItem;
+    for (let i = 0; i < cardButton.length; i++) {
+        cardButton[i].addEventListener('mousemove', function(event) {
+            if(buttonFlag) {
+                if (this.closest('section').getAttribute('id') == 'works' || this.closest('section').getAttribute('id') == 'about') {
+                    hoverInteractionItem = this.getElementsByClassName('hover-interaction-item')[0]
+                    const cardHeight = hoverInteractionItem.clientHeight;
+                    const cardWidth = hoverInteractionItem.clientWidth;
+                    const targetRect = hoverInteractionItem.getBoundingClientRect()
+                    const rotateYRatio = (event.clientX - targetRect.left - cardWidth/2)/(cardWidth/2)
+                    const rotateXRatio = (event.clientY - targetRect.top - cardHeight/2)/(cardHeight/2)
+                
+                    hoverInteractionItem.classList.add('hover-anime')
+                    hoverInteractionItem.style.transform = 'rotateY(' + -7*rotateYRatio + 'deg) rotateX(' + 7*rotateXRatio + 'deg) scale(1.03)'
+                }
+            }
+        })
+        cardButton[i].addEventListener('mouseleave', function() {
+            if(buttonFlag) {
                 hoverInteractionItem = this.getElementsByClassName('hover-interaction-item')[0]
-                const cardHeight = hoverInteractionItem.clientHeight;
-                const cardWidth = hoverInteractionItem.clientWidth;
-                const targetRect = hoverInteractionItem.getBoundingClientRect()
-                const rotateYRatio = (event.clientX - targetRect.left - cardWidth/2)/(cardWidth/2)
-                const rotateXRatio = (event.clientY - targetRect.top - cardHeight/2)/(cardHeight/2)
-            
-                hoverInteractionItem.classList.add('hover-anime')
-                hoverInteractionItem.style.transform = 'rotateY(' + -7*rotateYRatio + 'deg) rotateX(' + 7*rotateXRatio + 'deg) scale(1.03)'
+                if (this.closest('section').getAttribute('id') == 'works' || this.closest('section').getAttribute('id') == 'about') {
+                    hoverInteractionItem.style.transform = null;
+                    hoverInteractionItem.classList.remove('hover-anime')
+                }
             }
-        }
-    })
-    cardButton[i].addEventListener('mouseleave', function() {
-        if(buttonFlag) {
-            hoverInteractionItem = this.getElementsByClassName('hover-interaction-item')[0]
-            if (this.closest('section').getAttribute('id') == 'works' || this.closest('section').getAttribute('id') == 'about') {
-                hoverInteractionItem.style.transform = null;
-                hoverInteractionItem.classList.remove('hover-anime')
-            }
-        }
-    })
+        })
+    }
 }
-
