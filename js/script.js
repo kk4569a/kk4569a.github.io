@@ -37,22 +37,6 @@ const lenis = new Lenis({
 });
 
 
-
-// ブレイクポイントを設定
-const mediaQuery = window.matchMedia('(min-width: 768px)');
-
-function checkWindow(windowSize) {
-    if (windowSize.matches) {  //pcの処理
-        cardHover();
-        scrollEventPcOnly()
-    } else {  //spの処理
-        sideButtonFlag = true;
-    }
-}
-
-mediaQuery.addEventListener('change', checkWindow);
-
-
 // アニメデュレーション
 const turnAnimeTime = 300;
 const transitionAnimeTime = 400;
@@ -210,55 +194,54 @@ function fadeInAnime(fadeInItem, fadeInLocation) {
 // スクロールイベント（pc,sp共通）
 let sideButtonFlag;
 function scrollEvent() {
-    window.addEventListener('scroll', function () {
-        // 更新
-        windowScroll = window.scrollY;
-        viewportHeight = window.innerHeight
-        htmlHeight = document.documentElement.scrollHeight
-        
-        // カバーウィンドウがフェードアウト
-        const section = document.getElementsByClassName('main-wrapper');
-        let coverWindowLeft = String(-45.8 - 54.2 * windowScroll / section[1].offsetTop)
-        if (coverWindowLeft < -100) { coverWindowLeft = -100; }
-        if(!humburgerMenuFlag) {  //ハンバーガーメニューを開いた瞬間処理を終了（慣性スクロールの効果を無視）
-            document.getElementsByClassName('cover-window')[0].style.left = coverWindowLeft + '%'
-        }
+    // 更新
+    windowScroll = window.scrollY;
+    viewportHeight = window.innerHeight
+    htmlHeight = document.documentElement.scrollHeight
     
-        // contactエリアでカラーチェンジ
-        const contactSection = section[section.length - 1];
-        if (windowScroll > contactSection.offsetTop - viewportHeight / 2) {
-            document.getElementsByTagName('html')[0].setAttribute('theme', 'contact')
-        } else {
-            document.getElementsByTagName('html')[0].setAttribute('theme', 'default')
+    // カバーウィンドウがフェードアウト
+    const section = document.getElementsByClassName('main-wrapper');
+    let coverWindowLeft = String(-45.8 - 54.2 * windowScroll / section[1].offsetTop)
+    if (coverWindowLeft < -100) { coverWindowLeft = -100; }
+    if(!humburgerMenuFlag) {  //ハンバーガーメニューを開いた瞬間処理を終了（慣性スクロールの効果を無視）
+        document.getElementsByClassName('cover-window')[0].style.left = coverWindowLeft + '%'
+    }
+
+    // contactエリアでカラーチェンジ
+    const contactSection = section[section.length - 1];
+    if (windowScroll > contactSection.offsetTop - viewportHeight / 2) {
+        document.getElementsByTagName('html')[0].setAttribute('theme', 'contact')
+    } else {
+        document.getElementsByTagName('html')[0].setAttribute('theme', 'default')
+    }
+
+    // トップに戻るとフェードイン
+    const topText = document.getElementsByClassName('text-animation-top')
+    for (let i = 0; i < topText.length; i++) {
+        if(topText[i].getBoundingClientRect().bottom < 0) {
+            topText[i].classList.add('fade-out')
+        } else if (topText[i].getBoundingClientRect().bottom - topText[i].clientHeight/2 >= 0) {
+            topText[i].classList.remove('fade-out')
         }
+    }
+
+    // 文字が出現
+    const textMain = document.getElementsByClassName('text-animation-main')
+    fadeInAnime(textMain, viewportHeight/10)
+    const textFooter = this.document.getElementsByClassName('text-animation-footer')
+    fadeInAnime(textFooter, 0)
     
-        // トップに戻るとフェードイン
-        const topText = document.getElementsByClassName('text-animation-top')
-        for (let i = 0; i < topText.length; i++) {
-            if(topText[i].getBoundingClientRect().bottom < 0) {
-                topText[i].classList.add('fade-out')
-            } else if (topText[i].getBoundingClientRect().bottom - topText[i].clientHeight/2 >= 0) {
-                topText[i].classList.remove('fade-out')
-            }
-        }
+    // 要素が出現
+    const item = document.getElementsByClassName('card-button');
+    fadeInAnime(item, viewportHeight/10)
     
-        // 文字が出現
-        const textMain = document.getElementsByClassName('text-animation-main')
-        fadeInAnime(textMain, viewportHeight/10)
-        const textFooter = this.document.getElementsByClassName('text-animation-footer')
-        fadeInAnime(textFooter, 0)
-        
-        // 要素が出現
-        const item = document.getElementsByClassName('card-button');
-        fadeInAnime(item, viewportHeight/10)
-        
-        // 線が出現
-        const sectionLine = document.getElementsByClassName('section-line')
-        fadeInAnime(sectionLine, viewportHeight/10)
-    })
+    // 線が出現
+    const sectionLine = document.getElementsByClassName('section-line')
+    fadeInAnime(sectionLine, viewportHeight/10)
 }    
+
 // スクロールイベント（pcのみ）
-function scrollEventPcOnly() {
+function pcOnlyScroll() {
     sideButtonFlag = false;
     window.addEventListener('scroll', function () {
         // サイドボタンがアクティブに
@@ -276,37 +259,62 @@ function scrollEventPcOnly() {
         }
     })
 }
+function scrollEventPcOnly() {
+    scrollEvent();
+    pcOnlyScroll();
+}
 
 
 // カードの処理
 let buttonFlag = true;
-function cardHover() {
-    const cardButton = document.getElementsByClassName('card-button')
-    let hoverInteractionItem;
-    for (let i = 0; i < cardButton.length; i++) {
-        cardButton[i].addEventListener('mousemove', function(event) {
-            if(buttonFlag) {
-                if (this.closest('section').getAttribute('id') == 'works' || this.closest('section').getAttribute('id') == 'about') {
-                    hoverInteractionItem = this.getElementsByClassName('hover-interaction-item')[0]
-                    const cardHeight = hoverInteractionItem.clientHeight;
-                    const cardWidth = hoverInteractionItem.clientWidth;
-                    const targetRect = hoverInteractionItem.getBoundingClientRect()
-                    const rotateYRatio = (event.clientX - targetRect.left - cardWidth/2)/(cardWidth/2)
-                    const rotateXRatio = (event.clientY - targetRect.top - cardHeight/2)/(cardHeight/2)
-                
-                    hoverInteractionItem.classList.add('hover-anime')
-                    hoverInteractionItem.style.transform = 'rotateY(' + -7*rotateYRatio + 'deg) rotateX(' + 7*rotateXRatio + 'deg) scale(1.03)'
-                }
-            }
-        })
-        cardButton[i].addEventListener('mouseleave', function() {
-            if(buttonFlag) {
-                hoverInteractionItem = this.getElementsByClassName('hover-interaction-item')[0]
-                if (this.closest('section').getAttribute('id') == 'works' || this.closest('section').getAttribute('id') == 'about') {
-                    hoverInteractionItem.style.transform = null;
-                    hoverInteractionItem.classList.remove('hover-anime')
-                }
-            }
-        })
+const cardButton = document.getElementsByClassName('card-button')
+let hoverInteractionItem;
+// ホバーアニメ
+function cardMouseHover() {
+    if(buttonFlag) {
+        if (this.closest('section').getAttribute('id') == 'works' || this.closest('section').getAttribute('id') == 'about') {
+            hoverInteractionItem = this.getElementsByClassName('hover-interaction-item')[0]
+            const cardHeight = hoverInteractionItem.clientHeight;
+            const cardWidth = hoverInteractionItem.clientWidth;
+            const targetRect = hoverInteractionItem.getBoundingClientRect()
+            const rotateYRatio = (event.clientX - targetRect.left - cardWidth/2)/(cardWidth/2)
+            const rotateXRatio = (event.clientY - targetRect.top - cardHeight/2)/(cardHeight/2)
+        
+            hoverInteractionItem.classList.add('hover-anime')
+            hoverInteractionItem.style.transform = 'rotateY(' + -7*rotateYRatio + 'deg) rotateX(' + 7*rotateXRatio + 'deg) scale(1.03)'
+        }
     }
 }
+// ホバーアニメオフ
+function cardMouseLeave() {
+    if(buttonFlag) {
+        if (this.closest('section').getAttribute('id') == 'works' || this.closest('section').getAttribute('id') == 'about') {
+            hoverInteractionItem = this.getElementsByClassName('hover-interaction-item')[0]
+            hoverInteractionItem.style.transform = null;
+            hoverInteractionItem.classList.remove('hover-anime')
+        }
+    }
+}
+
+
+// ブレイクポイントを設定
+const mediaQuery = window.matchMedia('(min-width: 768px)');
+function checkWindow(windowSize) {
+    if (windowSize.matches) {  //pcの処理
+        for (let i = 0; i < cardButton.length; i++) {
+            cardButton[i].addEventListener('mousemove', cardMouseHover)
+            cardButton[i].addEventListener('mouseleave', cardMouseLeave)
+        }
+        window.addEventListener('scroll', scrollEventPcOnly)
+        sideButtonFlag = false;
+    } else {  //spの処理
+        for (let i = 0; i < cardButton.length; i++) {
+            cardButton[i].removeEventListener('mousemove', cardMouseHover)
+            cardButton[i].removeEventListener('mouseleave', cardMouseLeave)
+        }
+        window.removeEventListener('scroll', scrollEventPcOnly)
+        window.addEventListener('scroll', scrollEvent)
+        sideButtonFlag = true;
+    }
+}
+mediaQuery.addEventListener('change', checkWindow);
