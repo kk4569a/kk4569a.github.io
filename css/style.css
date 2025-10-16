@@ -1225,10 +1225,6 @@ section {
             clip-path: none;
             background-color: var(--fontcolor);
             padding: 0;
-            right: auto;
-            left: 0;
-            top: -100%;
-            transition: top var(--transitiontime) ease, background-color var(--colorchangetime) ease;
 
             &::after {
                 display: none;
@@ -1268,7 +1264,7 @@ section {
 
         &.active {
             & nav {
-                top: 0;
+                right: 0;
             }
         }
     }
