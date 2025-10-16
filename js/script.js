@@ -253,7 +253,7 @@ function pcOnlyScroll() {
     viewportHeight = window.innerHeight
     const contactSection = section[section.length - 1];
     if (contactSection.getBoundingClientRect().top < viewportHeight/2) {
-        document.getElementsByTagName('html')[0].setAttribute('theme', 'contact')
+        document.getElementsByTagName('html')[0].setAttribute('theme', 'dark')
     } else {
         document.getElementsByTagName('html')[0].setAttribute('theme', 'default')
     }
