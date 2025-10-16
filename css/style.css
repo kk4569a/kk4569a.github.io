@@ -43,7 +43,7 @@ html {
     --fontcolor: #051428;
 }
 
-:root[theme = "contact"] {
+:root[theme = "dark"] {
     --backgroundcolor: #051428;
     --fontcolor: antiquewhite;
 } 
