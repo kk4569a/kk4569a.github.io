@@ -94,6 +94,77 @@ li {
 }
 
 
+
+/* ローディング */
+.loading {
+    opacity: 0;
+}
+.loaded-anime {
+    transition: opacity var(--transitiontime) ease;
+}
+
+.cover-window {
+    position: fixed;
+    z-index: 4;
+    height: 100vh;
+    width: 200vw;
+    top: 0%;
+    left: 100%;
+    background-color: #fff;
+    mix-blend-mode: difference;
+    transform: translateX(-50%);
+    clip-path: polygon(0% 0%, 100% 0%, 94% 100%, 0% 100%);
+
+    &.active {
+        left: -45.8%;
+        transition: left var(--openinganimetime) calc(var(--openinganimetime)*2) ease;
+    }
+
+    &.loaded {
+        left: -45.8%;
+        transition: left 0;
+    }
+
+    &.nav-open {
+        transition: left var(--transitiontime) ease;
+    }
+}
+
+.loading-window {
+    position: fixed;
+    z-index: 5;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--backgroundcolor);
+    font-size: var(--fbig);
+    transition: left var(--openinganimetime) calc(var(--openinganimetime)*2) ease;
+
+    & p {
+        opacity: 0;
+    }
+
+    &.active {
+        left: -100%;
+
+        & p {
+            animation: loadedAnime calc(var(--openinganimetime)*2) forwards;
+        }
+    }
+}
+@keyframes loadedAnime {
+    0% {opacity: 0;}
+    25% {opacity: 1;}
+    75% {opacity: 1;}
+    100% {opacity: 0;}
+}
+
+
+
 /* ナビゲーションリンクリンク */
 header, footer {
     nav {
@@ -130,7 +201,7 @@ header, footer {
                         display: flex;
                         justify-content: center;
                         align-items: center;
-                        transition: border var(--colorchangetime) ease;
+                        transition: border var(--colorchangetime) ease, background-color var(--colorchangetime) ease;
     
                     }
                     .nv-button-front {
@@ -233,74 +304,6 @@ footer {
     }
 }
 
-
-/* ローディング */
-.loading {
-    opacity: 0;
-}
-.loaded-anime {
-    transition: opacity var(--transitiontime) ease;
-}
-
-.cover-window {
-    position: fixed;
-    z-index: 4;
-    height: 100vh;
-    width: 200vw;
-    top: 0%;
-    left: 100%;
-    background-color: #fff;
-    mix-blend-mode: difference;
-    transform: translateX(-50%);
-    clip-path: polygon(0% 0%, 100% 0%, 94% 100%, 0% 100%);
-
-    &.active {
-        left: -45.8%;
-        transition: left var(--openinganimetime) calc(var(--openinganimetime)*2) ease;
-    }
-
-    &.loaded {
-        left: -45.8%;
-        transition: left 0;
-    }
-
-    &.nav-open {
-        transition: left var(--transitiontime) ease;
-    }
-}
-
-.loading-window {
-    position: fixed;
-    z-index: 5;
-    top: 0;
-    left: 0;
-    height: 100vh;
-    width: 100vw;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: var(--backgroundcolor);
-    font-size: var(--fbig);
-    transition: left var(--openinganimetime) calc(var(--openinganimetime)*2) ease;
-
-    & p {
-        opacity: 0;
-    }
-
-    &.active {
-        left: -100%;
-
-        & p {
-            animation: loadedAnime calc(var(--openinganimetime)*2) forwards;
-        }
-    }
-}
-@keyframes loadedAnime {
-    0% {opacity: 0;}
-    25% {opacity: 1;}
-    75% {opacity: 1;}
-    100% {opacity: 0;}
-}
 
 
 .side-menu {
@@ -1304,6 +1307,7 @@ section {
                         background-color: var(--backgroundcolor);
                         border: var(--borderweight) solid var(--fontcolor);
                         padding: var(--cardpaddingsize);
+                        transition: background-color var(--colorchangetime) ease, border var(--colorchangetime) ease;
 
                         & h1 {
                             font-size: var(--fmiddle);
@@ -1378,6 +1382,7 @@ section {
                 display: flex;
                 font-weight: bold;
                 cursor: pointer;
+                transition: background-color var(--colorchangetime) ease, color var(--colorchangetime) ease, border var(--colorchangetime) ease;
 
                 .icon-wrapper {
                     position: absolute;
