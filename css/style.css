@@ -1163,10 +1163,11 @@ section {
 @media screen and (max-width: 768px) {
     :root {
         --ftext: 1.6rem;
-        --fsmall:calc(var(--ftext)*3/1.6);
-        --ftitle: calc(var(--ftext)*18/1.6);
-        --fbig: calc(var(--ftext)*7/1.6);
-        --buttonheight: calc(var(--ftext)*4/1.6);
+        --fsmall: 3rem;
+        --fmiddle: 5rem;
+        --fbig: 7rem;
+        --ftitle: 18rem;
+        --buttonheight: 4rem;
     }
     .loading-window {
         background-color: var(--fontcolor);
@@ -1279,30 +1280,43 @@ section {
     main{
         .main-top {
             overflow: hidden;
-            
+            padding: 0;
+
             .main-top-text {
                 &.main-top-text-sp {
                     display: flex;
-                    align-items: flex-start;
+                    
+                    & p {
+                        position: absolute;
+                        top: 50%;
+                        left: 50%;
+                        transform: translate(-50%, -50%);
+                        writing-mode: vertical-rl;
+                        font-size: var(--ftitle);
+                        line-height: 1;
+                        opacity: 0.3;
+                    }
+    
+                    .main-top-text-title-wrapper {
+                        z-index: 1;
+                        width: fit-content;
+                        height: fit-content;
+                        display: flex;
+                        flex-direction: column;
+                        align-items: center;
+                        justify-content: center;
+                        background-color: var(--backgroundcolor);
+                        border: var(--borderweight) solid var(--fontcolor);
+                        padding: var(--cardpaddingsize);
+
+                        & h1 {
+                            font-size: var(--fmiddle);
+                        }
+                    }
                 }
 
                 &.main-top-text-pc {
                     display: none;
-                }
-
-                & h1 {
-                    font-size: var(--fbig);
-                }
-
-                & p {
-                    position: absolute;
-                    top: 50%;
-                    left: 50%;
-                    transform: translate(-50%, -50%);
-                    writing-mode: vertical-rl;
-                    font-size: var(--ftitle);
-                    line-height: 1;
-                    opacity: 0.3;
                 }
             }
 
