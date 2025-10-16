@@ -163,18 +163,6 @@ li {
     100% {opacity: 0;}
 }
 
-
-.upper-item {
-    position: fixed;
-    z-index: 1000;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 6px;
-    background-color: var(--fontcolor);
-}
-
-
 /* ナビゲーションリンクリンク */
 header, footer {
     nav {
@@ -1234,7 +1222,7 @@ section {
 
     .side-menu {
         & nav {
-            height: 120svh;
+            height: 100lvh;
             clip-path: none;
             background-color: var(--fontcolor);
             padding: 0;
