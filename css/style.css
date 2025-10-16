@@ -95,72 +95,77 @@ li {
 
 
 /* ナビゲーションリンクリンク */
-header, footer{
-    & ul {
+header, footer {
+    nav {
         position: absolute;
         z-index: 5;
         right: 10%;
-        height: fit-content;
-        display: flex;
-        
-        & li{
-            margin-left: 2vw;
-            padding: 1vh 0;
-            display: flex;
-            perspective: calc(var(--buttonheight)*10);
-
-            .nv-button-wrapper {
-                position: relative;
-                height: var(--buttonheight);
-                aspect-ratio: 3/1;
-                transform-style: preserve-3d;
-                font-size: var(--fsmall);
-                font-weight: bold;
-                transition: transform var(--transitiontime) ease;
-
-                .nv-button-face {
-                    position: absolute;
-                    height: 100%;
-                    width: 100%;
-                    backface-visibility: hidden;
-                    border: var(--borderweight) solid var(--fontcolor);
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                    transition: border var(--colorchangetime) ease;
-
-                }
-                .nv-button-front {
-                    transform: translateZ(calc(var(--buttonheight)/2));
-                }
-                .nv-button-bottom {
-                    transform: translateY(calc(var(--buttonheight)/2)) rotateX(-90deg);
-                }
-            }
-
-            &:hover {
+    
+        & ul {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: var(--cardmarginsize);
+            
+            & li{
+                padding: .5vmax 0;
+                display: flex;
+                perspective: calc(var(--buttonheight)*10);
+    
                 .nv-button-wrapper {
-                    transform: rotateX(90deg);
+                    position: relative;
+                    height: var(--buttonheight);
+                    aspect-ratio: 3/1;
+                    transform-style: preserve-3d;
+                    font-size: var(--fsmall);
+                    font-weight: bold;
+                    transition: transform var(--transitiontime) ease;
+    
+                    .nv-button-face {
+                        position: absolute;
+                        height: 100%;
+                        width: 100%;
+                        backface-visibility: hidden;
+                        border: var(--borderweight) solid var(--fontcolor);
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        transition: border var(--colorchangetime) ease;
+    
+                    }
+                    .nv-button-front {
+                        transform: translateZ(calc(var(--buttonheight)/2));
+                    }
+                    .nv-button-bottom {
+                        transform: translateY(calc(var(--buttonheight)/2)) rotateX(-90deg);
+                    }
+                }
+    
+                &:hover {
+                    .nv-button-wrapper {
+                        transform: rotateX(90deg);
+                    }
                 }
             }
         }
-    }
-} 
+    } 
+}
 
 header {
-    .hearder-wrapper {
+    nav {
+        top: calc(var(--footersize)/2);
+        transform: translateY(-50%);
+
+        
         & ul {
-            transform: translateY(-50%);
-            top: calc(var(--footersize)/2);
-    
             .text-animation {
+                display: flex;
                 overflow: hidden;
                 
                 & span {
                     transform: translateY(0);
                     transition: transform var(--transitiontime) calc(var(--letteranimetime) - var(--letteranimetime)/var(--letterlength) * var(--j)) ease;
                 }
-
+    
                 &.fade-out{
                     & span {
                         transform: translateY(-100%);
@@ -169,36 +174,62 @@ header {
                 }
             }
         }
-
     }
 
     &.loading {
-        .hearder-wrapper {
-            & ul {
-                .text-animation {
-                    & span {
-                        transform: translateY(100%);
-                    }
+        & ul {
+            .text-animation {
+                & span {
+                    transform: translateY(100%);
                 }
             }
         }
     }
 
     &.loaded {
-        .hearder-wrapper {
-            & ul {
-                .text-animation {
-                    & span {
-                        transition: transform var(--transitiontime) calc(var(--transitiontime)*3/4 + var(--letteranimetime)/var(--letterlength) * var(--j) + var(--transitiongaptime)*var(--i)) ease;
-                    }
+        & ul {
+            .text-animation {
+                & span {
+                    transition: transform var(--transitiontime) calc(var(--transitiontime)*3/4 + var(--letteranimetime)/var(--letterlength) * var(--j) + var(--transitiongaptime)*var(--i)) ease;
                 }
             }
         }
     }
 }
-footer ul {
-    transform: translateY(50%);
-    bottom: calc(var(--footersize)/2);
+
+footer {
+    position: relative;
+    height: var(--footersize);
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 0 10vw;
+    
+    .copyright {
+        font-size: var(--ftext);
+    }
+
+    .text-animation {
+        display: flex;
+        overflow: hidden;
+
+        & span {
+            transform: translateY(100%);
+            transition: transform 0s 0s;
+        }
+
+        &.fade-in {
+            & span {
+                transform: translateY(0);
+                transition: transform var(--transitiontime) calc(var(--letteranimetime)/var(--letterlength) * var(--j)) ease;
+            }
+        }
+    }
+
+    nav {
+        bottom: calc(var(--footersize)/2);
+        transform: translateY(50%);
+    }
 }
 
 
@@ -346,15 +377,13 @@ footer ul {
     /* サイドボタン共通 */
     .side-button-icon {
         position: fixed;
-        height: var(--sidebuttonsize);
-        aspect-ratio: 1;
         perspective: calc(var(--sidebuttonsize)*10);
         transition: opacity calc(var(--transitiontime)/2) ease, top 0s calc(var(--transitiontime)/2);
         
         .side-button-icon-wrapper {
             position: relative;
-            height: 100%;
-            width: 100%;
+            height: var(--sidebuttonsize);
+            aspect-ratio: 1;
             transform-style: preserve-3d;
             transform: rotateX(-90deg);
             transition: transform var(--transitiontime) ease;
@@ -406,14 +435,18 @@ footer ul {
         }
     }
 
-    .site-top-button-detection {
+    .site-top-button-detection-wrapper {
+        padding: .8vmax 0;
         position: fixed;
         z-index: 15;
         top: calc(var(--footersize)/2);
         left: 5%;
         transform: translate(-50%, -50%);
-        height: var(--sidebuttonsize);
-        aspect-ratio: 1;
+        
+        .site-top-button-detection {
+            height: var(--sidebuttonsize);
+            aspect-ratio: 1;
+        }
     }
 
     .site-top-button {
@@ -446,6 +479,7 @@ footer ul {
         top: calc(var(--footersize)/2);
         right: 5%;
         transform: translate(50%, -50%);
+        padding: .8vmax 0;
 
         & span {
             left: 50%;
@@ -465,6 +499,7 @@ footer ul {
         top: calc(100% - var(--footersize)/2);
         right: 5%;
         transform: translate(50%, -50%);
+        padding: .8vmax 0;
 
         & span {
             bottom: 10%;
@@ -554,12 +589,13 @@ main {
     
             & h1 {
                 font-size: var(--ftitle);
+                font-weight: bold;
             }
     
             & p {
-                font-family: serif;
-                font-weight: 900;
+                font-weight: bold;
                 font-size: var(--ftitle);
+                font-family: serif;
                 color: var(--backgroundcolor);
                 -webkit-text-stroke: var(--textborderweight) var(--fontcolor);
                 transition: color var(--colorchangetime) ease, -webkit-text-stroke var(--colorchangetime) ease;
@@ -756,12 +792,14 @@ section {
         transition: transform var(--transitiontime) ease, box-shadow var(--transitiontime) ease, background-color var(--colorchangetime) ease, color var(--colorchangetime) ease, border var(--colorchangetime) ease;
         display: flex;
         flex-direction: column;
+        justify-content: center;
         align-items: center;
-
+        
         .works-card-item {
+            width: fit-content;
             display: flex;
-            align-items: center;
             justify-content: center;
+            align-items: center;
             margin-bottom: calc(var(--cardpaddingsize)/2);
         }
         
@@ -796,18 +834,24 @@ section {
             }
         }
 
-        .works-card-icon {
-            font-size: var(--fmiddle);
-
-            .icon-wrapper {
-                display: flex;
-                overflow: hidden;
-            }
+        .icon-animation {
+            display: flex;
+            overflow: hidden;
 
             & ion-icon {
                 transform: translateY(100%);
                 transition: transform 0s 0s;
                 will-change: transform;
+            }
+        }
+
+        .works-card-visit-button {
+            display: none;
+        }
+
+        .works-card-icon {
+            & ion-icon {
+                font-size: var(--fmiddle);
             }
         }
 
@@ -864,7 +908,7 @@ section {
                 }
             }
 
-            .works-card-icon {
+            .icon-animation {
                 & ion-icon {
                     transform: translateY(0);
                     transition: transform var(--transitiontime) calc(var(--transitiontime)*3/4 + var(--transitiongaptime)*var(--i)) ease;
@@ -1114,43 +1158,14 @@ section {
 
 
 
-
-/* フッター */
-footer {
-    position: relative;
-    height: var(--footersize);
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    padding: 0 10vw;
-    
-    .copyright {
-        font-size: var(--ftext);
-    }
-
-    .text-animation {
-        display: flex;
-        overflow: hidden;
-
-        & span {
-            transform: translateY(100%);
-            transition: transform 0s 0s;
-        }
-
-        &.fade-in {
-            & span {
-                transform: translateY(0);
-                transition: transform var(--transitiontime) calc(var(--letteranimetime)/var(--letterlength) * var(--j)) ease;
-            }
-        }
-    }
-}
-
-
-
+/* スマホ用のスタイル */
 @media screen and (max-width: 768px) {
     :root {
-        --ftext: 1.5rem;
+        --ftext: 1.6rem;
+        --fsmall:calc(var(--ftext)*3/1.6);
+        --ftitle: calc(var(--ftext)*5/1.6);
+        --fbig: calc(var(--ftext)*7/1.6);
+        --buttonheight: calc(var(--ftext)*4/1.6);
     }
     .loading-window {
         background-color: var(--fontcolor);
@@ -1159,8 +1174,56 @@ footer {
         display: none;
     }
 
+    header, footer {
+        & nav {
+            position: relative;
+            top: auto;
+            bottom: auto;
+            right: auto;
+            transform: translateY(0);
+
+            & ul {
+                grid-template-columns: none;
+                grid-template-rows: repeat(3, 1fr);
+                gap: var(--cardpaddingsize);
+    
+                & li {
+                    padding: 0;
+                    perspective: none;
+
+                    .nv-button-wrapper {
+                        font-size: var(--ftext);
+                    }
+    
+                    &:hover {
+                        .nv-button-wrapper {
+                            transform: rotateX(0);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     header {
-        display: none;
+        position: absolute;
+        bottom: var(--cardpaddingsize);
+        padding-left: var(--fbig);
+        display: flex;
+        width: 100%;
+        justify-content: center;
+    }
+
+    footer {
+        height: fit-content;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: var(--cardpaddingsize);
+
+        .copyright {
+            margin-top: var(--cardpaddingsize);
+        }
     }
 
     .side-menu {
@@ -1186,16 +1249,21 @@ footer {
         }
 
         .side-button-icon {
+            perspective: none;
+            padding: 0;
+            transform: translate(0, 0);
+            top: var(--cardpaddingsize);
+
             .side-button-icon-wrapper {
                 transform: rotateX(0);
             }
         }
 
         .site-top-button {
-            left: var(--sidebuttonsize);
+            left: var(--cardpaddingsize);
         }
         .humburger-menu-icon {
-            right: calc(var(--sidebuttonsize));
+            right: var(--cardpaddingsize);
         }
         .page-top-arrow, .site-top-button-detection {
             display: none;
@@ -1214,33 +1282,26 @@ footer {
                 &.main-top-text-sp {
                     display: flex;
                     align-items: flex-start;
+                    padding-left: var(--fbig);
                 }
 
                 &.main-top-text-pc {
                     display: none;
                 }
 
-                & h1, p {
-                    font-size: calc(var(--fmiddle)*1.2);
+                & p {
+                    position: absolute;
+                    bottom: var(--cardpaddingsize);
+                    left: 0;
+                    white-space: nowrap;
+                    writing-mode: vertical-rl;
+                    font-size: var(--fbig);
                 }
             }
-        }
-    }
-    @keyframes pathmove{
-        0%{
-            height:0;
-            top:100%;
-            opacity: 0;
-        }
-        50%{
-            height: 3rem;
-            opacity: 1;
-            top: calc(100% + 1rem);
-        }
-        100%{
-            height:0;
-            opacity: 0;
-            top: calc(100% + 4rem);
+
+            .scrolldown {
+                display: none;
+            }
         }
     }
 
@@ -1248,7 +1309,11 @@ footer {
         padding: calc(var(--sectionmarginsize)/2) 0;
 
         .main-wrapper-title {
-            margin-bottom: var(--cardmarginsize);
+            margin-bottom: calc(var(--cardmarginsize)*2);
+
+            & p {
+                font-size: var(--ftext);
+            }
         }
     }
 
@@ -1264,6 +1329,52 @@ footer {
                 
                 .card-button-face-wrapper {
                     transition: opacity var(--transitiontime) 0s ease;
+                }
+            }
+        }
+    }
+
+    .works-card-button {
+        cursor: default;
+        
+        .card-button-face {
+            align-items: flex-start;
+
+            .works-card-item {
+                align-items: flex-start;
+                margin-left: 10%;
+            }
+
+            .works-card-image {
+                box-shadow: none;
+            }
+
+            .works-card-visit-button {
+                position: relative;
+                width: 80%;
+                padding: calc(var(--cardpaddingsize)/2) var(--cardpaddingsize);
+                margin: 0 auto calc(var(--cardpaddingsize)/2);
+                border: var(--borderweight) solid var(--fontcolor);
+                background-color: var(--fontcolor);
+                color: var(--backgroundcolor);
+                font-size: var(--fsmall);
+                display: flex;
+                font-weight: bold;
+                cursor: pointer;
+
+                .icon-wrapper {
+                    position: absolute;
+                    right: var(--cardpaddingsize);
+                }
+            }
+
+            .works-card-icon, .works-card-title {
+                & ion-icon, & h3, & p {
+                    font-size: var(--fsmall);
+                    -webkit-text-stroke: 0;
+                }
+                .cover-text {
+                    display: none;
                 }
             }
         }
@@ -1328,9 +1439,12 @@ footer {
                             margin-right: 0;
                             margin-bottom: calc(var(--cardpaddingsize));
                             flex-direction: row;
+                            align-items: center;
 
                             .icon-wrapper {
                                 font-size: var(--fsmall);
+                                margin-bottom: 0;
+                                margin-right: calc(var(--cardpaddingsize)/3);
                             }
                         }
 
@@ -1377,33 +1491,6 @@ footer {
     .contact-card-button {
         .card-button-outer {
             width: 100%;
-        }
-    }
-
-    footer {
-        height: fit-content;
-        flex-direction: column;
-        justify-content: flex-start;
-        padding: var(--cardpaddingsize);
-
-        & ul{
-            position: relative;
-            flex-direction: column;
-            right: 0;
-            
-            & li {
-                margin: 0;
-
-                &:hover {
-                    .nv-button-wrapper {
-                        transform: rotateX(0);
-                    }
-                }
-            }
-        }
-
-        .copyright {
-            margin-top: var(--cardpaddingsize);
         }
     }
 }
