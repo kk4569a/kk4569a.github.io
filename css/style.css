@@ -135,7 +135,7 @@ li {
     z-index: 5;
     top: 0;
     left: 0;
-    height: 100vh;
+    height: 100lvh;
     width: 100vw;
     display: flex;
     justify-content: center;
@@ -163,6 +163,16 @@ li {
     100% {opacity: 0;}
 }
 
+
+.upper-item {
+    position: fixed;
+    z-index: 1000;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 6px;
+    background-color: var(--fontcolor);
+}
 
 
 /* ナビゲーションリンクリンク */
