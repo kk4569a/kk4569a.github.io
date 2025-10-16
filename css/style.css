@@ -1,6 +1,5 @@
 html {
     font-size: 62.5%;
-    background-color: var(--fontcolor);
 }
 
 :root {
@@ -535,13 +534,9 @@ footer {
 
         .humburger-menu-icon {
             .side-button-icon-face {
-                background-color: var(--fontcolor);
-                border: var(--borderweight) solid var(--backgroundcolor);
-
                 & span {
                     top: 50%;
                     transition: top calc(var(--transitiontime)/2) 0s, transform calc(var(--transitiontime)/2) calc(var(--transitiontime)/2), background-color var(--colorchangetime) ease, width 0s calc(var(--transitiontime)/2);
-                    background-color: var(--backgroundcolor);
         
                     &:nth-child(1) {transform: rotateZ(45deg) translate(-50%, -50%);}
                     &:nth-child(2) {transform: rotateZ(-45deg) translate(-50%, -50%);}
@@ -1229,7 +1224,7 @@ section {
 
     .side-menu {
         & nav {
-            height: 100dvh;
+            height: 120svh;
             clip-path: none;
             background-color: var(--fontcolor);
             padding: 0;
