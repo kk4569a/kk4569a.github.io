@@ -1384,11 +1384,9 @@ footer {
         height: fit-content;
         flex-direction: column;
         justify-content: flex-start;
-        height: calc(var(--footersize)*1.5);
         padding: var(--cardpaddingsize);
 
         & ul{
-            margin-bottom: var(--cardpaddingsize);
             position: relative;
             flex-direction: column;
             right: 0;
@@ -1402,6 +1400,10 @@ footer {
                     }
                 }
             }
+        }
+
+        .copyright {
+            margin-top: var(--cardpaddingsize);
         }
     }
 }
