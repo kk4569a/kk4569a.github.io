@@ -1166,7 +1166,7 @@ section {
         --fsmall: 3rem;
         --fmiddle: 5rem;
         --fbig: 7rem;
-        --ftitle: 18rem;
+        --ftitle: 17rem;
         --buttonheight: 4rem;
     }
     .loading-window {
@@ -1279,7 +1279,6 @@ section {
 
     main{
         .main-top {
-            overflow: hidden;
             padding: 0;
 
             .main-top-text {
