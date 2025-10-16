@@ -1,7 +1,6 @@
 // 読み込み時の処理
 window.addEventListener('load', function () {
     document.getElementsByTagName('html')[0].classList.add('no-scroll')
-    document.getElementsByTagName('body')[0].classList.add('no-scroll')
     document.getElementsByClassName('loading-window')[0].classList.add('active')
     const coverWindow = document.getElementsByClassName('cover-window')
     coverWindow[0].classList.add('active')
@@ -25,7 +24,6 @@ window.addEventListener('load', function () {
     
     setTimeout(() => {
         document.getElementsByTagName('html')[0].classList.remove('no-scroll')
-        document.getElementsByTagName('body')[0].classList.remove('no-scroll')
         document.getElementsByTagName('html')[0].removeAttribute('onwheel')  //慣性スクロールオン
         for(let i = 0; i < document.getElementsByClassName('loaded-anime').length; i++) {
             document.getElementsByClassName('loaded-anime')[i].classList.remove('loaded')
@@ -153,7 +151,6 @@ function humburgerMenu() {
         humburgerMenuFlag = true;
         document.getElementsByTagName('html')[0].setAttribute('onwheel', 'event.stopPropagation()')  //慣性スクロールオフ
         document.getElementsByTagName('html')[0].classList.add('no-scroll')
-        document.getElementsByTagName('body')[0].classList.add('no-scroll')
         document.getElementsByClassName('cover-window')[0].classList.add('nav-open')
         document.getElementsByClassName('cover-window')[0].style.left = "-44%"
     }
@@ -167,7 +164,6 @@ function humburgerMenu() {
         setTimeout(() => {    
             humburgerMenuFlag = false;
             document.getElementsByTagName('html')[0].classList.remove('no-scroll')
-            document.getElementsByTagName('body')[0].classList.remove('no-scroll')
             document.getElementsByTagName('html')[0].removeAttribute('onwheel')  //慣性スクロールオン
             document.getElementsByClassName('cover-window')[0].classList.remove('nav-open')
         }, 400);
