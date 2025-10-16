@@ -153,8 +153,7 @@ function humburgerMenu() {
     
     if (!humburgerMenuFlag) {
         humburgerMenuFlag = true;
-        document.getElementsByTagName('html')[0].setAttribute('onwheel', 'event.stopPropagation()')  //慣性スクロールオフ
-        document.getElementsByTagName('html')[0].classList.add('no-scroll')
+        lenis.stop();  //慣性スクロールオフ
         document.getElementsByClassName('cover-window')[0].classList.add('nav-open')
         document.getElementsByClassName('cover-window')[0].style.left = "-44%"
     }
@@ -164,11 +163,10 @@ function humburgerMenu() {
         let coverWindowLeft = String(-45.8 - 54.2 * windowScroll / section[1].offsetTop)
         if (coverWindowLeft < -100) { coverWindowLeft = -100; }
         document.getElementsByClassName('cover-window')[0].style.left = coverWindowLeft + '%'
-
+        
         setTimeout(() => {    
             humburgerMenuFlag = false;
-            document.getElementsByTagName('html')[0].classList.remove('no-scroll')
-            document.getElementsByTagName('html')[0].removeAttribute('onwheel')  //慣性スクロールオン
+            lenis.start();  //慣性スクロールオン
             document.getElementsByClassName('cover-window')[0].classList.remove('nav-open')
         }, 400);
     }
