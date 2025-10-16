@@ -193,6 +193,7 @@ function fadeInAnime(fadeInItem, fadeInLocation) {
 
 // スクロールイベント（pc,sp共通）
 let sideButtonFlag;
+const section = document.getElementsByClassName('main-wrapper');
 function scrollEvent() {
     // 更新
     windowScroll = window.scrollY;
@@ -200,19 +201,10 @@ function scrollEvent() {
     htmlHeight = document.documentElement.scrollHeight
     
     // カバーウィンドウがフェードアウト
-    const section = document.getElementsByClassName('main-wrapper');
     let coverWindowLeft = String(-45.8 - 54.2 * windowScroll / section[1].offsetTop)
     if (coverWindowLeft < -100) { coverWindowLeft = -100; }
     if(!humburgerMenuFlag) {  //ハンバーガーメニューを開いた瞬間処理を終了（慣性スクロールの効果を無視）
         document.getElementsByClassName('cover-window')[0].style.left = coverWindowLeft + '%'
-    }
-
-    // contactエリアでカラーチェンジ
-    const contactSection = section[section.length - 1];
-    if (windowScroll > contactSection.offsetTop - viewportHeight / 2) {
-        document.getElementsByTagName('html')[0].setAttribute('theme', 'contact')
-    } else {
-        document.getElementsByTagName('html')[0].setAttribute('theme', 'default')
     }
 
     // トップに戻るとフェードイン
@@ -243,21 +235,28 @@ function scrollEvent() {
 // スクロールイベント（pcのみ）
 function pcOnlyScroll() {
     sideButtonFlag = false;
-    window.addEventListener('scroll', function () {
-        // サイドボタンがアクティブに
-        const header = document.getElementsByClassName('header-menu')
-        if (header[0].getBoundingClientRect().bottom <= 0) {
-            for (let i = 0; i < document.getElementsByClassName('side-button-icon').length; i++) {
-                document.getElementsByClassName('side-button-icon')[i].classList.add('fade-in', 'mouse-hover-item')
-                sideButtonFlag = true;
-            }
-        } else {
-            for (let i = 0; i < document.getElementsByClassName('side-button-icon').length; i++) {
-                document.getElementsByClassName('side-button-icon')[i].classList.remove('fade-in', 'mouse-hover-item')
-                sideButtonFlag = false;
-            }
+    // サイドボタンがアクティブに
+    const header = document.getElementsByClassName('header-menu')
+    if (header[0].getBoundingClientRect().bottom <= 0) {
+        for (let i = 0; i < document.getElementsByClassName('side-button-icon').length; i++) {
+            document.getElementsByClassName('side-button-icon')[i].classList.add('fade-in', 'mouse-hover-item')
+            sideButtonFlag = true;
         }
-    })
+    } else {
+        for (let i = 0; i < document.getElementsByClassName('side-button-icon').length; i++) {
+            document.getElementsByClassName('side-button-icon')[i].classList.remove('fade-in', 'mouse-hover-item')
+            sideButtonFlag = false;
+        }
+    }
+
+    // contactエリアでカラーチェンジ
+    viewportHeight = window.innerHeight
+    const contactSection = section[section.length - 1];
+    if (contactSection.getBoundingClientRect().top < viewportHeight/2) {
+        document.getElementsByTagName('html')[0].setAttribute('theme', 'contact')
+    } else {
+        document.getElementsByTagName('html')[0].setAttribute('theme', 'default')
+    }
 }
 function scrollEventPcOnly() {
     scrollEvent();
