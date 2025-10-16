@@ -63,7 +63,11 @@ const transitionGapTime = 100;
 function textCopy() {
     const textCopyItem = document.getElementsByClassName('text-copy')
     for (let i = 0; i < textCopyItem.length; i++) {
-        textCopyItem[i].innerHTML = textCopyItem[i].previousElementSibling.textContent;
+        if(textCopyItem[i].previousElementSibling == null) {
+            textCopyItem[i].innerHTML = textCopyItem[i].parentElement.previousElementSibling.children[0].textContent
+        } else {
+            textCopyItem[i].innerHTML = textCopyItem[i].previousElementSibling.textContent;
+        }
     }
 }
 // 要素複製
@@ -132,7 +136,7 @@ for (let i = 0; i < navButton.length; i++) {
 }
 
 // サイトトップボタンの処理
-const siteTopButton = document.getElementsByClassName('site-top-button-detection')
+const siteTopButton = document.getElementsByClassName('site-top-button-detection-wrapper')
 siteTopButton[0].addEventListener('mouseover', function() {
     document.getElementsByClassName('site-top-button')[0].classList.add('hover')
 }) 
@@ -205,7 +209,7 @@ function fadeInAnime(fadeInItem, fadeInLocation) {
     }
 }
 
-// スクロールイベント
+// スクロールイベント（pc,sp共通）
 let sideButtonFlag;
 function scrollEvent() {
     window.addEventListener('scroll', function () {
@@ -255,7 +259,7 @@ function scrollEvent() {
         fadeInAnime(sectionLine, viewportHeight/10)
     })
 }    
-// PCの場合の処理
+// スクロールイベント（pcのみ）
 function scrollEventPcOnly() {
     sideButtonFlag = false;
     window.addEventListener('scroll', function () {
