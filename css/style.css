@@ -1279,7 +1279,7 @@ section {
 
     main{
         .main-top {
-            height: 100dvh;
+            height: 100svh;
             padding: 0;
 
             .main-top-text {
