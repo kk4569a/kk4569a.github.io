@@ -3,7 +3,6 @@ html {
 }
 
 :root {
-    --minfontratio: 16/18;
     --basewindowsize: calc(1920*1);
     --vwratio: calc(100vw/var(--basewindowsize));
 
@@ -11,24 +10,23 @@ html {
     --fontcolor: #051428;
 
 
-    --ftext: clamp(calc(1.8rem*var(--minfontratio)), calc(18*var(--vwratio)), calc(18*var(--vwratio)));
-    --ftitle: 24vh;
-    --fbig: calc(var(--ftext)*10/1.8);
-    --fmiddle: calc(var(--ftext)*7/1.8);
-    --fsmall: calc(var(--ftext)*3/1.8);
+    --ftext: clamp(1.8rem, calc(18*var(--vwratio)), calc(18*var(--vwratio)));
+    --ftitle: 23vh;
+    /* --fbig: calc(var(--ftext)*10/1.8); */
+    --fmiddle: calc(var(--ftext)*3);
+    --fsmall: calc(var(--ftext)*2);
 
     --borderweight: .3rem;
     --textborderweight: .15rem;
 
-    --sidebuttonsize: calc(var(--ftext)*6/1.8);
-    --cardwidth: calc(var(--ftext)*38/1.8);
-    --buttonheight: calc(var(--ftext)*5/1.8);
-    --cardshadowsize: calc(var(--cardwidth)*6/100);
+    --sidebuttonsize: calc(var(--ftext)*3);
+    --cardwidth: calc(var(--ftext)*20);
+    --cardshadowsize: calc(var(--cardwidth)*.05);
     --footersize: 20vh;
 
-    --sectionmarginsize: calc(var(--ftext)*12/1.8);
-    --cardpaddingsize: calc(var(--ftext)*1);
-    --cardmarginsize: calc(var(--ftext)*3/1.8);
+    --sectionmarginsize: calc(var(--ftext)*7);
+    --cardpaddingsize: calc(var(--ftext)*1.5);
+    --cardmarginsize: calc(var(--ftext)*1.4);
 
     --turntime: .3s;
     --letteranimetime: .3s;
@@ -65,7 +63,6 @@ html {
 body {
     font-family: sans-serif;
     letter-spacing: .05rem;
-    line-height: 1.2;
     background-color: var(--backgroundcolor);
     color: var(--fontcolor);
     transition-timing-function: ease;
@@ -93,7 +90,9 @@ li {
     list-style-type: none;
 }
 
-
+hr {
+    border: none;
+}
 
 /* ローディング */
 .loading {
@@ -130,10 +129,10 @@ li {
     display: flex;
     justify-content: center;
     align-items: center;
-    color: var(--backgroundcolor);
-    font-size: var(--fbig);
-    transition: left var(--openinganimetime) calc(var(--openinganimetime)*2) ease;
     background-color: var(--fontcolor);
+    color: var(--backgroundcolor);
+    font-size: var(--ftitle);
+    transition: left var(--openinganimetime) calc(var(--openinganimetime)*2) ease;
 
     & p {
         opacity: 0;
@@ -156,7 +155,7 @@ li {
 
 /* ナビゲーションリンクリンク */
 header, footer {
-    nav {
+    & nav {
         position: absolute;
         z-index: 5;
         right: 10%;
@@ -165,18 +164,22 @@ header, footer {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: var(--cardmarginsize);
+
+            .nav-button-sp {
+                display: none;
+            }
             
-            & li{
+            & li {
                 padding: .5vmax 0;
                 display: flex;
-                perspective: calc(var(--buttonheight)*10);
+                perspective: calc(var(--sidebuttonsize)*10);
     
                 .nv-button-wrapper {
                     position: relative;
-                    height: var(--buttonheight);
-                    aspect-ratio: 3/1;
+                    height: var(--sidebuttonsize);
+                    aspect-ratio: 2.5/1;
                     transform-style: preserve-3d;
-                    font-size: var(--fsmall);
+                    font-size: var(--ftext);
                     font-weight: bold;
                     transition: transform var(--transitiontime) ease;
     
@@ -194,10 +197,10 @@ header, footer {
     
                     }
                     .nv-button-front {
-                        transform: translateZ(calc(var(--buttonheight)/2));
+                        transform: translateZ(calc(var(--sidebuttonsize)/2));
                     }
                     .nv-button-bottom {
-                        transform: translateY(calc(var(--buttonheight)/2)) rotateX(-90deg);
+                        transform: translateY(calc(var(--sidebuttonsize)/2)) rotateX(-90deg);
                     }
                 }
     
@@ -338,11 +341,11 @@ footer {
             & li {
                 position: relative;
                 display: flex;
-                margin: calc(var(--cardpaddingsize)/2) 0;
+                margin: calc(var(--cardpaddingsize)) 0;
 
                 & p {
                     display: flex;
-                    font-size: var(--fbig);
+                    font-size: var(--fmiddle);
                     font-weight: bold;
                     color: var(--backgroundcolor);
                     -webkit-text-stroke: var(--textborderweight) var(--backgroundcolor);
@@ -374,7 +377,6 @@ footer {
     /* サイドボタン共通 */
     .side-button-icon {
         position: fixed;
-        z-index: 15;
         perspective: calc(var(--sidebuttonsize)*10);
         transition: opacity calc(var(--transitiontime)/2) ease, top 0s calc(var(--transitiontime)/2);
         padding: .8vmax 0;
@@ -399,7 +401,6 @@ footer {
             }
 
             .side-button-icon-top {
-                background-color: var(--fontcolor);
                 transform: translateY(calc(-1*var(--sidebuttonsize)/2)) rotateX(90deg);
                 transition: background-color var(--colorchangetime) ease, border var(--colorchangetime);
             }
@@ -420,7 +421,6 @@ footer {
             border-radius: var(--borderweight);
         }
 
-        
         &.fade-in {
             .side-button-icon-wrapper {
                 transform: rotateX(0);
@@ -435,6 +435,7 @@ footer {
     }
 
     .site-top-button {
+        z-index: 15;
         top: calc(var(--footersize)/2);
         left: 5%;
         transform: translate(-50%, -50%);
@@ -443,7 +444,7 @@ footer {
             transform: rotateX(0);
             
             .side-button-icon-face {
-                font-size: calc(var(--fsmall)*1.5);
+                font-size: var(--fsmall);
                 display: flex;
                 justify-content: center;
                 align-items: center;
@@ -453,39 +454,62 @@ footer {
     
     /* ハンバーガーメニューボタン */
     .humburger-menu-icon {
+        z-index: 15;
         top: calc(var(--footersize)/2);
         right: 5%;
         transform: translate(50%, -50%);
 
-        & span {
+        .side-button-icon-wrapper {
+            & span {
             left: 50%;
-            transform: rotateZ(0deg) translate(-50%, -50%);
-            transform-origin: 0 0;
-            transition: top calc(var(--transitiontime)/2) calc(var(--transitiontime)/2), transform calc(var(--transitiontime)/2) 0s, background-color var(--colorchangetime) ease;
-            will-change: top, transform, width;
-    
-            &:nth-child(1) {top: 40%;}
-            &:nth-child(2) {top: 60%;}
+                transform: rotateZ(0deg) translate(-50%, -50%);
+                transform-origin: 0 0;
+                transition: top calc(var(--transitiontime)/2) calc(var(--transitiontime)/2), transform calc(var(--transitiontime)/2) 0s, background-color var(--colorchangetime) ease;
+                will-change: top, transform, width;
+        
+                &:nth-child(1) {top: 40%;}
+                &:nth-child(2) {top: 60%;}
+            }
+
+            .side-button-icon-top {
+                background-color: var(--fontcolor);
+            }
         }
     }
     
     /* ページトップボタン */
     .page-top-arrow {
+        z-index: 5;
         top: calc(100% - var(--footersize)/2);
         right: 5%;
         transform: translate(50%, -50%);
 
-        & span {
-            bottom: 10%;
-            transition: background-color var(--colorchangetime) ease;
-            
-            &:nth-child(1) {
-                transform: rotate(-60deg);
-                transform-origin: left;
+        .side-button-icon-face {
+            & span {
+                bottom: 10%;
+                transition: background-color var(--colorchangetime) ease;
+                
+                &:nth-child(1) {
+                    transform: rotate(-60deg);
+                    transform-origin: left;
+                }
+                &:nth-child(2) {
+                    transform: rotate(60deg);
+                    transform-origin: right;
+                }
             }
-            &:nth-child(2) {
-                transform: rotate(60deg);
-                transform-origin: right;
+
+            &:nth-of-type(1) {
+                & span {
+                    top: 10%;
+
+                    &:nth-child(1) {
+                        transform: rotateZ(60deg);
+                    }
+                    &:nth-child(2) {
+                        transform: rotateZ(-60deg);
+                    }
+                }
             }
         }
     }
@@ -526,6 +550,50 @@ footer {
 
 /* メインコンテンツ */
 main {
+    & section {
+        position: relative;
+        z-index: 1;
+        width: 100vw;
+        padding: var(--sectionmarginsize) 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+
+        .main-wrapper-title {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+
+            .text-animation {
+                height: fit-content;
+                overflow: hidden;
+                display: flex;
+
+                & span {
+                    transform: translateY(100%);
+                    transition: transform 0s ease;
+                }
+
+                &.fade-in {
+                    & span {
+                        transform: translateY(0);
+                        transition: transform var(--transitiontime) calc(var(--letteranimetime)/var(--letterlength)*var(--j)) ease;
+                    }
+                }
+            }
+
+            & h2 {
+                font-size: var(--fmiddle);
+                font-weight: bold;
+            }
+
+            & p {
+                font-size: var(--ftext);
+            }
+        }
+    }
+
     .main-top {
         height: 100vh;
         margin-bottom: calc(var(--sectionmarginsize));
@@ -554,6 +622,10 @@ main {
                         transition: transform 0s 0s;
                     }
                 }
+            }
+
+            .text-line-sp {
+                display: none;
             }
             
             & h1, & p {
@@ -592,57 +664,15 @@ main {
     }
 }
 
-section {
-    position: relative;
-    width: 100vw;
-    padding: var(--sectionmarginsize) 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-
-    .main-wrapper-title {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-
-        .text-animation {
-            height: fit-content;
-            overflow: hidden;
-            display: flex;
-
-            & span {
-                transform: translateY(100%);
-                transition: transform 0s ease;
-            }
-
-            &.fade-in {
-                & span {
-                    transform: translateY(0);
-                    transition: transform var(--transitiontime) calc(var(--letteranimetime)/var(--letterlength)*var(--j)) ease;
-                }
-            }
-        }
-
-        & h2 {
-            font-size: var(--fbig);
-            font-weight: bold;
-        }
-
-        & p {
-            font-size: var(--fsmall);
-        }
-    }
-}
-
 /* セクションライン */
 .section-line {
     position: absolute;
     top: calc(-1*var(--borderweight));
+    left: 50%;
+    transform: translateX(-50%);
     height: var(--borderweight);
     width: 0vw;
     background-color: var(--fontcolor);
-    border: none;
     border-radius: var(--borderweight);
     transition: background-color var(--colorchangetime) ease,  width 0s;
 
@@ -706,6 +736,9 @@ section {
         }
     }
 }
+.card-button-sp {
+    display: none;
+}
 
 
 
@@ -727,7 +760,6 @@ section {
             display: flex;
             justify-content: center;
             align-items: center;
-            margin-bottom: calc(var(--cardpaddingsize)/2);
         }
         
         .works-card-image {
@@ -748,6 +780,11 @@ section {
                 right: 0;
                 background-color: var(--fontcolor);
                 transition: width 0s 0s;
+            }
+
+            img {
+                width: 100%;
+                height: auto;
             }
         }
 
@@ -792,6 +829,7 @@ section {
                 white-space: nowrap;
                 -webkit-text-stroke: var(--textborderweight) var(--fontcolor);
                 transition: -webkit-text-stroke var(--colorchangetime) ease;
+                line-height: 1.5;
             }
             .cover-text {
                 position: absolute;
@@ -856,7 +894,7 @@ section {
 /* 自己紹介 */
 .about-card-button {
     .card-button-outer {
-        width: 230%;
+        width: 220%;
         font-size: var(--ftext);
         display: flex;
         white-space: nowrap;
@@ -904,25 +942,29 @@ section {
             }
         
             .about-card-item {
+                line-height: 1.8;
                 display: flex;
                 flex-direction: column;
         
                 & p {
                     font-size: var(--ftext);
-                    margin-top: var(--cardpaddingsize);
                 }
         
                 &:nth-of-type(1) { 
                     .about-card-item-name {
                         & p {
                             font-size: var(--fmiddle);
-                            margin: 0;
+                            line-height: 1.2;
                         }
                     }
                 }
         
                 &:nth-of-type(2) {
                     margin-top: var(--cardpaddingsize);
+                    
+                    & p:nth-of-type(1) {
+                        font-size: var(--fsmall);
+                    }
                 }
             } 
         }
@@ -938,17 +980,17 @@ section {
                     margin: auto 0;
                     display: flex;
                     align-items: center;
-                    padding-right: calc(var(--cardpaddingsize)*2);
+                    padding-right: var(--cardpaddingsize);
     
                     .skill-icon {        
                         width: 20%;
                         display: flex;
                         flex-direction: column;
                         align-items: center;
-                        margin-right: calc(var(--cardpaddingsize)*2);
+                        margin-right: calc(var(--cardpaddingsize)*1.5);
                 
                         .icon-wrapper {
-                            margin-bottom: calc(var(--cardpaddingsize)/3);
+                            margin-bottom: calc(var(--cardpaddingsize)/5);
                             font-size: var(--fmiddle);
                             display: flex;
                             overflow: hidden;
@@ -1084,15 +1126,14 @@ section {
 /* スマホ用のスタイル */
 @media screen and (max-width: 768px) {
     :root {
-        --ftext: 1.6rem;
-        --fsmall: 3rem;
-        --fmiddle: 5rem;
-        --fbig: 7rem;
-        --ftitle: 16vw;
-        --buttonheight: 4rem;
-    }
-    .loading-window {
-        background-color: var(--fontcolor);
+        --ftext: 4.3vw;
+        /* --ftext: 16px; */
+        --ftitle: 12vw;
+        --fmiddle: 12vw;
+        --fsmall: 7vw;
+
+        --cardwidth: 80vw;
+        --cardpaddingsize: 5vw;
     }
     .cover-window {
         display: none;
@@ -1108,16 +1149,15 @@ section {
 
             & ul {
                 grid-template-columns: none;
-                grid-template-rows: repeat(3, 1fr);
                 gap: var(--cardpaddingsize);
+
+                .nav-button-sp {
+                    display: flex;
+                }
     
                 & li {
                     padding: 0;
                     perspective: none;
-
-                    .nv-button-wrapper {
-                        font-size: var(--ftext);
-                    }
     
                     &:hover {
                         .nv-button-wrapper {
@@ -1131,10 +1171,25 @@ section {
 
     header {
         position: absolute;
-        bottom: var(--cardpaddingsize);
+        top: 50%;
         display: flex;
         width: 100%;
         justify-content: center;
+        
+        & nav {
+            margin-top: var(--cardmarginsize);
+            & ul {
+                grid-template-rows: repeat(3, 1fr);
+                & li {
+                    .nv-button-wrapper {
+                        height: calc(var(--sidebuttonsize)*1.5);
+                        width: 80vw;
+                        aspect-ratio: unset;
+                        font-size: var(--fsmall);
+                    }
+                }
+            }
+        }
     }
 
     footer {
@@ -1146,6 +1201,13 @@ section {
 
         .copyright {
             margin-top: var(--cardpaddingsize);
+        }
+
+        & nav {
+            & ul {
+                grid-template-columns: repeat(2, 1fr);
+                grid-template-rows: repeat(2, 1fr);
+            }
         }
     }
 
@@ -1166,31 +1228,27 @@ section {
 
         & nav {
             clip-path: none;
-            background-color: var(--backgroundcolor);
-            border: var(--borderweight) solid var(--fontcolor);
             padding: 0;
-            width: var(--cardwidth);
-            height: auto;
-            aspect-ratio: 1/1.45;
-            top: 50%;
-            right: calc(-1*var(--cardwidth)/2);
-            transform: translate(50%, -50%);
-
+            background-color: var(--fontcolor);
             &::after {
                 display: none;
             }
 
-            & ul {
-                align-items: flex-start;
-                
+            & ul {                
                 & li {
+                    border: var(--borderweight) solid var(--backgroundcolor);
+                    height: calc(var(--sidebuttonsize)*1.5);
+                    width: 80vw;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+
                     & p {
                         -webkit-text-stroke: 0;
+                        font-size: var(--fsmall);
                     }
-                    &:hover {
-                        .cover-text {
-                            clip-path: none;
-                        }
+                    .cover-text {
+                        display: none;
                     }
                 }
             }
@@ -1226,18 +1284,41 @@ section {
             }
 
             & nav {
-                right: 50%;
+                right: 0;
             }
         }
     }
 
     main{
+        & section {
+            padding: calc(var(--sectionmarginsize)/2) 0;
+    
+            .main-wrapper-title {
+                margin-bottom: calc(var(--cardmarginsize)*2);
+    
+                & p {
+                    font-size: var(--ftext);
+                }
+            }
+        }
+
         .main-top {
             height: 100svh;
-            align-items: center;
-            justify-content: center;
+            padding: 0 10% 50svh;
 
             .main-top-text {
+                .text-line-sp {
+                    width: 80vw;
+                    height: var(--borderweight);
+                    background-color: var(--fontcolor);
+                    display: flex;
+                    border-radius: var(--borderweight);
+                    margin: var(--cardpaddingsize) 0;
+                    
+                }
+                & h1, & p {
+                    line-height: 1.2;
+                }
                 & p {
                     -webkit-text-stroke: 0;
                     color: var(--fontcolor);
@@ -1246,17 +1327,6 @@ section {
         }
     }
 
-    section {
-        padding: calc(var(--sectionmarginsize)/2) 0;
-
-        .main-wrapper-title {
-            margin-bottom: calc(var(--cardmarginsize)*2);
-
-            & p {
-                font-size: var(--ftext);
-            }
-        }
-    }
 
     .card-button-wrapper {
         flex-direction: column;
@@ -1272,6 +1342,10 @@ section {
                     transition: opacity var(--transitiontime) 0s ease;
                 }
             }
+        }
+
+        .card-button-sp {
+            display: flex;
         }
     }
 
@@ -1323,11 +1397,8 @@ section {
     }
 
     .about-card-button {
-        aspect-ratio: 1/1.45;
-        
         .card-button-outer {
             width: 100%;
-            flex-direction: column;
 
             .text-animation-hover {
                 & span {
@@ -1337,78 +1408,20 @@ section {
 
             .about-card-right, .about-card-left {
                 width: 100%;
-
-                .about-card-item-title, & hr{
-                    display: none;
-                }
             }
-
             .about-card-left {
-                height: 55%;
+                background-color: var(--backgroundcolor);
+                color: var(--fontcolor);
 
-                .about-card-item {
-                    &:nth-of-type(1) {
-                        .about-card-item-name {
-                            display: flex;
-
-                            & p {
-                                font-size: var(--fsmall);
-
-                                &:nth-of-type(2) {
-                                    margin-left: var(--cardpaddingsize);
-                                }
-                            }
-                        }
-                    }
-
-                    &:nth-of-type(2) {
-                        margin: 0;
-                    }
+                & hr {
+                    background-color: var(--fontcolor);
                 }
             }
-
             .about-card-right {
-                height: 45%;
-
                 .skills {
-                    display: grid;
-                    grid-template-columns: 1fr 1fr;
-                    grid-template-rows: 1fr 1fr;
-
                     .about-card-item {
-                        height: 100%;
-                        width: 100%;
-                        flex-direction: column;
-                        margin: 0;
-                        align-items: flex-start;
-
-                        .skill-icon {
-                            width: fit-content;
-                            margin-right: 0;
-                            margin-bottom: calc(var(--cardpaddingsize));
-                            flex-direction: row;
-                            align-items: center;
-
-                            .icon-wrapper {
-                                font-size: var(--fsmall);
-                                margin-bottom: 0;
-                                margin-right: calc(var(--cardpaddingsize)/3);
-                            }
-                        }
-
-                        .skill-duration {
-                            display: flex;
-
-                            &::after {
-                                transition: width 0s 0s;
-                            }
-
-                            & p {
-                                bottom: auto;
-                                top: 400%;
-                                left: 0;
-                                transform: translateX(0);
-                            }
+                        .skill-duration::after {
+                            transition: width 0s 0s;
                         }
                     }
                 }
