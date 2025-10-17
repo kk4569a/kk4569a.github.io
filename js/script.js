@@ -7,7 +7,7 @@ window.addEventListener('load', function () {
     
     
     setTimeout(() => {
-        scrollEvent();
+        this.window.scrollTo(0, 0)
         checkWindow(mediaQuery);
     }, 1);
 
@@ -186,7 +186,7 @@ function scrollEvent() {
     for (let i = 0; i < topText.length; i++) {
         if(topText[i].getBoundingClientRect().bottom < 0) {
             topText[i].classList.add('fade-out')
-        } else if (topText[i].getBoundingClientRect().bottom - topText[i].clientHeight/2 >= 0) {
+        } else if (topText[i].getBoundingClientRect().top > 0) {
             topText[i].classList.remove('fade-out')
         }
     }
@@ -261,10 +261,24 @@ function cardMouseLeave() {
 }
 
 
+function aboutCardCopyAndPaste() {
+    const aboutCardRight = document.getElementsByClassName('about-card-right')[0]
+    const aboutSection = document.getElementsByClassName('main-about')[0]
+    aboutSection.getElementsByClassName('card-button-outer')[1].appendChild(aboutCardRight)
+}
+function aboutCardReset() {
+    const aboutCardRight = document.getElementsByClassName('about-card-right')[0]
+    const aboutSection = document.getElementsByClassName('main-about')[0]
+    aboutSection.getElementsByClassName('card-button-outer')[0].appendChild(aboutCardRight)
+}
+
+
 // ブレイクポイントを設定
 const mediaQuery = window.matchMedia('(min-width: 768px)');
 function checkWindow(windowSize) {
     if (windowSize.matches) {  //pcの処理
+        aboutCardReset();
+
         for (let i = 0; i < cardButton.length; i++) {
             cardButton[i].addEventListener('mousemove', cardMouseHover)
             cardButton[i].addEventListener('mouseleave', cardMouseLeave)
@@ -272,6 +286,8 @@ function checkWindow(windowSize) {
         window.addEventListener('scroll', scrollEventPcOnly)
         sideButtonFlag = false;
     } else {  //spの処理
+        aboutCardCopyAndPaste();
+
         for (let i = 0; i < cardButton.length; i++) {
             cardButton[i].removeEventListener('mousemove', cardMouseHover)
             cardButton[i].removeEventListener('mouseleave', cardMouseLeave)
