@@ -25,7 +25,7 @@ html {
     --footersize: 20vh;
 
     --sectionmarginsize: calc(var(--ftext)*7);
-    --cardpaddingsize: calc(var(--ftext)*1.5);
+    --cardpaddingsize: calc(var(--ftext)*1.2);
     --cardmarginsize: calc(var(--ftext)*1.4);
 
     --turntime: .3s;
@@ -768,7 +768,6 @@ main {
             aspect-ratio: 4/3;
             margin-bottom: var(--cardpaddingsize);
             border: var(--borderweight) solid var(--fontcolor);
-            box-shadow: inset calc(var(--cardshadowsize)/2) calc(var(--cardshadowsize)/2) var(--fontcolor);
             transition: border var(--colorchangetime) ease, box-shadow var(--colorchangetime) ease;
             
             &::after {
@@ -843,6 +842,7 @@ main {
             flex-direction: column;
             font-size: var(--ftext);
             line-height: 1.8;
+            margin-bottom: auto;
         }
 
         &.hover-anime {
@@ -983,11 +983,11 @@ main {
                     padding-right: var(--cardpaddingsize);
     
                     .skill-icon {        
-                        width: 20%;
+                        width: fit-content;
                         display: flex;
                         flex-direction: column;
                         align-items: center;
-                        margin-right: calc(var(--cardpaddingsize)*1.5);
+                        margin-right: calc(var(--cardpaddingsize));
                 
                         .icon-wrapper {
                             margin-bottom: calc(var(--cardpaddingsize)/5);
@@ -1005,17 +1005,18 @@ main {
                     
                     .skill-duration {
                         position: relative;
-                        height: var(--borderweight);
+                        height: 100%;
                         width: 100%;
+                        margin-top: auto;
                 
                         &::after {
                             content: "";
                             position: absolute;
-                            height: 300%;
-                            top: 50%;
-                            width: 0%;
                             left: 0;
-                            transform: translateY(-50%);
+                            bottom: 20%;
+                            transform: translateY(50%);
+                            width: 0%;
+                            height: calc(var(--borderweight)*3);
                             background-color: var(--fontcolor);
                             border-radius: calc(var(--borderweight)*3);
                             transition: width var(--transitiontime) 0s ease;
@@ -1024,10 +1025,11 @@ main {
                         &::before {
                             content: "";
                             position: absolute;
-                            height: 100%;
-                            width: 0;
-                            top: 0;
                             left: 0;
+                            bottom: 20%;
+                            height: var(--borderweight);
+                            transform: translateY(50%);
+                            width: 0;
                             background-color: var(--fontcolor);
                             border-radius: var(--borderweight);
                             transition: width 0s 0s;
@@ -1035,11 +1037,17 @@ main {
                 
                         & p {
                             position: absolute;
-                            bottom: 400%;
-                            left: calc(var(--duration)*100%/1.5);
+                            top: 0;
                             font-size: var(--ftext);
-                            transform: translateX(-50%);
                             transition: left var(--transitiontime) 0s ease;
+                            
+                            &:nth-of-type(2) {
+                                right: 0;
+                            }
+
+                            &:nth-of-type(1) {
+                                left: 0;
+                            }
                         }
                     }
                 }
@@ -1372,7 +1380,7 @@ main {
                 border: var(--borderweight) solid var(--fontcolor);
                 background-color: var(--fontcolor);
                 color: var(--backgroundcolor);
-                font-size: var(--fsmall);
+                font-size: var(--ftext);
                 display: flex;
                 font-weight: bold;
                 cursor: pointer;
