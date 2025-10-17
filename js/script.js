@@ -7,7 +7,6 @@ window.addEventListener('load', function () {
     
     
     setTimeout(() => {
-        window.scrollTo(0, 0);
         scrollEvent();
         checkWindow(mediaQuery);
     }, 1);
@@ -119,39 +118,21 @@ for (let i = 0; i < navButton.length; i++) {
     })
 }
 
-// サイトトップボタンの処理
-const siteTopButton = document.getElementsByClassName('site-top-button-detection-wrapper')
-siteTopButton[0].addEventListener('mouseover', function() {
-    document.getElementsByClassName('site-top-button')[0].classList.add('hover')
-}) 
-siteTopButton[0].addEventListener('mouseleave', function() {
-    document.getElementsByClassName('site-top-button')[0].classList.remove('hover')
-}) 
-
-
 // ハンバーガーメニュー
 let humburgerMenuFlag = false;
 const humburgerMenuButton = document.getElementsByClassName('humburger-menu-icon');
 function humburgerMenu() {
     document.getElementsByClassName('side-menu')[0].classList.toggle('active');
+    document.getElementsByClassName('cover-window')[0].classList.toggle('nav-open')
     
     if (!humburgerMenuFlag) {
         humburgerMenuFlag = true;
         lenis.stop();  //慣性スクロールオフ
-        document.getElementsByClassName('cover-window')[0].classList.add('nav-open')
-        document.getElementsByClassName('cover-window')[0].style.left = "-44%"
     }
     else {
-        const windowScroll = window.scrollY;
-        const section = document.getElementsByClassName('main-wrapper');
-        let coverWindowLeft = String(-45.8 - 54.2 * windowScroll / section[1].offsetTop)
-        if (coverWindowLeft < -100) { coverWindowLeft = -100; }
-        document.getElementsByClassName('cover-window')[0].style.left = coverWindowLeft + '%'
-        
         setTimeout(() => {    
             humburgerMenuFlag = false;
             lenis.start();  //慣性スクロールオン
-            document.getElementsByClassName('cover-window')[0].classList.remove('nav-open')
         }, 400);
     }
 }
@@ -199,13 +180,6 @@ function scrollEvent() {
     windowScroll = window.scrollY;
     viewportHeight = window.innerHeight
     htmlHeight = document.documentElement.scrollHeight
-    
-    // カバーウィンドウがフェードアウト
-    let coverWindowLeft = String(-45.8 - 54.2 * windowScroll / section[1].offsetTop)
-    if (coverWindowLeft < -100) { coverWindowLeft = -100; }
-    if(!humburgerMenuFlag) {  //ハンバーガーメニューを開いた瞬間処理を終了（慣性スクロールの効果を無視）
-        document.getElementsByClassName('cover-window')[0].style.left = coverWindowLeft + '%'
-    }
 
     // トップに戻るとフェードイン
     const topText = document.getElementsByClassName('text-animation-top')
@@ -247,15 +221,6 @@ function pcOnlyScroll() {
             document.getElementsByClassName('side-button-icon')[i].classList.remove('fade-in', 'mouse-hover-item')
             sideButtonFlag = false;
         }
-    }
-
-    // contactエリアでカラーチェンジ
-    viewportHeight = window.innerHeight
-    const contactSection = section[section.length - 1];
-    if (contactSection.getBoundingClientRect().top < viewportHeight/2) {
-        document.getElementsByTagName('html')[0].setAttribute('theme', 'dark')
-    } else {
-        document.getElementsByTagName('html')[0].setAttribute('theme', 'default')
     }
 }
 function scrollEventPcOnly() {
