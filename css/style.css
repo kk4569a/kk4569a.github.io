@@ -12,7 +12,7 @@ html {
     --profilefontcolor: antiquewhite;
 
     --ftext: clamp(1.8rem, calc(18*var(--vwratio)), calc(18*var(--vwratio)));
-    --ftitle: 23vh;
+    --ftitle: 22vh;
     /* --fbig: calc(var(--ftext)*10/1.8); */
     --fmiddle: calc(var(--ftext)*3);
     --fsmall: calc(var(--ftext)*2);
@@ -142,6 +142,7 @@ hr {
     background-color: var(--fontcolor);
     color: var(--backgroundcolor);
     font-size: var(--ftitle);
+    font-weight: bold;
     transition: left var(--openinganimetime) calc(var(--openinganimetime)*2) ease;
 
     & p {
@@ -831,7 +832,7 @@ main {
                         white-space: nowrap;
                         -webkit-text-stroke: var(--textborderweight) var(--fontcolor);
                         transition: -webkit-text-stroke var(--colorchangetime) ease;
-                        line-height: 1.5;
+                        line-height: 1.6;
                     }
                     .cover-text {
                         position: absolute;
@@ -844,7 +845,7 @@ main {
                 .works-card-text {
                     flex-direction: column;
                     font-size: var(--ftext);
-                    line-height: 1.5;
+                    line-height: 1.6;
                     margin-bottom: auto;
                 }
         
@@ -947,7 +948,7 @@ main {
                 }
             
                 .about-card-item {
-                    line-height: 1.5;
+                    line-height: 1.6;
                     display: flex;
                     flex-direction: column;
             
@@ -1169,7 +1170,7 @@ main {
     :root {
         --ftext: 4.3vw;
         /* --ftext: 16px; */
-        --ftitle: 12vw;
+        --ftitle: 14vw;
         --fmiddle: 12vw;
         --fsmall: 7vw;
 
@@ -1413,11 +1414,11 @@ main {
                         position: relative;
                         width: 80%;
                         padding: calc(var(--cardpaddingsize)/2) var(--cardpaddingsize);
-                        margin: 0 auto calc(var(--cardpaddingsize)/2);
+                        margin: 0 auto calc(var(--cardpaddingsize));
                         border: var(--borderweight) solid var(--fontcolor);
                         background-color: var(--fontcolor);
                         color: var(--backgroundcolor);
-                        font-size: var(--ftext);
+                        font-size: var(--fsmall);
                         display: flex;
                         font-weight: bold;
                         cursor: pointer;
@@ -1431,9 +1432,9 @@ main {
         
                     .works-card-icon, .works-card-title {
                         & ion-icon, & h3, & p {
-                            font-size: var(--fmiddle);
+                            font-size: var(--fsmall);
                             -webkit-text-stroke: 0;
-                            line-height: 1.2;
+                            line-height: 1.6;
                         }
                         .cover-text {
                             display: none;
