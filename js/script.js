@@ -174,6 +174,7 @@ function fadeInAnime(fadeInItem, fadeInLocation) {
 
 // スクロールイベント（pc,sp共通）
 let sideButtonFlag;
+let elementFadeInLocation;
 const section = document.getElementsByClassName('main-wrapper');
 function scrollEvent() {
     // 更新
@@ -198,8 +199,8 @@ function scrollEvent() {
     fadeInAnime(textFooter, 0)
     
     // 要素が出現
-    const item = document.getElementsByClassName('card-button');
-    fadeInAnime(item, viewportHeight/10)
+    const element = document.getElementsByClassName('card-button');
+    fadeInAnime(element, elementFadeInLocation)
     
     // 線が出現
     const sectionLine = document.getElementsByClassName('section-line')
@@ -260,7 +261,7 @@ function cardMouseLeave() {
     }
 }
 
-
+// スマホ用のアバウトエリア
 function aboutCardCopyAndPaste() {
     const aboutCardRight = document.getElementsByClassName('about-card-right')[0]
     const aboutSection = document.getElementsByClassName('main-about')[0]
@@ -284,7 +285,8 @@ function checkWindow(windowSize) {
             cardButton[i].addEventListener('mouseleave', cardMouseLeave)
         }
         window.addEventListener('scroll', scrollEventPcOnly)
-        sideButtonFlag = false;
+        sideButtonFlag = false;  //ハンバーガーメニューの初期設定
+        elementFadeInLocation = viewportHeight/10  //要素出現トリガーの位置
     } else {  //spの処理
         aboutCardCopyAndPaste();
 
@@ -295,6 +297,7 @@ function checkWindow(windowSize) {
         window.removeEventListener('scroll', scrollEventPcOnly)
         window.addEventListener('scroll', scrollEvent)
         sideButtonFlag = true;
+        elementFadeInLocation = viewportHeight/3
     }
 }
 mediaQuery.addEventListener('change', checkWindow);
