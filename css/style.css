@@ -439,6 +439,7 @@ footer {
         }
     }
 
+    /* サイトトップボタン */
     .site-top-button {
         z-index: 15;
         top: calc(var(--footersize)/2);
@@ -465,6 +466,13 @@ footer {
         transform: translate(50%, -50%);
 
         .side-button-icon-wrapper {
+            .side-button-icon-top {
+                font-size: var(--fsmall);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
             & span {
             left: 50%;
                 transform: rotateZ(0deg) translate(-50%, -50%);
@@ -474,10 +482,6 @@ footer {
         
                 &:nth-child(1) {top: 40%;}
                 &:nth-child(2) {top: 60%;}
-            }
-
-            .side-button-icon-top {
-                background-color: var(--fontcolor);
             }
         }
     }
@@ -490,32 +494,10 @@ footer {
         transform: translate(50%, -50%);
 
         .side-button-icon-face {
-            & span {
-                bottom: 10%;
-                transition: background-color var(--colorchangetime) ease;
-                
-                &:nth-child(1) {
-                    transform: rotate(-60deg);
-                    transform-origin: left;
-                }
-                &:nth-child(2) {
-                    transform: rotate(60deg);
-                    transform-origin: right;
-                }
-            }
-
-            &:nth-of-type(1) {
-                & span {
-                    top: 10%;
-
-                    &:nth-child(1) {
-                        transform: rotateZ(60deg);
-                    }
-                    &:nth-child(2) {
-                        transform: rotateZ(-60deg);
-                    }
-                }
-            }
+            font-size: var(--fsmall);
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
     }
 
@@ -771,11 +753,11 @@ main {
                 
                 .works-card-image {
                     position: relative;
-                    width: 100%;
-                    aspect-ratio: 4/3;
+                    width: 0%;
+                    height: calc((var(--cardwidth) - var(--cardpaddingsize)*2)*3/4);
                     margin-bottom: var(--cardpaddingsize);
                     border: var(--borderweight) solid var(--fontcolor);
-                    transition: border var(--colorchangetime) ease, box-shadow var(--colorchangetime) ease;
+                    transition: width 0s 0s, border var(--colorchangetime) ease;
                     
                     &::after {
                         content: "";
@@ -864,6 +846,9 @@ main {
             &.fade-in {
                 .card-button-face {
                     .works-card-image {
+                        width: 100%;
+                        transition: width var(--transitiontime) calc(var(--transitiongaptime)*var(--i)) ease, border var(--colorchangetime) ease;
+
                         &::after {
                             width: 0%;
                             transition: width var(--transitiontime) calc(var(--transitiontime)*3/4 + var(--transitiongaptime)*var(--i)) ease;
@@ -873,14 +858,14 @@ main {
                     .text-animation {
                         & span {
                             transform: translateY(0);
-                            transition: transform var(--transitiontime) calc(var(--letteranimetime)/var(--letterlength)*var(--j) + var(--transitiontime)*3/4 + var(--transitiongaptime)*var(--i)) ease;
+                            transition: transform var(--transitiontime) calc(var(--letteranimetime)/var(--letterlength)*var(--j) + var(--transitiontime)*3/4 + var(--transitiongaptime)*(var(--i) + var(--k))) ease;
                         }
                     }
         
                     .icon-animation {
                         & ion-icon {
                             transform: translateY(0);
-                            transition: transform var(--transitiontime) calc(var(--transitiontime)*3/4 + var(--transitiongaptime)*var(--i)) ease;
+                            transition: transform var(--transitiontime) calc(var(--transitiontime)*3/4 + var(--transitiongaptime)*(var(--i) + var(--k))) ease;
                         }
                     }
                 }
@@ -1085,13 +1070,13 @@ main {
                 .text-animation:not(.text-animation-hover) {
                     & span {
                         transform: translateY(0);
-                        transition: transform var(--transitiontime) calc(var(--letteranimetime)/var(--letterlength)*var(--j) + var(--transitiontime)*3/4) ease;
+                        transition: transform var(--transitiontime) calc(var(--letteranimetime)/var(--letterlength)*var(--j) + var(--transitiontime)*3/4 + var(--transitiongaptime)*var(--i)) ease;
                     }
                 }
     
                 & hr {
                     width: 100%;
-                    transition: width var(--transitiontime) calc(var(--transitiontime)*3/4) ease, background-color var(--colorchangetime) ease;
+                    transition: width var(--transitiontime) 0s ease, background-color var(--colorchangetime) ease;
                 }
     
                 
@@ -1102,7 +1087,7 @@ main {
                                 .icon-wrapper {
                                     & ion-icon {
                                         transform: translateY(0);
-                                        transition: transform var(--transitiontime) calc(var(--transitiontime)*3/4) ease;
+                                        transition: transform var(--transitiontime) calc(var(--transitiontime)*3/4 + var(--transitiongaptime)*var(--i)) ease;
                                     } 
                                 }
                             }
@@ -1110,7 +1095,7 @@ main {
                             .skill-duration {
                                 &::before {
                                     width: 100%;
-                                    transition: width calc(var(--transitiontime))  calc(var(--transitiontime)*3/4) ease, background-color var(--colorchangetime) ease;
+                                    transition: width var(--transitiontime) calc(var(--transitiongaptime)*var(--i)) ease, background-color var(--colorchangetime) ease;
                                 }
                             }
                         }
@@ -1303,17 +1288,35 @@ main {
             transform: translate(0, 0);
             top: var(--cardpaddingsize);
 
-            .side-button-icon-wrapper {
-                transform: rotateX(0);
+            &.fade-in {
+                &:hover {
+                    .side-button-icon-wrapper {
+                        transform: rotateX(0);
+                    }
+                }
             }
         }
 
         .site-top-button {
             left: var(--cardpaddingsize);
+
+            .side-button-icon-wrapper {
+                .side-button-icon-face {
+                    font-size: calc(var(--fsmall)*1.3);
+                }
+            }
         }
+
         .humburger-menu-icon {
             right: var(--cardpaddingsize);
+
+            .side-button-icon-wrapper {
+                .side-button-icon-top {
+                    font-size: calc(var(--fsmall)*1.3);
+                }
+            }
         }
+
         .page-top-arrow, .site-top-button-detection {
             display: none;
         }
@@ -1412,17 +1415,18 @@ main {
         
                     .works-card-visit-button {
                         position: relative;
-                        width: 80%;
-                        padding: calc(var(--cardpaddingsize)/2) var(--cardpaddingsize);
-                        margin: 0 auto calc(var(--cardpaddingsize));
-                        border: var(--borderweight) solid var(--fontcolor);
+                        left: 10%;
+                        width: 0%;
+                        height: var(--sidebuttonsize);
+                        margin: 0 0 calc(var(--cardpaddingsize));
                         background-color: var(--fontcolor);
                         color: var(--backgroundcolor);
                         font-size: var(--fsmall);
                         display: flex;
+                        align-items: center;
                         font-weight: bold;
                         cursor: pointer;
-                        transition: background-color var(--colorchangetime) ease, color var(--colorchangetime) ease, border var(--colorchangetime) ease;
+                        transition: width 0s 0s, background-color var(--colorchangetime) ease, color var(--colorchangetime) ease;
         
                         .icon-wrapper {
                             position: absolute;
@@ -1438,6 +1442,35 @@ main {
                         }
                         .cover-text {
                             display: none;
+                        }
+                    }
+                }
+
+                &.fade-in {
+                    .card-button-face {
+                        .works-card-image {
+                            transition: width var(--transitiontime) 0s ease, border var(--colorchangetime) ease;
+
+                            &::after {
+                                transition: width var(--transitiontime) calc(var(--transitiontime)*3/4) ease;
+                            }
+                        }
+
+                        .text-animation {
+                            & span {
+                                transition: transform var(--transitiontime) calc(var(--letteranimetime)/var(--letterlength)*var(--j) + var(--transitiontime)*3/4 + var(--transitiongaptime)*(var(--k) + 1)) ease;
+                            }
+                        }
+
+                        .icon-animation {
+                            & ion-icon {
+                                transition: transform var(--transitiontime) calc(var(--transitiontime)*3/4 + var(--transitiongaptime)*(var(--k) + 1)) ease;
+                            }
+                        }
+
+                        .works-card-visit-button {
+                            width: 80%;
+                            transition: width var(--transitiontime) 0s ease, background-color var(--colorchangetime) ease, color var(--colorchangetime) ease;
                         }
                     }
                 }
@@ -1473,10 +1506,10 @@ main {
     
             &.fade-in {
                 .card-button-outer {
-                    .text-animation-hover {
+                    .text-animation:not(.text-animation-hover), .text-animation-hover {
                         & span {
                             transform: translateY(0);
-                            transition: transform var(--transitiontime) calc(var(--letteranimetime)/var(--letterlength)*var(--j) + var(--transitiontime)*3/4) ease;
+                            transition: transform var(--transitiontime) calc(var(--letteranimetime)/var(--letterlength)*var(--j) + var(--transitiontime)*3/4 + var(--transitiongaptime)*var(--k)) ease;
                         }
                     }
 
@@ -1487,7 +1520,7 @@ main {
                                     .icon-wrapper{
                                         & ion-icon {
                                             transform: translateY(0);
-                                            transition: transform var(--transitiontime) calc(var(--transitiontime)*3/4) ease;
+                                            transition: transform var(--transitiontime) calc(var(--transitiontime)*3/4 + var(--transitiongaptime)*var(--k)) ease;
                                         }
                                     }
                                 }
@@ -1501,7 +1534,7 @@ main {
                                 .skill-duration {                        
                                     &::after {
                                         width: calc(var(--duration)*100%/1.5);
-                                        transition: width var(--transitiontime) calc(var(--transitiontime)*3/4) ease, background-color var(--colorchangetime) ease;
+                                        transition: width var(--transitiontime) calc(var(--transitiontime)*3/4 + var(--transitiongaptime)*var(--i)) ease, background-color var(--colorchangetime) ease;
                                     }
                                 }
                             }
