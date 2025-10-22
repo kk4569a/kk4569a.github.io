@@ -9,6 +9,7 @@ window.addEventListener('load', function () {
     setTimeout(() => {
         this.window.scrollTo(0, 0)
         checkWindow(mediaQuery);
+        this.window.addEventListener('scroll', scrollEvent)
     }, 1);
 
     setTimeout(() => {
@@ -151,10 +152,18 @@ humburgerMenuButton[0].addEventListener('click', function () {
 // ページトップボタンの処理
 document.getElementsByClassName('page-top-arrow')[0].addEventListener('click', function () {
     if(sideButtonFlag) {
-        window.scroll({
-            top: 0,
-            behavior: "smooth"
-        });
+        lenis.stop();
+        window.scroll({top: 0, behavior: "smooth"});
+
+        const checkScroll = () => {
+            if (window.scrollY === 0) {
+                lenis.start();
+            } else {
+                requestAnimationFrame(checkScroll);
+            }
+        };
+
+        requestAnimationFrame(checkScroll);
     }
 })
 
@@ -182,6 +191,21 @@ function scrollEvent() {
     viewportHeight = window.innerHeight
     htmlHeight = document.documentElement.scrollHeight
 
+    // サイドボタンがアクティブに
+    sideButtonFlag = false;
+    const header = document.getElementsByClassName('header-menu')
+    if (header[0].getBoundingClientRect().bottom <= 0) {
+        for (let i = 0; i < document.getElementsByClassName('side-button-icon').length; i++) {
+            document.getElementsByClassName('side-button-icon')[i].classList.add('fade-in', 'mouse-hover-item')
+            sideButtonFlag = true;
+        }
+    } else {
+        for (let i = 0; i < document.getElementsByClassName('side-button-icon').length; i++) {
+            document.getElementsByClassName('side-button-icon')[i].classList.remove('fade-in', 'mouse-hover-item')
+            sideButtonFlag = false;
+        }
+    }
+
     // トップに戻るとフェードイン
     const topText = document.getElementsByClassName('text-animation-top')
     for (let i = 0; i < topText.length; i++) {
@@ -206,29 +230,6 @@ function scrollEvent() {
     const sectionLine = document.getElementsByClassName('section-line')
     fadeInAnime(sectionLine, viewportHeight/10)
 }    
-
-// スクロールイベント（pcのみ）
-function pcOnlyScroll() {
-    sideButtonFlag = false;
-    // サイドボタンがアクティブに
-    const header = document.getElementsByClassName('header-menu')
-    if (header[0].getBoundingClientRect().bottom <= 0) {
-        for (let i = 0; i < document.getElementsByClassName('side-button-icon').length; i++) {
-            document.getElementsByClassName('side-button-icon')[i].classList.add('fade-in', 'mouse-hover-item')
-            sideButtonFlag = true;
-        }
-    } else {
-        for (let i = 0; i < document.getElementsByClassName('side-button-icon').length; i++) {
-            document.getElementsByClassName('side-button-icon')[i].classList.remove('fade-in', 'mouse-hover-item')
-            sideButtonFlag = false;
-        }
-    }
-}
-function scrollEventPcOnly() {
-    scrollEvent();
-    pcOnlyScroll();
-}
-
 
 // カードの処理
 let buttonFlag = true;
@@ -284,8 +285,6 @@ function checkWindow(windowSize) {
             cardButton[i].addEventListener('mousemove', cardMouseHover)
             cardButton[i].addEventListener('mouseleave', cardMouseLeave)
         }
-        window.addEventListener('scroll', scrollEventPcOnly)
-        sideButtonFlag = false;  //ハンバーガーメニューの初期設定
         elementFadeInLocation = viewportHeight/10  //要素出現トリガーの位置
     } else {  //spの処理
         aboutCardCopyAndPaste();
@@ -294,9 +293,6 @@ function checkWindow(windowSize) {
             cardButton[i].removeEventListener('mousemove', cardMouseHover)
             cardButton[i].removeEventListener('mouseleave', cardMouseLeave)
         }
-        window.removeEventListener('scroll', scrollEventPcOnly)
-        window.addEventListener('scroll', scrollEvent)
-        sideButtonFlag = true;
         elementFadeInLocation = viewportHeight/3
     }
 }
