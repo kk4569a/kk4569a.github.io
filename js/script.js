@@ -1,6 +1,6 @@
 // 読み込み時の処理
 window.addEventListener('load', function () {
-    document.getElementsByTagName('html')[0].classList.add('no-scroll')
+    document.documentElement.classList.add('no-scroll')
     document.getElementsByClassName('loading-window')[0].classList.add('active')
     const coverWindow = document.getElementsByClassName('cover-window')
     coverWindow[0].classList.add('active')
@@ -10,6 +10,7 @@ window.addEventListener('load', function () {
         this.window.scrollTo(0, 0)
         checkWindow(mediaQuery);
         this.window.addEventListener('scroll', scrollEvent)
+        lightMode()
     }, 1);
 
     setTimeout(() => {
@@ -23,8 +24,8 @@ window.addEventListener('load', function () {
     }, openingAnimeTime*3);
     
     setTimeout(() => {
-        document.getElementsByTagName('html')[0].classList.remove('no-scroll')
-        document.getElementsByTagName('html')[0].removeAttribute('onwheel')  //慣性スクロールオン
+        document.documentElement.classList.remove('no-scroll')
+        document.documentElement.removeAttribute('onwheel')  //慣性スクロールオン
         for(let i = 0; i < document.getElementsByClassName('loaded-anime').length; i++) {
             document.getElementsByClassName('loaded-anime')[i].classList.remove('loaded')
         }
@@ -89,6 +90,35 @@ elementCopy();
 textSplit();
 
 
+// ダークモード
+function lightMode() {
+    if(localStorage.getItem('theme') == null) {
+        document.getElementsByClassName('dark-mode-button')[0].classList.remove('dark', 'light')
+        if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+            document.documentElement.setAttribute('theme', 'dark')
+        } else {
+            document.documentElement.setAttribute('theme', 'light')
+        }
+    } else {
+        document.documentElement.setAttribute('theme', localStorage.getItem('theme'))
+        document.getElementsByClassName('dark-mode-button')[0].classList.add(localStorage.getItem('theme'))
+    }
+}
+window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function() {
+    lightMode()
+})
+document.getElementsByClassName('dark-mode-button')[0].addEventListener('click', function() {
+    if (localStorage.getItem('theme') == null) {
+        if(window.matchMedia("(prefers-color-scheme: dark)").matches) {
+            window.localStorage.setItem('theme', 'light')
+        } else {
+            window.localStorage.setItem('theme', 'dark')
+        }
+    } else {
+        window.localStorage.removeItem('theme')
+    }
+    lightMode();
+})
 
 // ナビゲーションの処理
 const navButton = document.getElementsByClassName("nav-button")
@@ -180,6 +210,16 @@ function fadeInAnime(fadeInItem, fadeInLocation) {
         }
     }
 }
+// フェードアウトアニメ
+function fadeOutAnime(fadeOutItem) {
+    for(let i = 0; i < fadeOutItem.length; i++) {
+        if(fadeOutItem[i].getBoundingClientRect().bottom < 0) {
+            fadeOutItem[i].classList.add('fade-out')
+        } else if (fadeOutItem[i].getBoundingClientRect().top > 0) {
+            fadeOutItem[i].classList.remove('fade-out')
+        }
+    }
+}
 
 // スクロールイベント（pc,sp共通）
 let sideButtonFlag;
@@ -195,26 +235,22 @@ function scrollEvent() {
     sideButtonFlag = false;
     const header = document.getElementsByClassName('header-menu')
     if (header[0].getBoundingClientRect().bottom <= 0) {
-        for (let i = 0; i < document.getElementsByClassName('side-button-icon').length; i++) {
-            document.getElementsByClassName('side-button-icon')[i].classList.add('fade-in', 'mouse-hover-item')
+        for (let i = 0; i < document.getElementsByClassName('side-button-scroll-trigger').length; i++) {
+            document.getElementsByClassName('side-button-scroll-trigger')[i].classList.add('fade-in', 'mouse-hover-item')
             sideButtonFlag = true;
         }
     } else {
-        for (let i = 0; i < document.getElementsByClassName('side-button-icon').length; i++) {
-            document.getElementsByClassName('side-button-icon')[i].classList.remove('fade-in', 'mouse-hover-item')
+        for (let i = 0; i < document.getElementsByClassName('side-button-scroll-trigger').length; i++) {
+            document.getElementsByClassName('side-button-scroll-trigger')[i].classList.remove('fade-in', 'mouse-hover-item')
             sideButtonFlag = false;
         }
     }
 
     // トップに戻るとフェードイン
     const topText = document.getElementsByClassName('text-animation-top')
-    for (let i = 0; i < topText.length; i++) {
-        if(topText[i].getBoundingClientRect().bottom < 0) {
-            topText[i].classList.add('fade-out')
-        } else if (topText[i].getBoundingClientRect().top > 0) {
-            topText[i].classList.remove('fade-out')
-        }
-    }
+    const topSectionLine = section[0].getElementsByClassName('section-line')
+    fadeOutAnime(topText)
+    fadeOutAnime(topSectionLine)
 
     // 文字が出現
     const textMain = document.getElementsByClassName('text-animation-main')
@@ -262,6 +298,14 @@ function cardMouseLeave() {
     }
 }
 
+// ページ遷移
+const worksCardButton = document.getElementsByClassName('works-card-button')
+function cardClick() {
+    if(this.getAttribute('data-text') != null) {
+        window.open(`project/${this.getAttribute('data-text')}/index.html`, '_blank')
+    }
+}
+
 // スマホ用のアバウトエリア
 function aboutCardCopyAndPaste() {
     const aboutCardRight = document.getElementsByClassName('about-card-right')[0]
@@ -285,6 +329,9 @@ function checkWindow(windowSize) {
             cardButton[i].addEventListener('mousemove', cardMouseHover)
             cardButton[i].addEventListener('mouseleave', cardMouseLeave)
         }
+        for (let i = 0; i < worksCardButton.length; i++) {
+            worksCardButton[i].addEventListener('click', cardClick)
+        }
         elementFadeInLocation = viewportHeight/10  //要素出現トリガーの位置
     } else {  //spの処理
         aboutCardCopyAndPaste();
@@ -292,6 +339,9 @@ function checkWindow(windowSize) {
         for (let i = 0; i < cardButton.length; i++) {
             cardButton[i].removeEventListener('mousemove', cardMouseHover)
             cardButton[i].removeEventListener('mouseleave', cardMouseLeave)
+        }
+        for (let i = 0; i < worksCardButton.length; i++) {
+            worksCardButton[i].removeEventListener('click', cardClick)
         }
         elementFadeInLocation = viewportHeight/3
     }
