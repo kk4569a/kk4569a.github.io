@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html onwheel="event.stopPropagation()">
+<html onwheel="event.stopPropagation()" theme="light">
     <head>
         <meta charset = "UTF-8">
         <meta name="robots" content="noindex">
@@ -11,7 +11,7 @@
         <title>Kazuma Karasawa Portfolio</title>
     </head>
     <body>
-        <div class="loading-window" style="height: 100lvh; width: 100vw; background-color: #051428;"><p>HELLO</p></div>
+        <div class="loading-window"><p>HELLO</p></div>
         
         <div class="cover-window"></div>
 
@@ -41,7 +41,7 @@
         </header>
 
         <div class="side-menu loaded-anime loading">
-            <div class="site-top-button side-button-icon">
+            <div class="site-top-button side-button-icon mouse-hover-item">
                 <div class="side-button-icon-wrapper site-top-button-icon-wrapper">
                     <div class="side-button-icon-front side-button-icon-face">
                         <p>K</p>
@@ -70,7 +70,7 @@
                     </li>
                 </ul>
             </nav>
-            <div class="humburger-menu-icon side-button-icon">
+            <div class="humburger-menu-icon side-button-icon side-button-scroll-trigger">
                 <div class="side-button-icon-wrapper">
                     <div class="side-button-icon-top side-button-icon-face"><ion-icon name="happy-outline"></ion-icon></div>
                     <div class="side-button-icon-front side-button-icon-face">
@@ -80,7 +80,17 @@
                     <div class="side-button-icon-bottom side-button-icon-face element-copy"></div>
                 </div>
             </div>
-            <div class="page-top-arrow side-button-icon">
+            <div class="dark-mode-button side-button-icon mouse-hover-item">
+                <div class="side-button-icon-wrapper">
+                    <div class="side-button-icon-top side-button-icon-face"><ion-icon name="sunny"></ion-icon></div>
+                    <div class="side-button-icon-front side-button-icon-face">
+                        <ion-icon name="contrast"></ion-icon>
+                        <p>Auto</p>
+                    </div>
+                    <div class="side-button-icon-bottom side-button-icon-face"><ion-icon name="moon"></ion-icon></div>
+                </div>
+            </div>
+            <div class="page-top-arrow side-button-icon side-button-scroll-trigger">
                 <div class="side-button-icon-wrapper">
                     <div class="side-button-icon-top side-button-icon-face"><ion-icon name="chevron-down"></ion-icon></div>
                     <div class="side-button-icon-front side-button-icon-face"><ion-icon name="chevron-up"></ion-icon></div>
@@ -91,6 +101,7 @@
 
         <main class="loaded-anime loading">
             <section class="main-wrapper main-top">
+                <hr class="section-line">
                 <div class="main-top-text main-top-text-pc">
                     <p class="text-animation text-animation-top" style="--i:0;">KAZUMA</p>
                     <p class="text-animation text-animation-top" style="--i:1;">KARASAWA</p>
@@ -106,7 +117,7 @@
                     <p class="text-animation text-animation-main">制作したもの</p>
                 </div>
                 <div class="card-button-wrapper">
-                    <div class="card-button works-card-button  mouse-hover-item" style="--i:0">
+                    <div class="card-button works-card-button  mouse-hover-item" style="--i:0" data-text="Test page">
                         <div class="card-button-face-wrapper">
                             <div class="card-button-outer card-button-face hover-interaction-item">
                                 <div class="works-card-image">
@@ -234,6 +245,31 @@
                             </div>
                         </div>
                     </div>
+
+                    <div class="card-button works-card-button mouse-hover-item" style="--i:2">
+                        <div class="card-button-face-wrapper">
+                            <div class="card-button-outer card-button-face hover-interaction-item">
+                                <div class="works-card-image">
+                                    <img src="" alt="">
+                                </div>
+                                <div class="works-card-visit-button works-card-item" style="--k:-1;">
+                                    <p class="text-animation">VISIT</p>
+                                    <div class="icon-wrapper icon-animation"><ion-icon name="open"></ion-icon></div>
+                                </div>
+                                <div class="works-card-icon works-card-item">
+                                    <div class="icon-wrapper icon-animation" style="--k:0;"><ion-icon name="logo-javascript"></ion-icon></div>
+                                </div>
+                                <div class="works-card-title works-card-item" style="--k:1;">
+                                    <h3 class="text-animation">Web app</h3>
+                                    <p class="cover-text text-animation text-copy"></p>
+                                </div>
+                                <div class="works-card-text works-card-item">
+                                    <p class="text-animation" style="--k:2;">texttexttexttexttexttexttexttext</p>
+                                    <p class="text-animation" style="--k:3;">TypeScript</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </section>  
 
@@ -249,36 +285,36 @@
                             <div class="card-button-outer card-button-face hover-interaction-item">
                                 <div class="about-card-left">
                                     <div class="profile">
-                                        <p class="about-card-item-title text-animation">Profile</p>
+                                        <p class="about-card-item-title text-animation" style="--i:0; --k:0;">Profile</p>
                                         <hr>
                                         <div class="about-card-item">
-                                            <div class="about-card-item-name" style="--i:0; --k:0;">
+                                            <div class="about-card-item-name" style="--i:1; --k:1;">
                                                 <p class="text-animation">Kazuma</p>
                                                 <p class="text-animation">Karasawa</p>
                                             </div>
                                         </div>
                                         <div class="about-card-item">
-                                            <p class="text-animation" style="--i:1; --k:1;">I am a ...</p>
-                                            <div style="--i:0; --k:2;">
+                                            <p class="text-animation" style="--i:2; --k:2;">I am a ...</p>
+                                            <div style="--i:0; --k:3;">
                                                 <div class="icon-wrapper"><ion-icon name="code-slash"></ion-icon></div>
                                                 <p class="text-animation text-animation-hover">Leaner of a front-end languages.</p>
                                             </div>
-                                            <div style="--i:1; --k:3;">
+                                            <div style="--i:1; --k:4;">
                                                 <div class="icon-wrapper"><ion-icon name="musical-notes"></ion-icon></div>
                                                 <p class="text-animation text-animation-hover">Trumpeter in an orchestra.</p>
                                             </div>
-                                            <div style="--i:2; --k:4;">
+                                            <div style="--i:2; --k:5;">
                                                 <div class="icon-wrapper"><ion-icon name="car-sport"></ion-icon></div>
                                                 <p class="text-animation text-animation-hover">Ferrari fun in formula one.</p>
                                             </div>
                                         </div>
                                         <div class="about-card-item">
-                                            <p class="text-animation" style="--i:2; --k:5;">I love the ...</p>
-                                            <div style="--i:3; --k:6;">
+                                            <p class="text-animation" style="--i:3; --k:6;">I love the ...</p>
+                                            <div style="--i:3; --k:7;">
                                                 <div class="icon-wrapper"><ion-icon name="color-palette"></ion-icon></div>
                                                 <p class="text-animation text-animation-hover">Simple and elegant design.</p>
                                             </div>
-                                            <div style="--i:4; --k:7;">
+                                            <div style="--i:4; --k:8;">
                                                 <div class="icon-wrapper"><ion-icon name="sparkles"></ion-icon></div>
                                                 <p class="text-animation text-animation-hover">Rich but non-intrusive animations.</p>
                                             </div>
@@ -288,42 +324,44 @@
 
                                 <div class="about-card-right">
                                     <div class="skills">
-                                        <p class="about-card-item-title text-animation">Skills</p>
+                                        <p class="about-card-item-title text-animation" style="--i:0; --k:0;">Skills</p>
                                         <hr>
-                                        <div class="slills-item about-card-item" style="--i:0;">
-                                            <div class="skill-icon">
-                                                <div class="icon-wrapper"><ion-icon name="logo-html5"></ion-icon></div>
+                                        <div class="about-card-item-wrapper">
+                                            <div class="slills-item about-card-item" style="--i:1;">
+                                                <div class="skill-icon">
+                                                    <div class="icon-wrapper"><ion-icon name="logo-html5"></ion-icon></div>
+                                                </div>
+                                                <div class="skill-duration" style="--duration:1.5;">
+                                                    <p class="text-animation">HTML</p>
+                                                    <p class="text-animation text-animation-hover">1.5yrs.</p>
+                                                </div>
                                             </div>
-                                            <div class="skill-duration" style="--duration:1.5;">
-                                                <p class="text-animation">HTML</p>
-                                                <p class="text-animation text-animation-hover">1.5yrs.</p>
+                                            <div class="slills-item about-card-item" style="--i:2;">
+                                                <div class="skill-icon">
+                                                    <div class="icon-wrapper"><ion-icon name="logo-css3"></ion-icon></div>
+                                                </div>
+                                                <div class="skill-duration" style="--duration:1.3;">
+                                                    <p class="text-animation">CSS</p>
+                                                    <p class="text-animation text-animation-hover">1.5yrs.</p>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="slills-item about-card-item" style="--i:1;">
-                                            <div class="skill-icon">
-                                                <div class="icon-wrapper"><ion-icon name="logo-css3"></ion-icon></div>
+                                            <div class="slills-item about-card-item" style="--i:3;">
+                                                <div class="skill-icon">
+                                                    <div class="icon-wrapper"><ion-icon name="logo-javascript"></ion-icon></div>
+                                                </div>
+                                                <div class="skill-duration" style="--duration:1;">
+                                                    <p class="text-animation">JavaScript</p>
+                                                    <p class="text-animation text-animation-hover">1yrs.</p>
+                                                </div>
                                             </div>
-                                            <div class="skill-duration" style="--duration:1.5;">
-                                                <p class="text-animation">CSS</p>
-                                                <p class="text-animation text-animation-hover">1.5yrs.</p>
-                                            </div>
-                                        </div>
-                                        <div class="slills-item about-card-item" style="--i:2;">
-                                            <div class="skill-icon">
-                                                <div class="icon-wrapper"><ion-icon name="logo-javascript"></ion-icon></div>
-                                            </div>
-                                            <div class="skill-duration" style="--duration:1;">
-                                                <p class="text-animation">JavaScript</p>
-                                                <p class="text-animation text-animation-hover">1yrs.</p>
-                                            </div>
-                                        </div>
-                                        <div class="slills-item about-card-item" style="--i:3;">
-                                            <div class="skill-icon">
-                                                <div class="icon-wrapper"><ion-icon name="logo-javascript"></ion-icon></div>
-                                            </div>
-                                            <div class="skill-duration" style="--duration:.1;">
-                                                <p class="text-animation">TypeScript</p>
-                                                <p class="text-animation text-animation-hover">0.1yrs.</p>
+                                            <div class="slills-item about-card-item" style="--i:4;">
+                                                <div class="skill-icon">
+                                                    <div class="icon-wrapper"><ion-icon name="logo-javascript"></ion-icon></div>
+                                                </div>
+                                                <div class="skill-duration" style="--duration:.1;">
+                                                    <p class="text-animation">TypeScript</p>
+                                                    <p class="text-animation text-animation-hover">0.1yrs.</p>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
