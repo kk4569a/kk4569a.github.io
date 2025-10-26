@@ -8,6 +8,8 @@ html {
 
     --backgroundcolor: antiquewhite;
     --fontcolor: #051428;
+    --profileaccentbackgroundcolor:#051428;
+    --profileaccentfontcolor: antiquewhite;
     --fixedbackgroundcolor:#051428;
     --fixedfontcolor: antiquewhite;
     --glasscolor:#05142888;
@@ -41,6 +43,8 @@ html {
 :root[theme = "light"] {
     --backgroundcolor: antiquewhite;
     --fontcolor: #051428;
+    --profileaccentbackgroundcolor:#051428;
+    --profileaccentfontcolor: antiquewhite;
     --fixedbackgroundcolor:#051428;
     --fixedfontcolor: antiquewhite;
     --glasscolor:#05142888;
@@ -49,6 +53,8 @@ html {
 :root[theme = "dark"] {
     --backgroundcolor: #222222;
     --fontcolor: #eeeeee;
+    --profileaccentbackgroundcolor:#222222;
+    --profileaccentfontcolor:#eeeeee;
     --fixedbackgroundcolor:#555555;
     --fixedfontcolor: #ffffff;
     --glasscolor:#55555588;
@@ -996,8 +1002,8 @@ main {
             }
             
             .about-card-left {
-                background-color: var(--fixedbackgroundcolor);
-                color: var(--fixedfontcolor);
+                background-color: var(--profileaccentbackgroundcolor);
+                color: var(--profileaccentfontcolor);
             
                 & hr {
                     background-color: var(--fixedfontcolor);
