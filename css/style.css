@@ -3,31 +3,32 @@ html {
 }
 
 :root {
-    --basewindowsize: calc(1920*1);
+    --basewindowsize: calc(1440*1);
     --vwratio: calc(100vw/var(--basewindowsize));
 
     --backgroundcolor: antiquewhite;
     --fontcolor: #051428;
-    --profilebackgroundcolor:#051428;
-    --profilefontcolor: antiquewhite;
+    --fixedbackgroundcolor:#051428;
+    --fixedfontcolor: antiquewhite;
+    --glasscolor:#05142888;
 
-    --ftext: clamp(1.8rem, calc(18*var(--vwratio)), calc(18*var(--vwratio)));
-    --ftitle: 22vh;
+    --ftext: calc(18*var(--vwratio));
+    --ftitle: 12vw;
     /* --fbig: calc(var(--ftext)*10/1.8); */
     --fmiddle: calc(var(--ftext)*3);
-    --fsmall: calc(var(--ftext)*2);
+    --fsmall: calc(var(--ftext)*2.2);
 
     --borderweight: .3rem;
     --textborderweight: .15rem;
 
     --sidebuttonsize: calc(var(--ftext)*3);
-    --cardwidth: calc(var(--ftext)*20);
+    --cardwidth: calc(var(--ftext)*19.5);
     --cardshadowsize: calc(var(--cardwidth)*.05);
     --footersize: 20vh;
 
     --sectionmarginsize: calc(var(--ftext)*7);
     --cardpaddingsize: calc(var(--ftext)*1.2);
-    --cardmarginsize: calc(var(--ftext)*2.5);
+    --cardmarginsize: calc((80vw - var(--cardwidth)*3)/2);
 
     --turntime: .3s;
     --letteranimetime: .3s;
@@ -40,15 +41,17 @@ html {
 :root[theme = "light"] {
     --backgroundcolor: antiquewhite;
     --fontcolor: #051428;
-    --profilebackgroundcolor:#051428;
-    --profilefontcolor: antiquewhite;
+    --fixedbackgroundcolor:#051428;
+    --fixedfontcolor: antiquewhite;
+    --glasscolor:#05142888;
 }
 
 :root[theme = "dark"] {
-    --backgroundcolor: #051428;
-    --fontcolor: antiquewhite;
-    --profilebackgroundcolor:#051428;
-    --profilefontcolor: antiquewhite;
+    --backgroundcolor: #222222;
+    --fontcolor: #eeeeee;
+    --fixedbackgroundcolor:#555555;
+    --fixedfontcolor: #ffffff;
+    --glasscolor:#55555588;
 } 
 
 * {
@@ -119,8 +122,9 @@ hr {
     width: 100vw;
     top: 0%;
     left: -100%;
-    background-color: #fff;
-    mix-blend-mode: difference;
+    background-color: var(--glasscolor);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     clip-path: polygon(0% 0%, 100% 0%, 88% 100%, 0% 100%);
     transition: left var(--transitiontime) ease;
 
@@ -139,8 +143,8 @@ hr {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: var(--fontcolor);
-    color: var(--backgroundcolor);
+    background-color: var(--fixedbackgroundcolor);
+    color: var(--fixedfontcolor);
     font-size: var(--ftitle);
     font-weight: bold;
     transition: left var(--openinganimetime) calc(var(--openinganimetime)*2) ease;
@@ -174,7 +178,7 @@ header, footer {
         & ul {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: var(--cardpaddingsize);
+            gap: calc((10vw - var(--sidebuttonsize))/2);
 
             .nav-button-sp {
                 display: none;
@@ -316,7 +320,7 @@ footer {
         right: -100%;
         height: 100vh;
         width: 100vw;
-        background-color: var(--backgroundcolor);
+        background-color: var(--fixedfontcolor);
         clip-path: polygon(12% 0%, 100% 0%, 100% 100%, 0% 100%);
         padding: 0 44vw 0 calc(100vw*12/100);
         transition: right var(--transitiontime) ease, background-color var(--colorchangetime) ease;
@@ -331,7 +335,7 @@ footer {
             left: 0;
             height: 100%;
             width: 100%;
-            background-color: var(--fontcolor);
+            background-color: var(--fixedbackgroundcolor);
             clip-path: polygon(calc(12% + var(--borderweight)) 0%, 100% 0%, 100% 100%, var(--borderweight) 100%);
             transition: background-color var(--colorchangetime) ease;
         }
@@ -352,8 +356,8 @@ footer {
                     display: flex;
                     font-size: var(--fmiddle);
                     font-weight: bold;
-                    color: var(--backgroundcolor);
-                    -webkit-text-stroke: var(--textborderweight) var(--backgroundcolor);
+                    color: var(--fixedfontcolor);
+                    -webkit-text-stroke: var(--textborderweight) var(--fixedfontcolor);
                     overflow: hidden;
                     transition: color var(--colorchangetime) ease, -webkit-text-stroke var(--colorchangetime) ease;
 
@@ -364,7 +368,7 @@ footer {
                 }
                 .cover-text {
                     position: absolute;
-                    color: var(--fontcolor);
+                    color: var(--fixedbackgroundcolor);
                     clip-path: inset(0);
                     transition: clip-path var(--transitiontime) ease, color var(--colorchangetime) ease, -webkit-text-stroke var(--colorchangetime) ease;
                 }
@@ -391,7 +395,6 @@ footer {
             height: var(--sidebuttonsize);
             aspect-ratio: 1;
             transform-style: preserve-3d;
-            transform: rotateX(-90deg);
             transition: transform var(--transitiontime) ease;
 
             .side-button-icon-face {
@@ -426,6 +429,19 @@ footer {
             border-radius: var(--borderweight);
         }
 
+        &:not(.side-button-scroll-trigger, .dark-mode-button) {
+            &:hover {
+                .side-button-icon-wrapper {
+                    transform: rotateX(90deg);
+                }
+            }
+        }
+    }
+
+    .side-button-scroll-trigger {
+        .side-button-icon-wrapper {
+            transform: rotateX(-90deg);
+        }
         &.fade-in {
             .side-button-icon-wrapper {
                 transform: rotateX(0);
@@ -473,15 +489,57 @@ footer {
                 justify-content: center;
             }
 
-            & span {
-            left: 50%;
-                transform: rotateZ(0deg) translate(-50%, -50%);
-                transform-origin: 0 0;
-                transition: top calc(var(--transitiontime)/2) calc(var(--transitiontime)/2), transform calc(var(--transitiontime)/2) 0s, background-color var(--colorchangetime) ease;
-                will-change: top, transform, width;
+            .side-button-icon-face {
+                & span {
+                left: 50%;
+                    transform: rotateZ(0deg) translate(-50%, -50%);
+                    transform-origin: 0 0;
+                    transition: top calc(var(--transitiontime)/2) calc(var(--transitiontime)/2), transform calc(var(--transitiontime)/2) 0s, background-color var(--colorchangetime) ease;
+                    will-change: top, transform, width;
+            
+                    &:nth-child(1) {top: 40%;}
+                    &:nth-child(2) {top: 60%;}
+                }
+            }
+        }
+    }
+
+    /* ダークモードボタン */
+    .dark-mode-button {
+        position: absolute;
+        z-index: 5;
+        top: calc(var(--footersize)/2);
+        left: 10%;
+        transform: translateY(-50%);
         
-                &:nth-child(1) {top: 40%;}
-                &:nth-child(2) {top: 60%;}
+        .side-button-icon-face {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+        
+        .side-button-icon-front {
+            & ion-icon {
+                font-size: calc(var(--ftext)*1.5);
+            }    
+        }
+
+        .side-button-icon-top, .side-button-icon-bottom {
+            & ion-icon {
+                font-size: var(--fmiddle);
+            }
+        }
+
+        &.light {
+            .side-button-icon-wrapper {
+                transform: rotateX(-90deg);
+            }
+        }
+
+        &.dark {
+            .side-button-icon-wrapper {
+                transform: rotateX(90deg);
             }
         }
     }
@@ -501,6 +559,7 @@ footer {
         }
     }
 
+    /* メニューが開いた時 */
     &.active {
         & nav {
             right: -44%;
@@ -514,13 +573,15 @@ footer {
         } 
 
         .humburger-menu-icon {
-            .side-button-icon-face {
-                & span {
-                    top: 50%;
-                    transition: top calc(var(--transitiontime)/2) 0s, transform calc(var(--transitiontime)/2) calc(var(--transitiontime)/2), background-color var(--colorchangetime) ease, width 0s calc(var(--transitiontime)/2);
-        
-                    &:nth-child(1) {transform: rotateZ(45deg) translate(-50%, -50%);}
-                    &:nth-child(2) {transform: rotateZ(-45deg) translate(-50%, -50%);}
+            .side-button-icon-wrapper {
+                .side-button-icon-face {
+                    & span {
+                        top: 50%;
+                        transition: top calc(var(--transitiontime)/2) 0s, transform calc(var(--transitiontime)/2) calc(var(--transitiontime)/2), background-color var(--colorchangetime) ease, width 0s calc(var(--transitiontime)/2);
+            
+                        &:nth-child(1) {transform: rotateZ(45deg) translate(-50%, -50%);}
+                        &:nth-child(2) {transform: rotateZ(-45deg) translate(-50%, -50%);}
+                    }
                 }
             }
         } 
@@ -579,10 +640,11 @@ main {
 
         /* カード共通スタイル */
         .card-button-wrapper {
-            width: 100%;
+            width: 100vw;
             height: fit-content;
             display: grid;
             gap: var(--cardmarginsize);
+
             perspective: 100vmax;
 
             &:nth-of-type(n+3) {  /*div要素の3番目以降*/
@@ -592,7 +654,7 @@ main {
             .card-button {
                 position: relative;
                 width: var(--cardwidth);
-                aspect-ratio: 1/1.45;
+                aspect-ratio: 1/1.4;
                 display: flex;
                 transform: translateY(calc(var(--cardwidth)/2)) scale(.85) rotateX(-60deg);
                 transform-origin: top;
@@ -641,6 +703,18 @@ main {
         align-items: flex-start;
         justify-content: flex-end;
         padding: 5vh 10%;
+
+        .section-line {
+            top: var(--footersize);
+            left: auto;
+            right: 10%;
+            width: 80vw;
+
+            &.fade-out {
+                width: 0;
+                transition: width 0s 0s, var(--backgroundcolor) var(--colorchangetime) ease;
+            }
+        }
 
         .main-top-text {
             display: flex;
@@ -706,8 +780,7 @@ main {
 .section-line {
     position: absolute;
     top: calc(-1*var(--borderweight));
-    left: 50%;
-    transform: translateX(-50%);
+    left: 10%;
     height: var(--borderweight);
     width: 0vw;
     background-color: var(--fontcolor);
@@ -729,7 +802,6 @@ main {
     .card-button-wrapper {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
-        gap: var(--cardmarginsize);
         width: fit-content;
 
         .works-card-button {
@@ -748,7 +820,6 @@ main {
                     display: flex;
                     justify-content: center;
                     align-items: flex-start;
-                    margin-left: 10%;
                 }
                 
                 .works-card-image {
@@ -925,11 +996,11 @@ main {
             }
             
             .about-card-left {
-                background-color: var(--profilebackgroundcolor);
-                color: var(--profilefontcolor);
+                background-color: var(--fixedbackgroundcolor);
+                color: var(--fixedfontcolor);
             
                 & hr {
-                    background-color: var(--profilefontcolor);
+                    background-color: var(--fixedfontcolor);
                 }
             
                 .about-card-item {
@@ -954,7 +1025,7 @@ main {
                         margin-top: var(--cardpaddingsize);
                         
                         & p:not(.text-animation-hover) {
-                            margin-bottom: calc(var(--cardpaddingsize)/2);
+                            margin-bottom: calc(var(--cardpaddingsize)/4);
                         }
     
                         & div {
@@ -980,79 +1051,83 @@ main {
                     height: 100%;
                     display: flex;
                     flex-direction: column;
-        
-                    .about-card-item {
-                        height: fit-content;
-                        margin: auto 0;
-                        display: flex;
-                        align-items: center;
-                        padding-right: var(--cardpaddingsize);
-        
-                        .skill-icon {        
-                            width: fit-content;
+
+                    .about-card-item-wrapper {
+                        height: 100%;
+                        display: grid;
+                        grid-template-rows: repeat(4, 1fr);
+
+                        .about-card-item {
                             display: flex;
-                            flex-direction: column;
                             align-items: center;
-                            margin-right: calc(var(--cardpaddingsize));
-                    
-                            .icon-wrapper {
-                                margin-bottom: calc(var(--cardpaddingsize)/5);
-                                font-size: var(--fmiddle);
+                            padding-right: var(--cardpaddingsize);
+            
+                            .skill-icon {        
+                                width: fit-content;
                                 display: flex;
-                                overflow: hidden;
-                    
-                                & ion-icon {
-                                    transform: translateY(100%);
-                                    transition: transform 0s 0s;
-                                    will-change: transform;
-                                }
-                            }
-                        }
+                                flex-direction: column;
+                                align-items: center;
+                                margin-right: calc(var(--cardpaddingsize));
                         
-                        .skill-duration {
-                            position: relative;
-                            height: 100%;
-                            width: 100%;
-                            margin-top: auto;
-                    
-                            &::after {
-                                content: "";
-                                position: absolute;
-                                left: 0;
-                                bottom: 20%;
-                                transform: translateY(50%);
-                                width: 0%;
-                                height: calc(var(--borderweight)*3);
-                                background-color: var(--fontcolor);
-                                border-radius: calc(var(--borderweight)*3);
-                                transition: width var(--transitiontime) 0s ease;
-                            }
-                    
-                            &::before {
-                                content: "";
-                                position: absolute;
-                                left: 0;
-                                bottom: 20%;
-                                height: var(--borderweight);
-                                transform: translateY(50%);
-                                width: 0;
-                                background-color: var(--fontcolor);
-                                border-radius: var(--borderweight);
-                                transition: width 0s 0s;
-                            }
-                    
-                            & p {
-                                position: absolute;
-                                top: 0;
-                                font-size: var(--ftext);
-                                transition: left var(--transitiontime) 0s ease;
-                                
-                                &:nth-of-type(2) {
-                                    right: 0;
+                                .icon-wrapper {
+                                    margin-bottom: calc(var(--cardpaddingsize)/5);
+                                    font-size: var(--fmiddle);
+                                    display: flex;
+                                    overflow: hidden;
+                        
+                                    & ion-icon {
+                                        transform: translateY(100%);
+                                        transition: transform 0s 0s;
+                                        will-change: transform;
+                                    }
                                 }
-    
-                                &:nth-of-type(1) {
+                            }
+                            
+                            .skill-duration {
+                                position: relative;
+                                height: 100%;
+                                width: 100%;
+                        
+                                &::after {
+                                    content: "";
+                                    position: absolute;
                                     left: 0;
+                                    bottom: 30%;
+                                    transform: translateY(50%);
+                                    width: 0%;
+                                    height: calc(var(--borderweight)*3);
+                                    background-color: var(--fontcolor);
+                                    border-radius: calc(var(--borderweight)*3);
+                                    transition: width var(--transitiontime) 0s ease;
+                                }
+                        
+                                &::before {
+                                    content: "";
+                                    position: absolute;
+                                    left: 0;
+                                    bottom: 30%;
+                                    transform: translateY(50%);
+                                    height: var(--borderweight);
+                                    width: 0;
+                                    background-color: var(--fontcolor);
+                                    border-radius: var(--borderweight);
+                                    transition: width 0s 0s;
+                                }
+                        
+                                & p {
+                                    position: absolute;
+                                    top: 30%;
+                                    transform: translateY(-50%);
+                                    font-size: var(--ftext);
+                                    transition: left var(--transitiontime) 0s ease;
+                                    
+                                    &:nth-of-type(2) {
+                                        right: 0;
+                                    }
+        
+                                    &:nth-of-type(1) {
+                                        left: 0;
+                                    }
                                 }
                             }
                         }
@@ -1125,10 +1200,12 @@ main {
                     }
         
                     .about-card-right {
-                        .skill-duration {                        
-                            &::after {
-                                width: calc(var(--duration)*100%/1.5);
-                                transition: width var(--transitiontime) calc(var(--transitiongaptime)*var(--i)) ease, background-color var(--colorchangetime) ease;
+                        .about-card-item-wrapper {
+                            .skill-duration {                        
+                                &::after {
+                                    width: calc(var(--duration)*100%/1.5);
+                                    transition: width var(--transitiontime) calc(var(--transitiongaptime)*var(--i)) ease, background-color var(--colorchangetime) ease;
+                                }
                             }
                         }
                     }
@@ -1153,11 +1230,11 @@ main {
 /* スマホ用のスタイル */
 @media screen and (max-width: 768px) {
     :root {
-        --ftext: 4.3vw;
+        --ftext: 4vw;
         /* --ftext: 16px; */
-        --ftitle: 14vw;
+        --ftitle: 12vw;
         --fmiddle: 12vw;
-        --fsmall: 7vw;
+        --fsmall: 7.5vw;
 
         --cardwidth: 85vw;
         --cardpaddingsize: 4vw;
@@ -1257,14 +1334,14 @@ main {
         & nav {
             clip-path: none;
             padding: 0;
-            background-color: var(--fontcolor);
+            background-color: var(--fixedbackgroundcolor);
             &::after {
                 display: none;
             }
 
             & ul {                
                 & li {
-                    border: var(--borderweight) solid var(--backgroundcolor);
+                    border: var(--borderweight) solid var(--fixedfontcolor);
                     height: calc(var(--sidebuttonsize)*1.5);
                     width: var(--cardwidth);
                     display: flex;
@@ -1401,6 +1478,12 @@ main {
         }
     }
 
+    .section-line {
+        &.fade-in {
+            width: var(--cardwidth);
+        }
+    }
+
     #works {
         .card-button-wrapper {
             grid-template-columns: 1fr;
@@ -1415,7 +1498,7 @@ main {
         
                     .works-card-visit-button {
                         position: relative;
-                        left: 10%;
+                        left: 0;
                         width: 0%;
                         height: var(--sidebuttonsize);
                         margin: 0 0 calc(var(--cardpaddingsize));
@@ -1469,7 +1552,7 @@ main {
                         }
 
                         .works-card-visit-button {
-                            width: 80%;
+                            width: 100%;
                             transition: width var(--transitiontime) 0s ease, background-color var(--colorchangetime) ease, color var(--colorchangetime) ease;
                         }
                     }
