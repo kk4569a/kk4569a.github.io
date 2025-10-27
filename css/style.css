@@ -315,7 +315,7 @@ footer {
 
 .side-menu {
     /* ハンバーガーメニュー */
-    .menu-wrapper {
+    .menu-wrapper, .title-window-sp, .safari-sp {
         display: none;
     }
 
@@ -513,7 +513,7 @@ footer {
     /* ダークモードボタン */
     .dark-mode-button {
         position: absolute;
-        z-index: 5;
+        z-index: 15;
         top: calc(var(--footersize)/2);
         left: 10%;
         transform: translateY(-50%);
@@ -710,7 +710,7 @@ main {
         justify-content: flex-end;
         padding: 5vh 10%;
 
-        .section-line {
+        .section-line-pc {
             top: var(--footersize);
             left: auto;
             right: 10%;
@@ -1242,9 +1242,9 @@ main {
         --fmiddle: 12vw;
         --fsmall: 7.5vw;
 
-        --cardwidth: 85vw;
+        --cardwidth: 80vw;
         --cardpaddingsize: 4vw;
-        --cardmarginsize: calc((100vw - var(--cardwidth))/2);
+        --cardmarginsize: calc((100vw - var(--cardwidth))/4);
     }
     .cover-window {
         display: none;
@@ -1337,6 +1337,39 @@ main {
             transition: left 0s var(--transitiontime), backdrop-filter var(--transitiontime) 0s ease, -webkit-backdrop-filter var(--transitiontime) 0s ease;
         }
 
+        .title-window-sp {
+            position: fixed;
+            z-index: 14;
+            top: 0;
+            left: 0;
+            height: calc(var(--sidebuttonsize) + var(--cardpaddingsize)*2);
+            width: 100%;
+            display: flex;
+            background-color: var(--backgroundcolor);
+            border-bottom: var(--borderweight) solid var(--fontcolor);
+
+            .text-animation-title {
+                position: absolute;
+                top: 50%;
+                transform: translateY(-50%);
+                left: calc(var(--sidebuttonsize) + var(--cardpaddingsize)*2);
+                font-size: var(--ftext);
+                font-weight: bold;
+
+                & span {
+                    transform: translateY(100%);
+                    transition: transform var(--transitiontime) 0s;
+                }
+
+                &.fade-in {
+                    & span {
+                        transform: translateY(0);
+                        transition: transform var(--transitiontime) calc(var(--letteranimetime)/var(--letterlength)*var(--j));
+                    }
+                }
+            }
+        }
+
         & nav {
             clip-path: none;
             padding: 0;
@@ -1400,6 +1433,12 @@ main {
             }
         }
 
+        .dark-mode-button {
+            position: fixed;
+            left: auto;
+            right: calc(var(--sidebuttonsize) + var(--cardpaddingsize)*2);
+        }
+
         .page-top-arrow, .site-top-button-detection {
             display: none;
         }
@@ -1461,18 +1500,24 @@ main {
 
         .main-top {
             height: 100svh;
+            width: 100%;
             padding: 0 calc((100vw - var(--cardwidth))/2) 50svh;
 
+            .section-line-pc {
+                display: none;
+            }
+            .section-line-sp {
+                position: relative;
+                left: auto;
+                height: var(--borderweight);
+                width: var(--cardwidth);
+                background-color: var(--fontcolor);
+                display: flex;
+                border-radius: var(--borderweight);
+                margin: var(--cardpaddingsize) 0;
+            }
+
             .main-top-text {
-                .text-line-sp {
-                    width: var(--cardwidth);
-                    height: var(--borderweight);
-                    background-color: var(--fontcolor);
-                    display: flex;
-                    border-radius: var(--borderweight);
-                    margin: var(--cardpaddingsize) 0;
-                    
-                }
                 & h1, & p {
                     line-height: 1.2;
                 }
@@ -1584,9 +1629,11 @@ main {
     
                 .about-card-right {
                     .skills {
-                        .about-card-item {
-                            .skill-duration::after {
-                                transition: width 0s 0s;
+                        .about-card-item-wrapper {
+                            .about-card-item {
+                                .skill-duration::after {
+                                    transition: width 0s 0s;
+                                }
                             }
                         }
                     }
