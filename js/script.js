@@ -252,6 +252,13 @@ function scrollEvent() {
     fadeOutAnime(topText)
     fadeOutAnime(topSectionLine)
 
+    // タイトルが出現
+    if (document.getElementsByClassName('main-top-text')[0].getBoundingClientRect().bottom < 0) {
+        document.getElementsByClassName('text-animation-title')[0].classList.add('fade-in')
+    } else {
+        document.getElementsByClassName('text-animation-title')[0].classList.remove('fade-in')
+    }
+
     // 文字が出現
     const textMain = document.getElementsByClassName('text-animation-main')
     fadeInAnime(textMain, viewportHeight/10)
@@ -300,9 +307,15 @@ function cardMouseLeave() {
 
 // ページ遷移
 const worksCardButton = document.getElementsByClassName('works-card-button')
+const worksCardVisitButton = document.getElementsByClassName('works-card-visit-button')
 function cardClick() {
-    if(this.getAttribute('data-text') != null) {
-        window.open(`project/${this.getAttribute('data-text')}/index.html`, '_blank')
+    let targetPage = this.getAttribute('data-text')
+    if(this.getAttribute('data-text') == null) {
+        targetPage = this.closest('.card-button').getAttribute('data-text')
+    }
+
+    if(targetPage != null) {  ////////////////////////////////////////////////////////////////////////////////////////コンテンツが揃い次第条件式消去
+        window.open(`project/${targetPage}/index.html`, '_blank')
     }
 }
 
@@ -329,6 +342,9 @@ function checkWindow(windowSize) {
             cardButton[i].addEventListener('mousemove', cardMouseHover)
             cardButton[i].addEventListener('mouseleave', cardMouseLeave)
         }
+        for (let i = 0; i < worksCardVisitButton.length; i++) {
+            worksCardVisitButton[i].removeEventListener('click', cardClick)
+        }
         for (let i = 0; i < worksCardButton.length; i++) {
             worksCardButton[i].addEventListener('click', cardClick)
         }
@@ -342,6 +358,9 @@ function checkWindow(windowSize) {
         }
         for (let i = 0; i < worksCardButton.length; i++) {
             worksCardButton[i].removeEventListener('click', cardClick)
+        }
+        for (let i = 0; i < worksCardVisitButton.length; i++) {
+            worksCardVisitButton[i].addEventListener('click', cardClick)
         }
         elementFadeInLocation = viewportHeight/3
     }
