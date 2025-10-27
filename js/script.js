@@ -120,9 +120,10 @@ document.getElementsByClassName('dark-mode-button')[0].addEventListener('click',
     lightMode();
 })
 
-// ナビゲーションの処理
+// ページ内リンクの処理
 const navButton = document.getElementsByClassName("nav-button")
 let scrollDelayTime = 0;
+let titleWindowHeight;
 for (let i = 0; i < navButton.length; i++) {
     navButton[i].addEventListener('click', function () {
         if (humburgerMenuFlag) {
@@ -139,7 +140,7 @@ for (let i = 0; i < navButton.length; i++) {
                 });
             } else {
                 window.scroll({
-                    top: document.getElementById(sectionName).offsetTop,
+                    top: document.getElementById(sectionName).offsetTop - titleWindowHeight,
                     behavior: "smooth"
                 });
             }
@@ -155,6 +156,7 @@ const humburgerMenuButton = document.getElementsByClassName('humburger-menu-icon
 function humburgerMenu() {
     document.getElementsByClassName('side-menu')[0].classList.toggle('active');
     document.getElementsByClassName('cover-window')[0].classList.toggle('nav-open')
+    document.getElementsByClassName('safari-sp')[0].classList.toggle('active')
     
     if (!humburgerMenuFlag) {
         humburgerMenuFlag = true;
@@ -337,6 +339,7 @@ const mediaQuery = window.matchMedia('(min-width: 768px)');
 function checkWindow(windowSize) {
     if (windowSize.matches) {  //pcの処理
         aboutCardReset();
+        titleWindowHeight = 0;
 
         for (let i = 0; i < cardButton.length; i++) {
             cardButton[i].addEventListener('mousemove', cardMouseHover)
@@ -351,6 +354,7 @@ function checkWindow(windowSize) {
         elementFadeInLocation = viewportHeight/10  //要素出現トリガーの位置
     } else {  //spの処理
         aboutCardCopyAndPaste();
+        titleWindowHeight = document.getElementsByClassName('title-window-sp')[0].clientHeight;
 
         for (let i = 0; i < cardButton.length; i++) {
             cardButton[i].removeEventListener('mousemove', cardMouseHover)
