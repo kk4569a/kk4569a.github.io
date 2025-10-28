@@ -1,1 +1,133 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    background-color: black;
+}
 
+.container {
+    background-color: white;
+}
+
+.position-item {
+    height: 10svh;
+    box-sizing: border-box;
+    text-align: start;
+}
+.relative-item {
+    position: relative;
+    width: 100vw;
+    background-color: rgba(255, 0, 0, 0.5);
+}
+.sticky-item {
+    position: sticky;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: rgba(255, 166, 0, 0.5);
+}
+
+.height-item {
+    position: fixed;
+    top: 0;
+    right: calc(20vw*var(--i)/3);
+    width: calc(20vw/3);
+    text-align: center;
+    writing-mode: vertical-rl;
+    box-sizing: border-box;
+}
+
+.svh-item {
+    height: 100svh;
+    background-color: rgba(255, 255, 0, 0.5);
+}
+
+.dvh-item {
+    height: 100dvh;
+    background-color: rgba(0, 128, 0, 0.5);
+}
+
+.lvh-item {
+    height: 100lvh;
+    background-color: rgba(0, 0, 255, 0.5);
+}
+
+.outerheight-item {
+    background-color: rgba(0, 0, 128, 0.5);
+}
+
+.section-01 {
+    .wrapper {
+        display: flex;
+        
+        .item {
+            width: 50%;
+        }
+        .font-variation {
+            .p-system-ui-font {
+                font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            }
+        }
+    }
+}
+
+.section-02 {
+    height: 100vh;
+    border-top: 1px solid black;
+}
+
+.section-03 {
+    height: 100vh;
+}
+
+
+footer {
+    z-index: -1000;
+    transform: translate3d(0, 0, -1px);
+}
+
+
+@media screen and (max-width: 768px) {
+    .safari {
+        .dummy {
+            position: fixed;
+            z-index: -1;
+            transform: translate3d(0, 0, -1px);
+        }
+
+        &::after, &::before {
+            content: "";
+            position: fixed;
+            z-index: 9999;
+            transform: translate3d(0, 0, 9999);
+            left: 0;
+            width: 100%;
+            height: 200px;
+        }
+        &::before {
+            background-color: rgb(0, 0, 0);
+            top: -195px;  /*おそらくバグだが、スクロールするとtop0の要素が-5pxになっているため、それをカバーする必要がある*/
+        }
+        /*viewportよりも下が見えてしまっているのをカバーする必要がある*/
+        &::after { 
+            background-color: rgb(0, 0, 0);
+            bottom: -200px;
+        }
+    }
+
+    .relative-item {
+        margin-top: 5px;  /*スクロールで-5pxされるため*/
+    }
+    .sticky-item {
+        top: 5px;  /*スクロールで-5pxされるため*/
+    }
+    
+    .section-01 {
+        .wrapper {
+            flex-direction: column;
+
+            .item {
+                width: 100%;
+            }
+        }
+    }
+}
