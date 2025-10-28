@@ -6,12 +6,12 @@ html {
     --basewindowsize: calc(1440*1);
     --vwratio: calc(100vw/var(--basewindowsize));
 
-    --backgroundcolor: antiquewhite;
+    --backgroundcolor: #faebd7;
     --fontcolor: #051428;
     --profileaccentbackgroundcolor:#051428;
-    --profileaccentfontcolor: antiquewhite;
+    --profileaccentfontcolor: #faebd7;
     --fixedbackgroundcolor:#051428;
-    --fixedfontcolor: antiquewhite;
+    --fixedfontcolor: #faebd7;
     --glasscolor:#05142888;
 
     --ftext: calc(18*var(--vwratio));
@@ -75,7 +75,7 @@ html {
 }
 
 body {
-    font-family: sans-serif;
+    font-family: "Helvetica Neue",Arial,"Hiragino Kaku Gothic ProN","Hiragino Sans",Meiryo,sans-serif;
     letter-spacing: .05rem;
     background-color: var(--backgroundcolor);
     color: var(--fontcolor);
@@ -98,7 +98,7 @@ a{
 
 .text-animation {
     display: flex;
-    overflow: hidden;
+    overflow-y: hidden;
 }
 
 span {
@@ -431,14 +431,6 @@ footer {
                 transform: translateY(calc(var(--sidebuttonsize)/2)) rotateX(-90deg);
             }
         }
-        
-        & span {
-            position: absolute;
-            height: var(--borderweight);
-            width: 80%;
-            background-color: var(--fontcolor);
-            border-radius: var(--borderweight);
-        }
 
         &:not(.side-button-scroll-trigger, .dark-mode-button) {
             &:hover {
@@ -477,10 +469,34 @@ footer {
             transform: rotateX(0);
             
             .side-button-icon-face {
-                font-size: var(--fsmall);
-                display: flex;
-                justify-content: center;
-                align-items: center;
+
+                & span {
+                    position: absolute;
+                    top: 50%;
+                    transform: translateY(-50%);
+                    width: 12.5%;
+                    height: 60%;
+                    background-color: var(--fontcolor);
+                    transition: background-color var(--colorchangetime) ease;       
+
+                    &::after, &::before {
+                        content: "";
+                        position: absolute;
+                        top: 0;
+                        height: 100%;
+                        aspect-ratio: 1;
+                        background-color: var(--fontcolor);
+                        clip-path: polygon(60% 0, 25% 50%, 60% 100%, 35% 100%, 0% 50%, 35% 0);
+                        transition: background-color var(--colorchangetime) ease;       
+                    }
+                    
+                    &::after {
+                        left: 100%;
+                    }
+                    &::before {
+                        left: 330%;
+                    }
+                }
             }
         }
     }
@@ -492,12 +508,17 @@ footer {
         right: 5%;
         transform: translate(50%, -50%);
 
+        & span {
+            position: absolute;
+            height: var(--borderweight);
+            width: 80%;
+            background-color: var(--fontcolor);
+            border-radius: var(--borderweight);
+        }
+
         .side-button-icon-wrapper {
             .side-button-icon-top {
-                font-size: var(--fsmall);
-                display: flex;
-                align-items: center;
-                justify-content: center;
+                background-color: var(--fontcolor);
             }
 
             .side-button-icon-face {
@@ -528,20 +549,12 @@ footer {
             justify-content: center;
             align-items: center;
             flex-direction: column;
-        }
-        
-        .side-button-icon-front {
+            
             & ion-icon {
                 font-size: calc(var(--ftext)*1.5);
             }    
         }
-
-        .side-button-icon-top, .side-button-icon-bottom {
-            & ion-icon {
-                font-size: var(--fmiddle);
-            }
-        }
-
+        
         &.light {
             .side-button-icon-wrapper {
                 transform: rotateX(-90deg);
@@ -732,6 +745,7 @@ main {
             justify-content: center;
             flex-direction: column;
             align-items: flex-start;
+            letter-spacing: .8rem;
 
             .text-animation {
                 & span {
@@ -755,7 +769,6 @@ main {
                 font-size: var(--ftitle);
                 font-weight: bold;
                 line-height: 1;
-                letter-spacing: 0;
             }
     
             & p {
@@ -1382,6 +1395,7 @@ main {
             display: flex;
             background-color: var(--backgroundcolor);
             border-bottom: var(--borderweight) solid var(--fontcolor);
+            transition: background-color var(--colorchangetime) ease, border var(--colorchangetime) ease;
 
             .text-animation-title {
                 position: absolute;
