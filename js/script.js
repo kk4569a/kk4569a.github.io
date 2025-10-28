@@ -150,6 +150,11 @@ for (let i = 0; i < navButton.length; i++) {
     })
 }
 
+//サイトトップボタンの処理
+document.getElementsByClassName('site-top-button')[0].addEventListener('click', function() {
+    window.location = ''
+})
+
 // ハンバーガーメニュー
 let humburgerMenuFlag = false;
 const humburgerMenuButton = document.getElementsByClassName('humburger-menu-icon');
@@ -169,7 +174,7 @@ function humburgerMenu() {
         }, 400);
     }
 }
-// ハンバーガーメニューボタンの処理
+    // ハンバーガーメニューボタンの処理
 let humburgerMenuButonFlag = true;
 humburgerMenuButton[0].addEventListener('click', function () {
     if (humburgerMenuButonFlag && sideButtonFlag) {
@@ -280,7 +285,7 @@ function scrollEvent() {
 let buttonFlag = true;
 const cardButton = document.getElementsByClassName('card-button')
 let hoverInteractionItem;
-// ホバーアニメ
+    // ホバーアニメ
 function cardMouseHover() {
     if(buttonFlag) {
         if (this.closest('section').getAttribute('id') == 'works' || this.closest('section').getAttribute('id') == 'about') {
@@ -296,7 +301,7 @@ function cardMouseHover() {
         }
     }
 }
-// ホバーアニメオフ
+    // ホバーアニメオフ
 function cardMouseLeave() {
     if(buttonFlag) {
         if (this.closest('section').getAttribute('id') == 'works' || this.closest('section').getAttribute('id') == 'about') {
@@ -306,8 +311,7 @@ function cardMouseLeave() {
         }
     }
 }
-
-// ページ遷移
+    // ページ遷移
 const worksCardButton = document.getElementsByClassName('works-card-button')
 const worksCardVisitButton = document.getElementsByClassName('works-card-visit-button')
 function cardClick() {
