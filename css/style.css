@@ -123,7 +123,7 @@ hr {
 
 .loading-window {
     position: fixed;
-    z-index: 5;
+    z-index: 999;
     top: 0;
     left: 0;
     height: 100lvh;
@@ -1568,6 +1568,8 @@ main {
             }
 
             .main-top-text {
+                letter-spacing: .05rem;
+                
                 & h1, & p {
                     line-height: 1.2;
                 }
