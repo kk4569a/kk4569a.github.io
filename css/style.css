@@ -415,7 +415,6 @@ footer {
                 background-color: var(--backgroundcolor);
                 backface-visibility: hidden;
                 border: var(--borderweight) solid var(--fontcolor);
-                padding: 10%;
                 transition: border var(--colorchangetime) ease, background-color var(--colorchangetime) ease;
             }
 
@@ -432,7 +431,7 @@ footer {
             }
         }
 
-        &:not(.side-button-scroll-trigger, .dark-mode-button) {
+        &:not(.side-button-scroll-trigger) {
             &:hover {
                 .side-button-icon-wrapper {
                     transform: rotateX(90deg);
@@ -473,9 +472,10 @@ footer {
                 & span {
                     position: absolute;
                     top: 50%;
+                    left: 18%;
                     transform: translateY(-50%);
-                    width: 12.5%;
-                    height: 60%;
+                    width: 12%;
+                    height: 50%;
                     background-color: var(--fontcolor);
                     transition: background-color var(--colorchangetime) ease;       
 
@@ -494,7 +494,7 @@ footer {
                         left: 100%;
                     }
                     &::before {
-                        left: 330%;
+                        left: 300%;
                     }
                 }
             }
@@ -518,7 +518,10 @@ footer {
 
         .side-button-icon-wrapper {
             .side-button-icon-top {
-                background-color: var(--fontcolor);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: var(--fsmall);
             }
 
             .side-button-icon-face {
@@ -545,25 +548,42 @@ footer {
         transform: translateY(-50%);
         
         .side-button-icon-face {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-            
+            position: relative;
+            overflow-y: hidden;
+
             & ion-icon {
                 font-size: calc(var(--ftext)*1.5);
             }    
+
+            .dark-mode-button-icon-item-wrapper {
+                position: absolute;
+                display: grid;
+                grid-template-rows: repeat(3, 1fr);
+                gap: var(--borderweight);
+                top: calc(-100% - var(--borderweight));
+                left: 0;
+                transition: top var(--transitiontime) ease;
+
+                .dark-mode-button-icon-item {
+                    height: calc(var(--sidebuttonsize) - var(--borderweight)*2);
+                    aspect-ratio: 1;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: center;
+                }
+            }
         }
-        
+
         &.light {
-            .side-button-icon-wrapper {
-                transform: rotateX(-90deg);
+            .dark-mode-button-icon-item-wrapper {
+                top: 0;
             }
         }
 
         &.dark {
-            .side-button-icon-wrapper {
-                transform: rotateX(90deg);
+            .dark-mode-button-icon-item-wrapper {
+                top: calc(-100%*2 - var(--borderweight)*2);
             }
         }
     }
@@ -981,6 +1001,7 @@ main {
 #about {
     .about-card-button {
         margin: auto;
+        /* cursor: none; */
 
         .card-button-outer {
             width: 220%;
@@ -1454,10 +1475,20 @@ main {
             transform: translate(0, 0);
             top: var(--cardpaddingsize);
 
-            &.fade-in {
+            &:not(.side-button-scroll-trigger) {
                 &:hover {
                     .side-button-icon-wrapper {
                         transform: rotateX(0);
+                    }
+                }
+            }
+        }
+
+        .side-button-scroll-trigger {
+            &.fade-in {
+                &:hover {
+                    .side-button-icon-wrapper {
+                        transform: rotateX(0deg);
                     }
                 }
             }
