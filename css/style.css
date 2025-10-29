@@ -105,7 +105,7 @@ a{
 }
 
 span {
-    display: block;
+    display: inline;
 }
 
 li {
@@ -643,7 +643,9 @@ main {
             display: flex;
             flex-direction: column;
             align-items: center;
+            justify-content: center;
             margin-bottom: var(--sectionmarginsize);
+            width: 100%;
 
             .text-animation {
                 & span {
@@ -662,11 +664,6 @@ main {
             & h2 {
                 font-size: var(--fmiddle);
                 font-weight: bold;
-            }
-
-            & p {
-                font-size: var(--ftext);
-                margin-top: var(--cardpaddingsize);
             }
         }
 
@@ -1531,14 +1528,10 @@ main {
 
     main{
         & section {
-            padding: calc(var(--sectionmarginsize)/2) 0;
+            padding: calc(var(--sectionmarginsize)/2) 10%;
     
             .main-wrapper-title {
                 margin-bottom: calc(var(--cardmarginsize)*2);
-    
-                & p {
-                    font-size: var(--ftext);
-                }
             }
 
             .card-button-wrapper {
@@ -1569,9 +1562,16 @@ main {
             }
 
         }
+    }
 
-        .main-top {
-            height: 100svh;
+    .section-line {
+        &.fade-in {
+            width: var(--cardwidth);
+        }
+    }
+
+    #top {
+        height: 100svh;
             width: 100%;
             padding: 0 calc((100vw - var(--cardwidth))/2) 50svh;
 
@@ -1600,13 +1600,6 @@ main {
                     color: var(--fontcolor);
                 }
             }
-        }
-    }
-
-    .section-line {
-        &.fade-in {
-            width: var(--cardwidth);
-        }
     }
 
     #works {
@@ -1755,9 +1748,11 @@ main {
         }
     }
 
-    .contact-card-button {
-        .card-button-outer {
-            width: 100%;
+    #contact {
+        .contact-card-button {
+            .card-button-outer {
+                width: 100%;
+            }
         }
     }
 }
