@@ -52,6 +52,9 @@ html {
 
 :root[theme = "dark"] {
     --backgroundcolor: #222222;
+    --worksbackgroundcolor: #2A2A2A;
+    --aboutbackgroundcolor: #1C1C1C;
+    --contactbackgroundcolor: #2F2F2F;
     --fontcolor: #eeeeee;
     --profileaccentbackgroundcolor:#222222;
     --profileaccentfontcolor:#eeeeee;
@@ -114,13 +117,6 @@ hr {
 }
 
 /* ローディング */
-.loading {
-    opacity: 0;
-}
-.loaded-anime {
-    transition: opacity var(--transitiontime) ease;
-}
-
 .loading-window {
     position: fixed;
     z-index: 999;
@@ -135,26 +131,17 @@ hr {
     color: var(--fixedfontcolor);
     font-size: var(--ftitle);
     font-weight: bold;
-    transition: left var(--openinganimetime) calc(var(--openinganimetime)*2) ease;
-
-    & p {
-        opacity: 0;
-    }
+    opacity: 1;
+    visibility: visible;
+    transition: opacity var(--openinganimetime) calc(var(--openinganimetime)*2) ease, visibility var(--openinganimetime) calc(var(--openinganimetime)*2) ease;
 
     &.active {
-        left: -100%;
-
-        & p {
-            animation: loadedAnime calc(var(--openinganimetime)*2) forwards;
-        }
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
     }
 }
-@keyframes loadedAnime {
-    0% {opacity: 0;}
-    25% {opacity: 1;}
-    75% {opacity: 1;}
-    100% {opacity: 0;}
-}
+
 
 /* メニューオープンの際のカバーウィンドウ */
 .cover-window {
@@ -277,7 +264,7 @@ header {
         & ul {
             .text-animation {
                 & span {
-                    transition: transform var(--transitiontime) calc(var(--transitiontime)*3/4 + var(--letteranimetime)/var(--letterlength) * var(--j) + var(--transitiongaptime)*var(--i)) ease;
+                    transition: transform var(--transitiontime) calc(var(--letteranimetime)/var(--letterlength) * var(--j) + var(--transitiongaptime)*var(--i)) ease;
                 }
             }
         }
@@ -679,6 +666,7 @@ main {
 
             & p {
                 font-size: var(--ftext);
+                margin-top: var(--cardpaddingsize);
             }
         }
 
@@ -741,66 +729,8 @@ main {
         }
     }
 
-    .main-top {
-        height: 100vh;
-        margin-bottom: calc(var(--sectionmarginsize));
-        align-items: flex-start;
-        justify-content: flex-end;
-        padding: 5vh 10%;
-
-        .section-line-pc {
-            top: var(--footersize);
-            left: auto;
-            right: 10%;
-            width: 80vw;
-
-            &.fade-out {
-                width: 0;
-                transition: width 0s 0s, var(--backgroundcolor) var(--colorchangetime) ease;
-            }
-        }
-
-        .main-top-text {
-            display: flex;
-            justify-content: center;
-            flex-direction: column;
-            align-items: flex-start;
-            letter-spacing: .8rem;
-
-            .text-animation {
-                & span {
-                    transform: translateY(0);
-                    transition: transform var(--transitiontime) calc(var(--letteranimetime) - var(--letteranimetime)/var(--letterlength) * var(--j)) ease;
-                }
-    
-                &.fade-out{
-                    & span {
-                        transform: translateY(-100%);
-                        transition: transform 0s 0s;
-                    }
-                }
-            }
-
-            .text-line-sp {
-                display: none;
-            }
-            
-            & h1, & p {
-                font-size: var(--ftitle);
-                font-weight: bold;
-                line-height: 1;
-            }
-    
-            & p {
-                color: var(--backgroundcolor);
-                -webkit-text-stroke: var(--borderweight) var(--fontcolor);
-                transition: color var(--colorchangetime) ease, -webkit-text-stroke var(--colorchangetime) ease;
-            }
-        }
-    }
-
     &.loading {
-        .main-top {
+        #top {
             .text-animation {
                 & span {
                     transform: translateY(100%);
@@ -810,10 +740,10 @@ main {
     }
 
     &.loaded {
-        .main-top {
+        #top {
             .text-animation {
                 & span {
-                    transition: transform var(--transitiontime) calc(var(--transitiontime)*3/4 + var(--openinganimetime)/var(--letterlength) * var(--j) + var(--transitiongaptime)*var(--i)) ease;
+                    transition: transform var(--transitiontime) calc(var(--openinganimetime)/var(--letterlength) * var(--j) + var(--transitiongaptime)*var(--i)) ease;
                 }
             }
         }
@@ -837,6 +767,65 @@ main {
     }
 }
 
+
+
+#top {
+    height: 100vh;
+    margin-bottom: calc(var(--sectionmarginsize));
+    align-items: flex-start;
+    justify-content: flex-end;
+    padding: 5vh 10%;
+
+    .section-line-pc {
+        top: var(--footersize);
+        left: auto;
+        right: 10%;
+        width: 80vw;
+
+        &.fade-out {
+            width: 0;
+            transition: width 0s 0s, var(--backgroundcolor) var(--colorchangetime) ease;
+        }
+    }
+
+    .main-top-text {
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        align-items: flex-start;
+        letter-spacing: .8rem;
+
+        .text-animation {
+            & span {
+                transform: translateY(0);
+                transition: transform var(--transitiontime) calc(var(--letteranimetime) - var(--letteranimetime)/var(--letterlength) * var(--j)) ease;
+            }
+
+            &.fade-out{
+                & span {
+                    transform: translateY(-100%);
+                    transition: transform 0s 0s;
+                }
+            }
+        }
+
+        .text-line-sp {
+            display: none;
+        }
+        
+        & h1{
+            font-size: var(--ftitle);
+            font-weight: bold;
+            line-height: 1;
+        }
+
+        .border-text {
+            color: var(--backgroundcolor);
+            -webkit-text-stroke: var(--borderweight) var(--fontcolor);
+            transition: color var(--colorchangetime) ease, -webkit-text-stroke var(--colorchangetime) ease;
+        }
+    }
+}
 
 
 
@@ -1263,10 +1252,12 @@ main {
 
 
 /* 問い合わせ */
-.contact-card-button {
-    margin: auto;
-    .card-button-outer {
-        width: 230%;
+#contact {
+    .contact-card-button {
+        margin: auto;
+        .card-button-outer {
+            width: 230%;
+        }
     }
 }
 
@@ -1601,10 +1592,10 @@ main {
             .main-top-text {
                 letter-spacing: .05rem;
                 
-                & h1, & p {
+                & h1 {
                     line-height: 1.2;
                 }
-                & p {
+                .border-text {
                     -webkit-text-stroke: 0;
                     color: var(--fontcolor);
                 }
