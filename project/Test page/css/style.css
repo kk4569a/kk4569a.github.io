@@ -9,9 +9,9 @@ html, body {
 }
 
 .position-item {
-    height: 10svh;
+    height: 20px;
     box-sizing: border-box;
-    text-align: start;
+    text-align: center;
 }
 .relative-item {
     position: relative;
@@ -29,8 +29,8 @@ html, body {
 .height-item {
     position: fixed;
     top: 0;
-    right: calc(20vw*var(--i)/3);
-    width: calc(20vw/3);
+    right: calc(20px*var(--i));
+    width: 20px;
     text-align: center;
     writing-mode: vertical-rl;
     box-sizing: border-box;
