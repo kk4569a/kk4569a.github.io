@@ -1,36 +1,38 @@
 // 読み込み時の処理
-window.addEventListener('load', function () {
-    document.documentElement.classList.add('no-scroll')
-    document.getElementsByClassName('loading-window')[0].classList.add('active')
-    const coverWindow = document.getElementsByClassName('cover-window')
-    coverWindow[0].classList.add('active')
-    
-    
+window.addEventListener('load', () => {
+    const docEl = document.documentElement;
+    const loadingWindow = document.querySelector('.loading-window');
+    const coverWindow = document.querySelector('.cover-window');
+    const loadedAnimeEls = document.querySelectorAll('.loaded-anime');
+
+    docEl.classList.add('no-scroll');
+    loadingWindow.classList.add('active');
+    coverWindow.classList.add('active');
+
     setTimeout(() => {
-        this.window.scrollTo(0, 0)
+        window.scrollTo(0, 0);
         checkWindow(mediaQuery);
-        this.window.addEventListener('scroll', scrollEvent)
-        lightMode()
+        applyTheme()
     }, 1);
 
     setTimeout(() => {
-        coverWindow[0].classList.remove('active')
-        coverWindow[0].classList.add('loaded')
-        
-        for(let i = 0; i < document.getElementsByClassName('loaded-anime').length; i++) {
-            document.getElementsByClassName('loaded-anime')[i].classList.replace('loading', 'loaded')
-        }
-        
-    }, openingAnimeTime*3);
-    
+        coverWindow.classList.remove('active');
+        coverWindow.classList.add('loaded');
+
+        loadedAnimeEls.forEach(el => {
+            el.classList.replace('loading', 'loaded');
+        });
+    }, openingAnimeTime * 3);
+
     setTimeout(() => {
-        document.documentElement.classList.remove('no-scroll')
-        document.documentElement.removeAttribute('onwheel')  //慣性スクロールオン
-        for(let i = 0; i < document.getElementsByClassName('loaded-anime').length; i++) {
-            document.getElementsByClassName('loaded-anime')[i].classList.remove('loaded')
-        }
-    }, openingAnimeTime*4 + transitionAnimeTime + transitionGapTime);
-})
+        docEl.classList.remove('no-scroll');
+        docEl.removeAttribute('onwheel');
+
+        loadedAnimeEls.forEach(el => {
+            el.classList.remove('loaded');
+        });
+    }, openingAnimeTime * 4 + transitionAnimeTime + transitionGapTime);
+});
 
 // 慣性スクロール
 const lenis = new Lenis({
@@ -46,331 +48,309 @@ const transitionGapTime = 100;
 
 // テキスト複製
 function textCopy() {
-    const textCopyItem = document.getElementsByClassName('text-copy')
-    for (let i = 0; i < textCopyItem.length; i++) {
-        if(textCopyItem[i].previousElementSibling == null) {
-            textCopyItem[i].innerHTML = textCopyItem[i].parentElement.previousElementSibling.children[0].textContent
+    document.querySelectorAll('.text-copy').forEach(copyEl => {
+        const prev = copyEl.previousElementSibling;
+        if (prev) {
+            copyEl.innerHTML = prev.textContent;
         } else {
-            textCopyItem[i].innerHTML = textCopyItem[i].previousElementSibling.textContent;
+            const fallbackEl = copyEl.parentElement?.previousElementSibling?.children[0];
+            if (fallbackEl) {
+                copyEl.innerHTML = fallbackEl.textContent;
+            }
         }
-    }
+    });
 }
 // 要素複製
 function elementCopy() {
-    const elementCopyItem = document.getElementsByClassName('element-copy')
-    for (let i = 0; i < elementCopyItem.length; i++) {
-        elementCopyItem[i].innerHTML = elementCopyItem[i].previousElementSibling.innerHTML;
-    }
+    document.querySelectorAll('.element-copy').forEach(el => {
+        const prev = el.previousElementSibling;
+        if (prev) {
+            el.innerHTML = prev.innerHTML;
+        }
+    });
 }
 // テキスト分割（アニメーションのため）
 function textSplit() {
-    const textSplitItem = document.getElementsByClassName('text-animation')
-    for (let i = 0; i < textSplitItem.length; i++) {
-        const text = textSplitItem[i].textContent
-        textSplitItem[i].innerHTML = ''
+    document.querySelectorAll('.text-animation').forEach(el => {
+        const text = el.textContent || '';
+        el.innerHTML = '';
+        el.style.setProperty('--letterlength', text.length);
 
-        textSplitItem[i].style.setProperty('--letterlength', text.length)
-        
-        for (let j = 0; j < text.length; j++) {
-            const element = document.createElement('span')
-            if(text[j] == ' ') {
-                element.innerHTML = '&nbsp;'
-            } else {
-                element.innerHTML = text[j]
-            }
-
-            element.style.setProperty('--j', j)
-            textSplitItem[i].appendChild(element);
-        }
-    }
+        [...text].forEach((char, index) => {
+            const span = document.createElement('span');
+            span.innerHTML = char === ' ' ? '&nbsp;' : char;
+            span.style.setProperty('--j', index);
+            el.appendChild(span);
+        });
+    });
 }
-// テキスト、要素を作成
 textCopy();
 elementCopy();
 textSplit();
 
-
 // ダークモード
-function lightMode() {
-    if(localStorage.getItem('theme') == null) {
-        document.getElementsByClassName('dark-mode-button')[0].classList.remove('dark', 'light')
-        if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
-            document.documentElement.setAttribute('theme', 'dark')
-        } else {
-            document.documentElement.setAttribute('theme', 'light')
-        }
-    } else {
-        document.documentElement.setAttribute('theme', localStorage.getItem('theme'))
-        document.getElementsByClassName('dark-mode-button')[0].classList.add(localStorage.getItem('theme'))
+const button = document.querySelector('.dark-mode-button');
+const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
+function applyTheme() {
+    const theme = localStorage.getItem('theme');
+    const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const finalTheme = theme ?? (isDark ? 'dark' : 'light');
+    document.documentElement.setAttribute('theme', finalTheme);
+
+    const button = document.querySelector('.dark-mode-button');
+    button.classList.remove('dark', 'light');
+    if (theme) {
+        button.classList.add(theme);
     }
 }
-window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function() {
-    lightMode()
-})
-document.getElementsByClassName('dark-mode-button')[0].addEventListener('click', function() {
-    if (localStorage.getItem('theme') == null) {
-        if(window.matchMedia("(prefers-color-scheme: dark)").matches) {
-            window.localStorage.setItem('theme', 'light')
-        } else {
-            window.localStorage.setItem('theme', 'dark')
-        }
+function toggleTheme() {
+    if (localStorage.getItem('theme')) {
+        localStorage.removeItem('theme');
     } else {
-        window.localStorage.removeItem('theme')
+        const newTheme = prefersDark.matches ? 'light' : 'dark';
+        localStorage.setItem('theme', newTheme);
     }
-    lightMode();
-})
+    applyTheme();
+}
+prefersDark.addEventListener('change', applyTheme);
+button.addEventListener('click', toggleTheme);
 
-// ページ内リンクの処理
-const navButton = document.getElementsByClassName("nav-button")
-let scrollDelayTime = 0;
+
+
+// ナビゲーションボタンの処理
+const navButtons = document.querySelectorAll('.nav-button');
 let titleWindowHeight;
-for (let i = 0; i < navButton.length; i++) {
-    navButton[i].addEventListener('click', function () {
+let scrollDelayTime = 0;
+
+navButtons.forEach(button => {
+    button.addEventListener('click', () => {
         if (humburgerMenuFlag) {
-            humburgerMenu()
+            toggleMenu();
             scrollDelayTime = 400;
         }
 
+        const sectionName = button.getAttribute('section-name');
+        const scrollTarget = sectionName === 'top' ? 0 : document.getElementById(sectionName).offsetTop - titleWindowHeight;
+
         setTimeout(() => {
-            const sectionName = this.getAttribute('section-name')
-            if (sectionName == "top") {
-                window.scroll({
-                    top: 0,
-                    behavior: "smooth"
-                });
-            } else {
-                window.scroll({
-                    top: document.getElementById(sectionName).offsetTop - titleWindowHeight,
-                    behavior: "smooth"
-                });
+            if (scrollTarget != null) {
+                lenis.scrollTo(scrollTarget)
             }
             scrollDelayTime = 0;
         }, scrollDelayTime);
+    });
+});
 
-    })
-}
+
 
 //サイトトップボタンの処理
-document.getElementsByClassName('site-top-button')[0].addEventListener('click', function() {
-    window.location = ''
-})
+document.querySelector('.site-top-button').addEventListener('click', () => {
+    location.reload();
+});
+
+
 
 // ハンバーガーメニュー
 let humburgerMenuFlag = false;
-const humburgerMenuButton = document.getElementsByClassName('humburger-menu-icon');
-function humburgerMenu() {
-    document.getElementsByClassName('side-menu')[0].classList.toggle('active');
-    document.getElementsByClassName('cover-window')[0].classList.toggle('nav-open')
-    document.getElementsByClassName('safari-sp')[0].classList.toggle('active')
-    
+let humburgerMenuButtonFlag = true;
+const humburgerMenuButton = document.querySelector('.humburger-menu-icon');
+const sideMenu = document.querySelector('.side-menu');
+const coverWindow = document.querySelector('.cover-window');
+const safariSp = document.querySelector('.safari-sp');
+function toggleMenu() {
+    sideMenu?.classList.toggle('active');
+    coverWindow?.classList.toggle('nav-open');
+    safariSp?.classList.toggle('active');
+
     if (!humburgerMenuFlag) {
         humburgerMenuFlag = true;
-        lenis.stop();  //慣性スクロールオフ
-    }
-    else {
-        setTimeout(() => {    
-            humburgerMenuFlag = false;
-            lenis.start();  //慣性スクロールオン
-        }, 400);
-    }
-}
-    // ハンバーガーメニューボタンの処理
-let humburgerMenuButonFlag = true;
-humburgerMenuButton[0].addEventListener('click', function () {
-    if (humburgerMenuButonFlag && sideButtonFlag) {
-        humburgerMenuButonFlag = false;
-        humburgerMenu();
+        lenis.stop(); // 慣性スクロールオフ
+    } else {
         setTimeout(() => {
-            humburgerMenuButonFlag = true;
+        humburgerMenuFlag = false;
+        lenis.start(); // 慣性スクロールオン
         }, 400);
     }
-})
-
-// ページトップボタンの処理
-document.getElementsByClassName('page-top-arrow')[0].addEventListener('click', function () {
-    if(sideButtonFlag) {
-        lenis.stop();
-        window.scroll({top: 0, behavior: "smooth"});
-
-        const checkScroll = () => {
-            if (window.scrollY === 0) {
-                lenis.start();
-            } else {
-                requestAnimationFrame(checkScroll);
-            }
-        };
-
-        requestAnimationFrame(checkScroll);
-    }
-})
-
-// フェードインアニメ
-let windowScroll = window.scrollY;
-let viewportHeight = window.innerHeight;
-let htmlHeight = document.documentElement.scrollHeight
-function fadeInAnime(fadeInItem, fadeInLocation) {
-    for (let i = 0; i < fadeInItem.length; i++) {
-        if (fadeInItem[i].getBoundingClientRect().top <= viewportHeight - fadeInLocation) {
-            fadeInItem[i].classList.add('fade-in')
-        } else if (fadeInItem[i].getBoundingClientRect().top > viewportHeight) {
-            fadeInItem[i].classList.remove('fade-in')
-        }
-    }
 }
-// フェードアウトアニメ
-function fadeOutAnime(fadeOutItem) {
-    for(let i = 0; i < fadeOutItem.length; i++) {
-        if(fadeOutItem[i].getBoundingClientRect().bottom < 0) {
-            fadeOutItem[i].classList.add('fade-out')
-        } else if (fadeOutItem[i].getBoundingClientRect().top > 0) {
-            fadeOutItem[i].classList.remove('fade-out')
-        }
+humburgerMenuButton.addEventListener('click', () => {
+    if (humburgerMenuButtonFlag && sideButtonFlag) {
+        humburgerMenuButtonFlag = false;
+        toggleMenu();
+        setTimeout(() => {
+            humburgerMenuButtonFlag = true;
+        }, 400);
     }
-}
+});
 
-// スクロールイベント（pc,sp共通）
-let sideButtonFlag;
-let elementFadeInLocation;
-const section = document.getElementsByClassName('main-wrapper');
-function scrollEvent() {
-    // 更新
-    windowScroll = window.scrollY;
-    viewportHeight = window.innerHeight
-    htmlHeight = document.documentElement.scrollHeight
 
-    // サイドボタンがアクティブに
-    sideButtonFlag = false;
-    const header = document.getElementsByClassName('header-menu')
-    if (header[0].getBoundingClientRect().bottom <= 0) {
-        for (let i = 0; i < document.getElementsByClassName('side-button-scroll-trigger').length; i++) {
-            document.getElementsByClassName('side-button-scroll-trigger')[i].classList.add('fade-in', 'mouse-hover-item')
-            sideButtonFlag = true;
-        }
+
+// ページトップボタン
+const topBtn = document.querySelector('.page-top-arrow');
+topBtn.addEventListener('click', () => {
+    if (!sideButtonFlag) return;
+
+    lenis.scrollTo(0)
+});
+
+
+
+// スクロールで要素が出現
+const headerEl = document.querySelector('.header-menu');
+const sideTriggers = Array.from(document.getElementsByClassName('side-button-scroll-trigger'));
+const section = document.getElementsByClassName('main-wrapper')[0];
+const titleEl = document.getElementsByClassName('text-animation-title')[0];
+const topTextEls = Array.from(document.getElementsByClassName('text-animation-top'));
+const topSectionLineEls = section ? Array.from(section.getElementsByClassName('section-line')) : [];
+const textMainEls = Array.from(document.getElementsByClassName('text-animation-main'));
+const textFooterEls = Array.from(document.getElementsByClassName('text-animation-footer'));
+const cardEls = Array.from(document.getElementsByClassName('card-button'));
+const sectionLineEls = Array.from(document.getElementsByClassName('section-line'));
+
+let sideButtonFlag = false;
+let elementFadeInLocation = 0; // 必要に応じて調整
+
+// 共通ユーティリティ
+const addClasses = (el, ...cls) => el.classList.add(...cls);
+const removeClasses = (el, ...cls) => el.classList.remove(...cls);
+// サイドボタンをアクティブに
+const headerObserver = new IntersectionObserver(entries => {
+    const visible = entries[0].isIntersecting;
+    // header が見えているなら sideButton 無効、見えなければ有効
+    if (visible) {
+        sideTriggers.forEach(el => removeClasses(el, 'fade-in', 'mouse-hover-item'));
+        sideButtonFlag = false;
     } else {
-        for (let i = 0; i < document.getElementsByClassName('side-button-scroll-trigger').length; i++) {
-            document.getElementsByClassName('side-button-scroll-trigger')[i].classList.remove('fade-in', 'mouse-hover-item')
-            sideButtonFlag = false;
-        }
+        sideTriggers.forEach(el => addClasses(el, 'fade-in', 'mouse-hover-item'));
+        sideButtonFlag = true;
     }
+}, { root: null, threshold: 0 });
+if (headerEl) headerObserver.observe(headerEl);
 
-    // トップに戻るとフェードイン
-    const topText = document.getElementsByClassName('text-animation-top')
-    const topSectionLine = section[0].getElementsByClassName('section-line')
-    fadeOutAnime(topText)
-    fadeOutAnime(topSectionLine)
+// sp用titleを表示
+const mainTopObserver = new IntersectionObserver(entries => {
+    const entry = entries[0];
+    if (entry.boundingClientRect.bottom < 0) addClasses(titleEl, 'fade-in');
+    else removeClasses(titleEl, 'fade-in');
+}, { root: null, threshold: 0 });
+const mainTop = document.getElementsByClassName('main-top-text')[0];
+if (mainTop && titleEl) mainTopObserver.observe(mainTop);
+// fade-in 
+const fadeInTargets = [
+    { elements: textMainEls, marginPercent: 10 },     
+    { elements: textFooterEls, marginPercent: 0 },   
+    { elements: cardEls, marginPercent: 10 },         
+    { elements: sectionLineEls, marginPercent: 10 }   
+];
+fadeInTargets.forEach(({ elements, marginPercent }) => {
+    const rootMargin = `0px 0px -${marginPercent}% 0px`;
 
-    // タイトルが出現
-    if (document.getElementsByClassName('main-top-text')[0].getBoundingClientRect().bottom < 0) {
-        document.getElementsByClassName('text-animation-title')[0].classList.add('fade-in')
-    } else {
-        document.getElementsByClassName('text-animation-title')[0].classList.remove('fade-in')
-    }
+    const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) addClasses(entry.target, 'fade-in')
+        });
+    }, {
+        root: null,
+        rootMargin,
+        threshold: 0
+    });
 
-    // 文字が出現
-    const textMain = document.getElementsByClassName('text-animation-main')
-    fadeInAnime(textMain, viewportHeight/10)
-    const textFooter = this.document.getElementsByClassName('text-animation-footer')
-    fadeInAnime(textFooter, 0)
-    
-    // 要素が出現
-    const element = document.getElementsByClassName('card-button');
-    fadeInAnime(element, elementFadeInLocation)
-    
-    // 線が出現
-    const sectionLine = document.getElementsByClassName('section-line')
-    fadeInAnime(sectionLine, viewportHeight/10)
-}    
+    elements.forEach(el => observer.observe(el));
+});
+const resetFadeInObserver = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+        const rect = entry.boundingClientRect;
+        if (rect.top > window.innerHeight) removeClasses(entry.target, 'fade-in')
+    });
+}, {root: null, threshold: 0});
+[...textMainEls, ...textFooterEls, ...cardEls, ...sectionLineEls].forEach(el => resetFadeInObserver.observe(el));
+// fade-out
+const fadeOutObserver = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+        if (entry.boundingClientRect.bottom < 0) addClasses(entry.target, 'fade-out');
+        else removeClasses(entry.target, 'fade-out');
+    });
+}, { root: null, threshold: 0 });
+[...topTextEls, ...topSectionLineEls].forEach(el => fadeOutObserver.observe(el));
+
 
 // カードの処理
-let buttonFlag = true;
+// let buttonFlag = true;
 const cardButton = document.getElementsByClassName('card-button')
-let hoverInteractionItem;
-    // ホバーアニメ
-function cardMouseHover() {
-    if(buttonFlag) {
-        if (this.closest('section').getAttribute('id') == 'works' || this.closest('section').getAttribute('id') == 'about') {
-            hoverInteractionItem = this.getElementsByClassName('hover-interaction-item')[0]
-            const cardHeight = hoverInteractionItem.clientHeight;
-            const cardWidth = hoverInteractionItem.clientWidth;
-            const targetRect = hoverInteractionItem.getBoundingClientRect()
-            const rotateYRatio = (event.clientX - targetRect.left - cardWidth/2)/(cardWidth/2)
-            const rotateXRatio = (event.clientY - targetRect.top - cardHeight/2)/(cardHeight/2)
-        
-            hoverInteractionItem.classList.add('hover-anime')
-            hoverInteractionItem.style.transform = 'rotateY(' + -7*rotateYRatio + 'deg) rotateX(' + 7*rotateXRatio + 'deg) scale(1.03)'
-        }
-    }
-}
-    // ホバーアニメオフ
-function cardMouseLeave() {
-    if(buttonFlag) {
-        if (this.closest('section').getAttribute('id') == 'works' || this.closest('section').getAttribute('id') == 'about') {
-            hoverInteractionItem = this.getElementsByClassName('hover-interaction-item')[0]
-            hoverInteractionItem.style.transform = null;
-            hoverInteractionItem.classList.remove('hover-anime')
-        }
-    }
-}
-    // ページ遷移
 const worksCardButton = document.getElementsByClassName('works-card-button')
 const worksCardVisitButton = document.getElementsByClassName('works-card-visit-button')
+let buttonFlag = true;
+// ホバーアニメーション
+function cardMouseHover(event) {
+    if (!buttonFlag) return;
+
+    const sectionId = this.closest('section')?.id;
+    if (sectionId !== 'works' && sectionId !== 'about') return;
+
+    const item = this.querySelector('.hover-interaction-item');
+    if (!item) return;
+
+    const rect = item.getBoundingClientRect();
+    const xRatio = (event.clientX - rect.left - rect.width / 2) / (rect.width / 2);
+    const yRatio = (event.clientY - rect.top - rect.height / 2) / (rect.height / 2);
+
+    item.classList.add('hover-anime');
+    item.style.transform = `rotateY(${-7 * xRatio}deg) rotateX(${7 * yRatio}deg) scale(1.03)`;
+}
+// ホバー解除
+function cardMouseLeave() {
+    if (!buttonFlag) return;
+
+    const sectionId = this.closest('section')?.id;
+    if (sectionId !== 'works' && sectionId !== 'about') return;
+
+    const item = this.querySelector('.hover-interaction-item');
+    if (item) {
+        item.style.transform = '';
+        item.classList.remove('hover-anime');
+    }
+}
+// ページ遷移
 function cardClick() {
-    let targetPage = this.getAttribute('data-text')
-    if(this.getAttribute('data-text') == null) {
-        targetPage = this.closest('.card-button').getAttribute('data-text')
-    }
-
-    if(targetPage != null) {  ////////////////////////////////////////////////////////////////////////////////////////コンテンツが揃い次第条件式消去
-        window.open(`project/${targetPage}/index.html`, '_blank')
+    const targetPage = this.dataset.text || this.closest('.card-button')?.dataset.text;
+    if (targetPage) {
+        window.open(`project/${targetPage}/index.html`, '_blank');
     }
 }
 
-// スマホ用のアバウトエリア
-function aboutCardCopyAndPaste() {
-    const aboutCardRight = document.getElementsByClassName('about-card-right')[0]
-    const aboutSection = document.getElementsByClassName('main-about')[0]
-    aboutSection.getElementsByClassName('card-button-outer')[1].appendChild(aboutCardRight)
+// スマホ用のアバウトエリア右側の位置
+function moveAboutCardRight(toIndex) {
+    const card = document.querySelector('.about-card-right');
+    const section = document.querySelector('.main-about');
+    const targets = section?.querySelectorAll('.card-button-outer');
+    if (card && targets[toIndex]) {
+        targets[toIndex].appendChild(card);
+    }
 }
-function aboutCardReset() {
-    const aboutCardRight = document.getElementsByClassName('about-card-right')[0]
-    const aboutSection = document.getElementsByClassName('main-about')[0]
-    aboutSection.getElementsByClassName('card-button-outer')[0].appendChild(aboutCardRight)
-}
-
 
 // ブレイクポイントを設定
 const mediaQuery = window.matchMedia('(min-width: 768px)');
+const titleWindowSp = document.querySelector('.title-window-sp');
+const cardButtons = Array.from(document.getElementsByClassName('card-button'));
+const worksButtons = Array.from(document.getElementsByClassName('works-card-button'));
+const visitButtons = Array.from(document.getElementsByClassName('works-card-visit-button'));
+
 function checkWindow(windowSize) {
-    if (windowSize.matches) {  //pcの処理
-        aboutCardReset();
-        titleWindowHeight = 0;
+    const isPC = windowSize.matches;
+    moveAboutCardRight(isPC ? 0 : 1);
+    titleWindowHeight = isPC ? 0 : titleWindowSp.clientHeight;
 
-        for (let i = 0; i < cardButton.length; i++) {
-            cardButton[i].addEventListener('mousemove', cardMouseHover)
-            cardButton[i].addEventListener('mouseleave', cardMouseLeave)
-        }
-        for (let i = 0; i < worksCardVisitButton.length; i++) {
-            worksCardVisitButton[i].removeEventListener('click', cardClick)
-        }
-        for (let i = 0; i < worksCardButton.length; i++) {
-            worksCardButton[i].addEventListener('click', cardClick)
-        }
-        elementFadeInLocation = viewportHeight/10  //要素出現トリガーの位置
-    } else {  //spの処理
-        aboutCardCopyAndPaste();
-        titleWindowHeight = document.getElementsByClassName('title-window-sp')[0].clientHeight;
+    cardButtons.forEach(el => {
+        el[isPC ? 'addEventListener' : 'removeEventListener']('mousemove', cardMouseHover);
+        el[isPC ? 'addEventListener' : 'removeEventListener']('mouseleave', cardMouseLeave);
+    });
 
-        for (let i = 0; i < cardButton.length; i++) {
-            cardButton[i].removeEventListener('mousemove', cardMouseHover)
-            cardButton[i].removeEventListener('mouseleave', cardMouseLeave)
-        }
-        for (let i = 0; i < worksCardButton.length; i++) {
-            worksCardButton[i].removeEventListener('click', cardClick)
-        }
-        for (let i = 0; i < worksCardVisitButton.length; i++) {
-            worksCardVisitButton[i].addEventListener('click', cardClick)
-        }
-        elementFadeInLocation = viewportHeight/3
-    }
+    worksButtons.forEach(el => {
+        el[isPC ? 'addEventListener' : 'removeEventListener']('click', cardClick);
+    });
+
+    visitButtons.forEach(el => {
+        el[isPC ? 'removeEventListener' : 'addEventListener']('click', cardClick);
+    });
 }
+
 mediaQuery.addEventListener('change', checkWindow);
