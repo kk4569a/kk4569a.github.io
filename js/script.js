@@ -31,7 +31,7 @@ window.addEventListener('load', () => {
         loadedAnimeEls.forEach(el => {
             el.classList.remove('loaded');
         });
-    }, openingAnimeTime * 4 + transitionAnimeTime + transitionGapTime);
+    }, openingAnimeTime * 4 + transitionGapTime);
 });
 
 // 慣性スクロール
@@ -215,7 +215,6 @@ const removeClasses = (el, ...cls) => el.classList.remove(...cls);
 // サイドボタンをアクティブに
 const headerObserver = new IntersectionObserver(entries => {
     const visible = entries[0].isIntersecting;
-    // header が見えているなら sideButton 無効、見えなければ有効
     if (visible) {
         sideTriggers.forEach(el => removeClasses(el, 'fade-in', 'mouse-hover-item'));
         sideButtonFlag = false;
@@ -274,7 +273,6 @@ const fadeOutObserver = new IntersectionObserver(entries => {
 
 
 // カードの処理
-// let buttonFlag = true;
 const cardButton = document.getElementsByClassName('card-button')
 const worksCardButton = document.getElementsByClassName('works-card-button')
 const worksCardVisitButton = document.getElementsByClassName('works-card-visit-button')
