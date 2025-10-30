@@ -36,7 +36,8 @@ window.addEventListener('load', () => {
 
 // 慣性スクロール
 const lenis = new Lenis({
-    autoRaf: true,
+    // smoothTouch: true,                     ///////////////////////////////////////////////////効いてない
+    autoRaf: true,                    
 });
 
 
@@ -92,10 +93,10 @@ textSplit();
 const button = document.querySelector('.dark-mode-button');
 const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
 function applyTheme() {
-    const theme = localStorage.getItem('theme');
+    const theme = localStorage.getItem('data-theme');
     const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
     const finalTheme = theme ?? (isDark ? 'dark' : 'light');
-    document.documentElement.setAttribute('theme', finalTheme);
+    document.documentElement.setAttribute('data-theme', finalTheme);
 
     const button = document.querySelector('.dark-mode-button');
     button.classList.remove('dark', 'light');
@@ -104,11 +105,11 @@ function applyTheme() {
     }
 }
 function toggleTheme() {
-    if (localStorage.getItem('theme')) {
-        localStorage.removeItem('theme');
+    if (localStorage.getItem('data-theme')) {
+        localStorage.removeItem('data-theme');
     } else {
         const newTheme = prefersDark.matches ? 'light' : 'dark';
-        localStorage.setItem('theme', newTheme);
+        localStorage.setItem('data-theme', newTheme);
     }
     applyTheme();
 }
@@ -194,7 +195,7 @@ topBtn.addEventListener('click', () => {
 
 
 
-// スクロールで要素が出現
+// スクロールを監視
 const headerEl = document.querySelector('.header-menu');
 const sideTriggers = Array.from(document.getElementsByClassName('side-button-scroll-trigger'));
 const section = document.getElementsByClassName('main-wrapper')[0];
@@ -222,7 +223,7 @@ const headerObserver = new IntersectionObserver(entries => {
         sideTriggers.forEach(el => addClasses(el, 'fade-in', 'mouse-hover-item'));
         sideButtonFlag = true;
     }
-}, { root: null, threshold: 0 });
+}, { root: null, threshold: 0.1});
 if (headerEl) headerObserver.observe(headerEl);
 
 // sp用titleを表示
