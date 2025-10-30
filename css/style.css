@@ -40,7 +40,7 @@ html {
     --openinganimetime: .6s;
 }
 
-:root[theme = "light"] {
+:root[data-theme = "light"] {
     --backgroundcolor: antiquewhite;
     --fontcolor: #051428;
     --profileaccentbackgroundcolor:#051428;
@@ -50,11 +50,8 @@ html {
     --glasscolor:#05142888;
 }
 
-:root[theme = "dark"] {
+:root[data-theme = "dark"] {
     --backgroundcolor: #222222;
-    --worksbackgroundcolor: #2A2A2A;
-    --aboutbackgroundcolor: #1C1C1C;
-    --contactbackgroundcolor: #2F2F2F;
     --fontcolor: #eeeeee;
     --profileaccentbackgroundcolor:#222222;
     --profileaccentfontcolor:#eeeeee;
