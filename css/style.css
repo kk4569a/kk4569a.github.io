@@ -127,8 +127,8 @@ hr {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: var(--fixedbackgroundcolor);
-    color: var(--fixedfontcolor);
+    background-color: var(--backgroundcolor);
+    color: var(--fontcolor);
     font-size: var(--ftitle);
     font-weight: bold;
     opacity: 1;
